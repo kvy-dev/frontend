@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build",
+    "dev:build": "tsc -b && vite build && serve -S dist/",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "watch:build": "nodemon --watch src --ext js,ts,jsx,tsx,scss --exec \"npm run dev:build\""
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -34,6 +36,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-plugin-pwa": "^0.21.1"
   }
 }
