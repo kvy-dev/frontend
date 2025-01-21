@@ -17,11 +17,11 @@ const QrCodeScanner = () => {
       videoRef,
       (result) => {
         setQrData(result.data);
+        alert(JSON.stringify(result.data));
         qrScanner.stop();
       },
       {
         highlightScanRegion: true,
-        preferredCamera: 'user',
         calculateScanRegion(video) {
           const width = video.videoWidth;
           const height = video.videoHeight;
