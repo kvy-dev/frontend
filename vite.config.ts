@@ -35,5 +35,9 @@ export default defineConfig({
         "hooks": path.resolve(__dirname, "./src/hooks/"),
         "routes": path.resolve(__dirname, "./src/routes/"),
       }
-  }
+  },
+  server: {
+    host: '0.0.0.0', // Allow external access
+    allowedHosts: ['major-brooms-smoke.loca.lt'], // Add the host here
+  },
 })

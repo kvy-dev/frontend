@@ -1,13 +1,12 @@
 // /* eslint-disable react-refresh/only-export-components */
-import React from "react";
+// import React from "react";
 import PathConstants from "./constants";
-
-const SplashScreen = React.lazy(() => import("pages/SplashScreen"));
+import QrCodeScanner from "@/components/QRScanner";
 
 const routes = [
     { 
       path: PathConstants.BASE,
-      element: <SplashScreen />,
+      element: <QrCodeScanner />,
     },
 ];
 

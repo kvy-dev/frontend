@@ -1,0 +1,51 @@
+@use '../../variables.scss' as vars;
+
+.container {
+  background-color: vars.$primary-color;
+  overflow: hidden;
+  .splashScreen {
+    color: vars.$text-light;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .buttons {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      width: 80%;
+
+      .signup,
+      .login {
+        padding: 1rem 3rem;
+        font-size: 1rem;
+        border-radius: vars.$border-radius-base;
+        color: vars.$text-light;
+        width: 100%;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-align: center;
+        letter-spacing: 1px;
+        font-weight: 600;
+      }
+
+      .signup {
+        background-color: vars.$text-light;
+        color: vars.$primary-color;
+      }
+    }
+  }
+}
