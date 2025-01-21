@@ -1,5 +1,5 @@
 // /* eslint-disable react-refresh/only-export-components */
-import React from "react";
+// import React from "react";
 import PathConstants from "./constants";
 import QrCodeScanner from "@/components/QRScanner";
 

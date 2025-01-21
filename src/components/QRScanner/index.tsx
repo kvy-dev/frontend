@@ -7,6 +7,8 @@ const QrCodeScanner = () => {
   const [qrData, setQrData] = useState('');
   const [error, setError] = useState('');
   const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  console.log('qrData', qrData);
+  console.log('error', error);
 
   const handleStartScan = () => {
     if (!videoRef) return;
