@@ -1,13 +1,12 @@
 // /* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import PathConstants from "./constants";
-
-const Auth = React.lazy(() => import("@/pages/Auth"));
+import QrCodeScanner from "@/components/QRScanner";
 
 const routes = [
     { 
       path: PathConstants.BASE,
-      element: <Auth />,
+      element: <QrCodeScanner />,
     },
 ];
 
