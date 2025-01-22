@@ -31,6 +31,7 @@ const Auth = () => {
     }));
   }
 
+  // to debug
   useEffect(() => {
     console.log(authState);
   }), [authState];
