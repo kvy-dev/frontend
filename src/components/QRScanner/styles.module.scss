@@ -34,7 +34,7 @@
     top: 20px;
     color: vars.$text-light;
     font-size: 2rem;
-    z-index: 100;
+    z-index: 1050;
   }
 
   .header {
@@ -45,7 +45,11 @@
     width: 80%;
     text-align: center;
     color: vars.$text-light;
-    z-index: 100;
+    z-index: 1050;
+
+    h1 {
+      font-weight: 600;
+    }
   }
 
   .video {
