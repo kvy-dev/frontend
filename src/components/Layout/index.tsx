@@ -7,7 +7,7 @@ import { Spin } from "antd";
 import Auth from "pages/Auth";
 
 const Layout = () => {
-    const isLoggedIn = !false;
+    const isLoggedIn = false;
 
     return (
         <div className={styles.container}>

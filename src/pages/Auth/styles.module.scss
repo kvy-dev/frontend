@@ -2,6 +2,7 @@
 
 .container {
   background-color: vars.$primary-color;
+  position: relative;
   overflow: hidden;
   .splashScreen {
     color: vars.$text-light;
@@ -48,4 +49,66 @@
       }
     }
   }
+
+  .loginContainer,
+  .signupContainer,
+  .OTPContainer {
+    color: vars.$text-light;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+    position: relative;
+    background-color: vars.$background-color;
+    color: vars.$primary-color;
+    
+    .form {
+      margin: 4rem 2rem;
+
+      h3 {
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+      }
+      
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: vars.$border-radius-base;
+        border: 1px solid vars.$primary-color;
+        background-color: vars.$background-color;
+        color: vars.$primary-color;
+      }
+
+      button {
+        padding: 1.5rem 3rem;
+        font-size: 1rem;
+        border-radius: vars.$border-radius-base;
+        color: vars.$text-light;
+        width: 100%;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-align: center;
+        letter-spacing: 1px;
+        font-weight: 600;
+        background-color: vars.$primary-color;
+        border: none;
+        margin: 1rem 0;
+      }
+    }
+  }
+}
+
+.back {
+  color: vars.$primary-color;
+  font-size: 2rem;
+  cursor: pointer;
+  margin: 2rem 1rem;
 }
