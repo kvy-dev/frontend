@@ -30,7 +30,7 @@ const QrCodeScanner = () => {
           const x = (width - size) / 2;
           const y = (height - size) / 2;
 
-          return { x, y, width: size, height: size}
+          return { x, y, width: size, height: size }
         }
       }
     );
@@ -44,15 +44,15 @@ const QrCodeScanner = () => {
 
   return (
     <>
-      <div className={styles.blur}></div>
-      <div className={styles.focus}></div>
-      <div className={styles.container}>
+      <div className={styles.blur}>
         <CloseCircleOutlined className={styles.close} />
         <div className={styles.header}>
           <h1>Scan for access</h1>
           <p>Scan the QR code at entry for access to property</p>
         </div>
-
+      </div>
+      <div className={styles.focus}></div>
+      <div className={styles.container}>
         <div className={styles.videoContainer}>
           <video
             ref={(ref) => setVideoRef(ref)}
@@ -60,7 +60,7 @@ const QrCodeScanner = () => {
             autoPlay
             playsInline
             muted
-            ></video>
+          ></video>
         </div>
       </div>
     </>
