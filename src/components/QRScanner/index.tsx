@@ -43,23 +43,27 @@ const QrCodeScanner = () => {
   }, [videoRef]);
 
   return (
-    <div className={styles.container}>
-      <CloseCircleOutlined className={styles.close} />
-      <div className={styles.header}>
-        <h1>Scan for access</h1>
-        <p>Scan the QR code at entry for access to property</p>
-      </div>
+    <>
+      <div className={styles.blur}></div>
+      <div className={styles.focus}></div>
+      <div className={styles.container}>
+        <CloseCircleOutlined className={styles.close} />
+        <div className={styles.header}>
+          <h1>Scan for access</h1>
+          <p>Scan the QR code at entry for access to property</p>
+        </div>
 
-      <div className={styles.videoContainer}>
-        <video
-          ref={(ref) => setVideoRef(ref)}
-          style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
-          autoPlay
-          playsInline
-          muted
-        ></video>
+        <div className={styles.videoContainer}>
+          <video
+            ref={(ref) => setVideoRef(ref)}
+            style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
+            autoPlay
+            playsInline
+            muted
+            ></video>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
