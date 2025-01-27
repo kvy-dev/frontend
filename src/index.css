@@ -3,3 +3,35 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Inactive tab text color */
+.ant-tabs-card .ant-tabs-tab {
+  color: #343434 !important; /* Change text color for inactive tabs */
+  background-color: transparent !important; /* Change background for inactive tabs */
+  border: none !important; /* Remove border for inactive tabs */
+  font-size: 1rem !important;
+}
+
+/* Active tab text color and background */
+.ant-tabs-card .ant-tabs-tab-active {
+  color: #343434 !important; /* Change text color of the active tab */
+  font-weight: bold; /* Optional: Make the active tab text bold */
+  background-color: #F9F7FE !important; /* Change background color of the active tab */
+  border: none !important; /* Remove border for active tab */
+}
+
+/* Hover effect for tabs */
+.ant-tabs-card .ant-tabs-tab:hover {
+  color: #343434 !important; /* Hover text color */
+  border: none !important; /* Remove border for inactive tabs */
+}
+
+/* Customize the gap between tabs (if tabBarGutter is not sufficient) */
+.ant-tabs-card .ant-tabs-nav-wrap {
+  gap: 4px; /* Adjust gap between tabs */
+}
+
+/* Ink bar (underline) styles (if applicable) */
+.ant-tabs-ink-bar {
+  background-color: #F9F7FE !important; /* Customize the ink bar color */
+}

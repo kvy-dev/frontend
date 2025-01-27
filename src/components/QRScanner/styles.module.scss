@@ -1,5 +1,22 @@
 @use "../../variables.scss" as vars;
 
+.CTA {
+  width: 100%;
+
+  button {
+    width: 100%;
+    background-color: vars.$secondary-color;
+    border-radius: vars.$border-radius-base;
+    color: vars.$text-light;
+    padding: 0.8rem;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    margin: 1.5rem 0;
+    font-size: 0.8rem;
+  }
+}
+
 .blur {
   width: 100vw;
   height: 100vh;
