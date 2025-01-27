@@ -1,4 +1,3 @@
-import exp from 'constants';
 import styles from '../styles.module.scss';
 import VisitItem from './VisitItem';
 
