@@ -1,0 +1,114 @@
+@use '../../variables.scss' as vars;
+
+.brokerDashboard {
+  height: 100vh;
+  background-color: vars.$background-color-app;
+  
+  .topContainer {
+    padding: 1rem;
+    background-color: #EAD3FD;
+    color: vars.$text-dark-70;
+    height: 340px;
+
+    .notifications {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 1.1rem;
+      height: 20%;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .message {
+      background-color: vars.$primary-color;
+      border-radius: 1.25rem;
+      padding: 1rem;
+      color: vars.$text-light;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+
+      .dayType {
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .visits {
+        font-size: 0.8rem;
+        margin-bottom: 2px;
+
+        .visitNumber {
+          font-size: 1.2rem;
+          font-weight: 600;         
+        }
+      }
+    }
+  }
+
+  .bottomContainer {
+    height: calc(100% - 340px + 3.4rem);
+    padding: 1rem;
+    margin-top: -3.4rem;
+
+    .visitList {
+      height: 90%;
+      overflow-y: auto;
+      padding-bottom: 2rem;
+
+      .visitItem {
+        background-color: #FFFFFF;
+        padding: 1rem;
+        border-radius: vars.$border-radius-base;
+        margin-bottom: 1rem;
+
+        .propertyDetails {
+          display: flex;
+
+          .image {
+            width: 100px;
+            height: auto;
+            background-color: #F6F2FF;
+            border-radius: vars.$border-radius-base;
+            margin-right: 1rem;
+          }
+
+          .details {
+            color: vars.$text-dark-70;
+            font-size: 0.9rem;
+
+            .propertyName {
+              color: vars.$text-dark;
+              font-size: 1.2rem;
+              font-weight: 600;
+            }
+
+            .status {
+              background-color: green;
+              padding: 0.2rem 0.5rem;
+              border-radius: 1rem;
+              color: #FFFFFF;
+              text-transform: uppercase;
+              display: inline-block;
+              margin: 0.2rem 0 1rem 0;
+              font-weight: 600;
+              font-size: 0.8rem;
+            }
+
+            .detail {
+              margin-top: 0.5rem;
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              gap: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
