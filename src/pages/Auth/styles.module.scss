@@ -58,9 +58,9 @@
     margin: 0 auto;
     width: 100vw;
     height: 100vh;
-    padding: 1rem;
+    // padding: 1rem;
     position: relative;
-    background-color: vars.$background-color;
+    background-color: vars.$background-color-app;
     color: vars.$primary-color;
     
     .form {
@@ -83,7 +83,7 @@
         margin: 1rem 0;
         border-radius: vars.$border-radius-base;
         border: 1px solid vars.$primary-color;
-        background-color: vars.$background-color;
+        background-color: vars.$background-color-app;
         color: vars.$primary-color;
       }
 
@@ -102,6 +102,23 @@
         border: none;
         margin: 1rem 0;
       }
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: vars.$primary-color;
+    font-weight: 500;
+
+    .CTA {
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
     }
   }
 }

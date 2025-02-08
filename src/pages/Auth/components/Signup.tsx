@@ -19,6 +19,7 @@ const Signup = ({ navigateTo }: SignupProps) => {
           <Button type="primary" onClick={() => navigateTo('otp')}>Get OTP</Button>
         </div>
       </div>
+      <span className={styles.footer}>Already have an account, <span className={styles.CTA} onClick={() => navigateTo('login')}>Login</span> </span>
     </div>
   );
 }
