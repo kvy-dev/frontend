@@ -1,66 +1,45 @@
 @use '../../variables.scss' as vars;
 
-.brokerDashboard {
+.properties {
   height: 100vh;
   background-color: vars.$background-color-app;
-  
+
   .topContainer {
+    height: 10vh;
+    box-sizing: border-box;
     padding: 1rem;
-    background-color: #EAD3FD;
-    color: vars.$text-dark-70;
-    height: 340px;
-
-    .notifications {
-      display: flex;
-      justify-content: flex-end;
-      font-size: 1.1rem;
-      height: 20%;
-    }
-
-    h3 {
-      font-size: 1rem;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-    }
-
-    .message {
-      background-color: vars.$primary-color;
-      border-radius: 1.25rem;
-      padding: 1rem;
-      color: vars.$text-light;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-
-      .dayType {
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
-
-      .visits {
-        font-size: 0.8rem;
-        margin-bottom: 2px;
-
-        .visitNumber {
-          font-size: 1.2rem;
-          font-weight: 600;         
-        }
-      }
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .bottomContainer {
-    height: calc(100% - 340px + 3.4rem);
+    height: 90vh;
     padding: 1rem;
-    margin-top: -3.4rem;
 
-    .visitList {
+    .toolFilters {
+      height: 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      color: vars.$text-dark;
+
+      .searchInput {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0;
+        border: none;
+        color: vars.$text-dark-70;
+      }
+    }
+
+    .propertyListContainer {
       height: 90%;
       overflow-y: auto;
       padding-bottom: 2rem;
 
-      .visitItem {
+      .propertyCard {
         background-color: #FFFFFF;
         padding: 1rem;
         border-radius: vars.$border-radius-base;
@@ -108,7 +87,43 @@
             }
           }
         }
+
+        .propertyTags {
+          margin: 1rem 0 0 0;
+          z-index: 1 !important;
+        }
       }
     }
+  }
+}
+
+.scheduleVisitCTA {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  color: vars.$text-dark-70;
+  font-weight: 800;
+
+  .cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .button {
+    width: 100%;
+    background-color: vars.$secondary-color;
+    border-radius: vars.$border-radius-base;
+    color: vars.$text-light;
+    padding: 0.8rem;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
   }
 }

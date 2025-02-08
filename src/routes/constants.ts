@@ -1,5 +1,6 @@
 const PathConstants = {
-  BASE: "/"
+  BASE: "/",
+  PROPERTIES: "/properties",
 }
 
 export default PathConstants;
