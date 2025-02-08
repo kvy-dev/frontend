@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, BellOutlined, CheckCircleFilled, GlobalOutlined, InstagramOutlined, PhoneOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import { Avatar, Badge, Button } from 'antd';
+import { Button } from 'antd';
 
 const Profile = () => {
   return (
