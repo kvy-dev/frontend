@@ -4,6 +4,7 @@ import PathConstants from "./constants";
 
 const BrokerDashboard = React.lazy(() => import('@/pages/BrokerDashboard'));
 const Properties = React.lazy(() => import('@/pages/Properties'));
+const Profile = React.lazy(() => import('@/pages/Profile'));
 
 const routes = [
     { 
@@ -14,6 +15,10 @@ const routes = [
       path: PathConstants.PROPERTIES,
       element: <Properties />
     },
+    {
+      path: PathConstants.PROFILE,
+      element: <Profile />
+    }
 ];
 
 export default routes;
