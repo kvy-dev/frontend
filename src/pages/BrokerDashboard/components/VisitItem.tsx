@@ -7,7 +7,7 @@ const VisitItem = (props: any) => {
 
   const getTime = (startTime: string, endTime: string) => {
     const formatTime = (time: string) => {
-      let [hours, minutes, seconds] = time.split(":").map(Number);
+      let [hours, minutes] = time.split(":").map(Number);
       let period = hours >= 12 ? "PM" : "AM";
       hours = hours % 12 || 12; // Convert 0 to 12-hour format
       return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
