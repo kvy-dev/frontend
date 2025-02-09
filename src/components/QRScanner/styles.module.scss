@@ -15,6 +15,11 @@
     margin: 1.5rem 0;
     font-size: 0.8rem;
   }
+
+  &:disabled {
+    background-color: vars.$secondary-color-disabled;
+    background-color: red;
+  }
 }
 
 .blur {

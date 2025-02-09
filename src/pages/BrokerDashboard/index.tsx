@@ -6,9 +6,12 @@ import { useEffect, useState } from "react";
 import VisitList from "./components/VisitList";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "@/services/API";
+import Loader from "@/components/Loader";
 
 const BrokerDashboard = () => {
   const user = useSelector((state: any) => state.user);
+  const [upcomingVisit, setUpcomingVisit] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('today');
   const onChange = (key: string) => {
     setActiveTab(key);
@@ -16,7 +19,8 @@ const BrokerDashboard = () => {
 
   useEffect(() => {
     axiosInstance.get('/kyv/api/broker/upcomingVisits')
-    .then(res => console.log(res.data));
+    .then(res => setUpcomingVisit(res.data))
+    .finally(() => setLoading(false));
   }, []);
   
   const tabItems: TabsProps['items'] = [
@@ -30,13 +34,17 @@ const BrokerDashboard = () => {
     },
   ];
 
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <div className={styles.brokerDashboard}>
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
           <BellOutlined />
         </div>
-        <PersonalisedGreeting name={user?.name || 'User'} />
+        <PersonalisedGreeting name={user?.name || 'User'} visits={upcomingVisit?.length} />
       </div>
       <div className={styles.bottomContainer}>
         <Tabs 
@@ -47,7 +55,7 @@ const BrokerDashboard = () => {
           type="card"
           tabBarGutter={2}
         />
-        <VisitList />
+        <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
       {/* Navigation */}
     </div>

@@ -97,7 +97,11 @@
               margin: 0.2rem 0 1rem 0;
               font-weight: 600;
               font-size: 0.6rem;
-            }
+            
+              &[data-status="PENDING"] {
+                background-color: red;
+              }
+            }            
 
             .detail {
               margin-top: 0.5rem;

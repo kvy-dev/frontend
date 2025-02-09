@@ -3,24 +3,32 @@ import styles from './styles.module.scss';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/services/API';
+import Loader from '@/components/Loader';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [profileData, setProfileData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
       const data = await axiosInstance.get('/kyv/api/user/me');
       setProfileData(data.data);
+      setLoading(false);
     }
 
     getData();
   }, []);
 
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
-          <ArrowLeftOutlined />
+          <Link to="/"><ArrowLeftOutlined /></Link>
         </div>
         <BellOutlined />
       </div>
