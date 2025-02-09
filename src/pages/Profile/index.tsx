@@ -1,8 +1,21 @@
 import { ArrowLeftOutlined, BellOutlined, CheckCircleFilled, GlobalOutlined, InstagramOutlined, PhoneOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 import { Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '@/services/API';
 
 const Profile = () => {
+  const [profileData, setProfileData] = useState<any>(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await axiosInstance.get('/kyv/api/user/me');
+      setProfileData(data.data);
+    }
+
+    getData();
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
@@ -13,25 +26,25 @@ const Profile = () => {
       </div>
       <div className={styles.profile}>
         <div className={styles.profileImage}>
-          <img className={styles.image} src="https://diversifiedllc.com/wp-content/uploads/2024/02/featured-image-for-blogs-1160x665-4-1024x587-1024x585.jpg" />
-          <span className={styles.verifyIcon}><CheckCircleFilled /></span>
-          <Button className={styles.cta}>Verify</Button>
+          <img className={styles.image} src={profileData?.imageUrl} />
+          {profileData?.aadharVerified && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}
+          {!profileData?.aadharVerified && <Button className={styles.cta}>Verify</Button>}
         </div>
-        <h2>Elan William</h2>
+        <h2>{profileData?.name?.toUpperCase()}</h2>
         <p>Broker</p>
       </div>
       <div className={styles.details}>
         <div className={styles.detail}>
           <InstagramOutlined />
-          @elanwilliam
+          @{profileData?.instagramProfile}
         </div>
         <div className={styles.detail}>
           <PhoneOutlined />
-          +91 8928485829
+          +91 {profileData?.mobile}
         </div>
         <div className={styles.detail}>
           <GlobalOutlined />
-          https://www.elanwilliam.com
+          {profileData?.websiteUrl}
         </div>
       </div>
       <div className={styles.documents}>

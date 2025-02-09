@@ -2,15 +2,22 @@ import { BellOutlined } from "@ant-design/icons";
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
 import { Tabs, TabsProps } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VisitList from "./components/VisitList";
+import { useSelector } from "react-redux";
+import { axiosInstance } from "@/services/API";
 
 const BrokerDashboard = () => {
+  const user = useSelector((state: any) => state.user);
   const [activeTab, setActiveTab] = useState('today');
   const onChange = (key: string) => {
     setActiveTab(key);
-    console.log(activeTab);
   };
+
+  useEffect(() => {
+    axiosInstance.get('/kyv/api/broker/upcomingVisits')
+    .then(res => console.log(res.data));
+  }, []);
   
   const tabItems: TabsProps['items'] = [
     {
@@ -29,7 +36,7 @@ const BrokerDashboard = () => {
         <div className={styles.notifications}>
           <BellOutlined />
         </div>
-        <PersonalisedGreeting />
+        <PersonalisedGreeting name={user?.name || 'User'} />
       </div>
       <div className={styles.bottomContainer}>
         <Tabs 

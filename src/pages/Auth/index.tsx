@@ -56,11 +56,11 @@ const Auth = () => {
       mobile: Number(phone),
       name,
       otp,
-      user_type: 'broker',
+      userType: 'broker',
     } : {
       mobile: Number(phone),
       otp,
-      user_type: 'broker',
+      userType: 'broker',
     };
     const data = await axiosInstance.post('/kyv/api/auth/registerOrLoginWithOtp', requestData);
     if (data.data.verified) {
@@ -77,7 +77,6 @@ const Auth = () => {
         error: '',
         authType: '',
       });
-      window.location.reload();
     } else {
       messageApi.open({
         type: 'error',

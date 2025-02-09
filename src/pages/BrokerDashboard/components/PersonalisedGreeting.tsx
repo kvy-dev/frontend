@@ -1,9 +1,13 @@
 import styles from '../styles.module.scss';
 
-const PersonalisedGreeting = () => {
+interface Props {
+  name: string;
+}
+
+const PersonalisedGreeting = ({ name }: Props) => {
   return (
     <div className={styles.personalisedGreeting}>
-      <h3 className={styles.name}>Hi Emma,</h3>
+      <h3 className={styles.name}>Hi {name},</h3>
       <h1 className={styles.welcome}>Welcome back</h1>
       <div className={styles.message}>
         <p className={styles.dayType}>Busy day!</p>
