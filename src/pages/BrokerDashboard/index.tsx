@@ -1,4 +1,4 @@
-import { BellOutlined } from "@ant-design/icons";
+import { BellOutlined, BuildOutlined, UserOutlined } from "@ant-design/icons";
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
 import { Tabs, TabsProps } from "antd";
@@ -7,6 +7,8 @@ import VisitList from "./components/VisitList";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
+import QrCodeScanner from "@/components/QRScanner";
+import { Link } from "react-router-dom";
 
 const BrokerDashboard = () => {
   const user = useSelector((state: any) => state.user);
@@ -58,6 +60,11 @@ const BrokerDashboard = () => {
         <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
       {/* Navigation */}
+      <div className={styles.navigation}>
+        <Link to="/properties"><BuildOutlined /></Link>
+        <QrCodeScanner disabled={false} iconOnly={true} />
+        <Link to="/profile"><UserOutlined /></Link>
+      </div>
     </div>
   )
 }

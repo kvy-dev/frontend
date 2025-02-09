@@ -5,9 +5,10 @@ import { CloseCircleOutlined, QrcodeOutlined } from '@ant-design/icons';
 
 interface Props {
   disabled: boolean;
+  iconOnly?: boolean;
 }
 
-const QrCodeScanner = ({ disabled }: Props) => {
+const QrCodeScanner = ({ disabled, iconOnly }: Props) => {
   const [qrData, setQrData] = useState('');
   const [error, setError] = useState('');
   const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
@@ -50,7 +51,8 @@ const QrCodeScanner = ({ disabled }: Props) => {
   return (
     <>
       <div className={styles.CTA}>
-        {!disabled && <button disabled={disabled} onClick={() => setShowQR(true)}>SCAN TO ACCESS <QrcodeOutlined /> </button>}
+        {!disabled && !iconOnly && <button disabled={disabled} onClick={() => setShowQR(true)}>SCAN TO ACCESS <QrcodeOutlined /> </button>}
+        {iconOnly && <QrcodeOutlined onClick={() => setShowQR(true)} />}
       </div>
       {showQR && (
         <>
