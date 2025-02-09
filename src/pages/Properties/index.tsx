@@ -1,6 +1,6 @@
-import { ArrowLeftOutlined, BellOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, BellOutlined, SearchOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import { Input, Popover } from 'antd';
+import { Input } from 'antd';
 import { useEffect, useState } from 'react';
 import PropertyList from './components/PropertyList';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 
 const Properties = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchString, setSearchString] = useState('');
@@ -19,9 +19,9 @@ const Properties = () => {
     .finally(() => setLoading(false));
   }, []);
 
-  const handleOpenChange = (open: boolean) => {
-    setOpen(open);
-  }
+  // const handleOpenChange = (open: boolean) => {
+  //   setOpen(open);
+  // }
 
   if (loading) {
     return <Loader />

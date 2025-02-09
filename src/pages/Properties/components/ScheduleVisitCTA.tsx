@@ -34,7 +34,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
       endTime : formatTime(timeRange[1])
     }
     console.log(requestData);
-    const response = await axiosInstance.post('/kyv/api/broker/scheduleVisit', requestData);
+    await axiosInstance.post('/kyv/api/broker/scheduleVisit', requestData);
     toggleTimePickerVisible(false);
     messageApi.open({
       type: 'success',
