@@ -2,10 +2,23 @@ import { useEffect, useState } from 'react';
 import QrScanner from 'qr-scanner';
 import styles from './styles.module.scss';
 import { CloseCircleOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { axiosInstance } from '@/services/API';
+import { Result } from 'antd';
 
-const QrCodeScanner = () => {
+interface Props {
+  disabled: boolean;
+  iconOnly?: boolean;
+}
+
+const QrCodeScanner = ({ disabled, iconOnly }: Props) => {
   const [qrData, setQrData] = useState('');
   const [error, setError] = useState('');
+  interface Message {
+    type: 'success' | 'error';
+    text: string;
+  }
+  
+  const [showMessage, setShowMessage] = useState<Message | undefined>(undefined);
   const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
   const [showQR, setShowQR] = useState(false);
   console.log('qrData', qrData);
@@ -18,7 +31,25 @@ const QrCodeScanner = () => {
       videoRef,
       (result) => {
         setQrData(result.data);
-        alert(JSON.stringify(result.data));
+        console.log(result.data);
+        axiosInstance.get(`/kyv/api/broker/allowBrokerViaQR?propertyId=${result.data}`)
+          .then(res => {
+            if (res.data) {
+              setShowMessage({
+                type: 'success',
+                text: 'Access granted'
+              });
+            } else {
+              setShowMessage({
+                type: 'error',
+                text: 'Access not allowed'
+              });
+            }
+          })
+          .finally(() => setTimeout(() => {
+            setShowQR(false);
+            setShowMessage(undefined);
+          }, 5000));
         qrScanner.stop();
       },
       {
@@ -46,29 +77,42 @@ const QrCodeScanner = () => {
   return (
     <>
       <div className={styles.CTA}>
-        <button onClick={() => setShowQR(true)}>SCAN TO ACCESS <QrcodeOutlined /> </button>
+        {!disabled && !iconOnly && <button disabled={disabled} onClick={() => setShowQR(true)}>SCAN TO ACCESS <QrcodeOutlined /> </button>}
+        {iconOnly && <QrcodeOutlined onClick={() => setShowQR(true)} />}
       </div>
       {showQR && (
         <>
-          <div className={styles.blur}>
-            <CloseCircleOutlined className={styles.close} onClick={() => { setShowQR(false); setVideoRef(null); }} />
-            <div className={styles.header}>
-              <h1>Scan for access</h1>
-              <p>Scan the QR code at entry for access to property</p>
+          {showMessage && (
+            <div className={styles.container}>
+              <Result
+                status={showMessage.type}
+                title={showMessage.text}
+              />
             </div>
-          </div>
-          <div className={styles.focus}></div>
-          <div className={styles.container}>
-            <div className={styles.videoContainer}>
-              <video
-                ref={(ref) => setVideoRef(ref)}
-                style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
-                autoPlay
-                playsInline
-                muted
-              ></video>
-            </div>
-          </div>
+          )}
+          {!showMessage && (
+            <>
+              <div className={styles.blur}>
+                <CloseCircleOutlined className={styles.close} onClick={() => { setShowQR(false); setVideoRef(null); }} />
+                <div className={styles.header}>
+                  <h1>Scan for access</h1>
+                  <p>Scan the QR code at entry for access to property</p>
+                </div>
+              </div>
+              <div className={styles.focus}></div>
+              <div className={styles.container}>
+                <div className={styles.videoContainer}>
+                  <video
+                    ref={(ref) => setVideoRef(ref)}
+                    style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
+                    autoPlay
+                    playsInline
+                    muted
+                  ></video>
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </>

@@ -97,7 +97,11 @@
               margin: 0.2rem 0 1rem 0;
               font-weight: 600;
               font-size: 0.6rem;
-            }
+            
+              &[data-status="PENDING"] {
+                background-color: red;
+              }
+            }            
 
             .detail {
               margin-top: 0.5rem;
@@ -109,6 +113,25 @@
           }
         }
       }
+    }
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: vars.$primary-color;
+    color: vars.$text-light;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    box-sizing: border-box;
+    font-size: 2rem;
+    padding: 1rem 2rem;
+
+    a {
+      color: inherit
     }
   }
 }
