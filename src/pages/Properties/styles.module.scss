@@ -76,6 +76,10 @@
               margin: 0.2rem 0 1rem 0;
               font-weight: 600;
               font-size: 0.6rem;
+
+              &[data-status="RESTRICTED"] {
+                background-color: red;
+              }
             }
 
             .detail {
