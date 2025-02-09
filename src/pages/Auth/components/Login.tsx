@@ -1,12 +1,16 @@
 import { LeftOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import { Button, Input } from 'antd';
+import { useState } from 'react';
 
 interface LoginProps {
   navigateTo: (a: string) => void;
+  getOTP: (a: string, b?: string) => void;
+  phone: string;
 }
 
-const Login = ({ navigateTo }: LoginProps) => {
+const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
+  const [number, setNumber] = useState(phone);
   return (
     <div className={styles.container}>
       <div className={styles.loginContainer}>
@@ -14,8 +18,8 @@ const Login = ({ navigateTo }: LoginProps) => {
         <div className={styles.form}>
           <h3>Login</h3>
           <p>Enter your number to continue</p>
-          <Input placeholder="Phone number" />
-          <Button type="primary" onClick={() => navigateTo('otp')}>Get OTP</Button>
+          <Input placeholder="Phone number" value={number} onChange={(e) => setNumber(e.target.value)} />
+          <Button type="primary" onClick={() => getOTP(number)}>Get OTP</Button>
         </div>
       </div>
       <span className={styles.footer}>Don't have an account, <span className={styles.CTA} onClick={() => navigateTo('signup')}>Signup</span> </span>
