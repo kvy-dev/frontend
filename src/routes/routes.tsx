@@ -6,7 +6,7 @@ const BrokerDashboard = React.lazy(() => import('@/pages/BrokerDashboard'));
 const Properties = React.lazy(() => import('@/pages/Properties'));
 const Profile = React.lazy(() => import('@/pages/Profile'));
 
-const routes = [
+const routes = localStorage.getItem('kvy_user_type') === 'broker' ? [
     { 
       path: PathConstants.BASE,
       element: <BrokerDashboard />
@@ -19,6 +19,11 @@ const routes = [
       path: PathConstants.PROFILE,
       element: <Profile />
     }
+] : [
+  { 
+    path: PathConstants.BASE,
+    element: <BrokerDashboard />
+  },
 ];
 
 export default routes;
