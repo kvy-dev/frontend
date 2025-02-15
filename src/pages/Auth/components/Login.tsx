@@ -1,16 +1,17 @@
 import { LeftOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
-import { Button, Input } from 'antd';
+import { Button, Checkbox, Input } from 'antd';
 import { useState } from 'react';
 
 interface LoginProps {
   navigateTo: (a: string) => void;
-  getOTP: (a: string, b?: string) => void;
+  getOTP: (a: string, b: boolean, c?: string) => void;
   phone: string;
 }
 
 const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
   const [number, setNumber] = useState(phone);
+  const [userType, setUserType] = useState(false);
   return (
     <div className={styles.container}>
       <div className={styles.loginContainer}>
@@ -19,7 +20,8 @@ const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
           <h3>Login</h3>
           <p>Enter your number to continue</p>
           <Input placeholder="Phone number" value={number} onChange={(e) => setNumber(e.target.value)} />
-          <Button type="primary" onClick={() => getOTP(number)}>Get OTP</Button>
+          <Checkbox checked={userType} value={userType} onChange={(e) => setUserType(!e.target.value)} /><span>{'     '}I am a builder</span>
+          <Button type="primary" onClick={() => getOTP(number, userType)}>Get OTP</Button>
         </div>
       </div>
       <span className={styles.footer}>Don't have an account, <span className={styles.CTA} onClick={() => navigateTo('signup')}>Signup</span> </span>

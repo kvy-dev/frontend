@@ -14,6 +14,7 @@ const Auth = () => {
     authData: {
       phone: '',
       name: '',
+      userType: 'broker',
     },
     otp: '',
     authStep: 'start',
@@ -36,13 +37,14 @@ const Auth = () => {
     }));
   }
 
-  const getOTP = async (phone: string, name?: string) => {
+  const getOTP = async (phone: string, isBuilder: boolean, name?: string) => {
     setAuthState(prev => ({
       ...prev,
       authStep: 'otp',
       authData: {
         name: name ? name : '',
         phone: phone,
+        userType: isBuilder ? 'builder' : 'broker'
       }
     }));
     const requestData = {
@@ -56,20 +58,22 @@ const Auth = () => {
       mobile: Number(phone),
       name,
       otp,
-      userType: 'broker',
+      userType: authState?.authData?.userType,
     } : {
       mobile: Number(phone),
       otp,
-      userType: 'broker',
+      userType: authState?.authData?.userType,
     };
     const data = await axiosInstance.post('/kyv/api/auth/registerOrLoginWithOtp', requestData);
     if (data.data.verified) {
       localStorage.setItem('kyv_access_token', data.data.accessToken);
+      localStorage.setItem('kvy_user_type', data.data.userObjectDto?.userType);
       dispatch({type: 'update_user', payload: data.data.userObjectDto});
       setAuthState({
         authData: {
           phone: '',
           name: '',
+          userType: 'broker'
         },
         otp: '',
         authStep: 'start',
