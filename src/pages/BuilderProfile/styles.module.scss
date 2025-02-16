@@ -1,0 +1,104 @@
+@use '../../variables.scss' as vars;
+
+.container {
+  background-color: vars.$background-color-app;
+  padding: 1rem;
+  overflow-y: auto;
+  height: 100vh;
+
+  .topContainer {
+    height: 10vh;
+    box-sizing: border-box;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile {
+    width: 100%;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    .profileImage {
+      margin: 0 auto;
+      width: 60%;
+      max-width: 200px;
+      overflow: hidden;
+      position: relative;
+      
+      .image {
+        width: 100%;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        object-fit: cover;        
+      }
+
+      .cta {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        background-color: vars.$primary-color;
+        color: vars.$text-light;
+        padding: 1.2rem;
+        border: none;
+        outline: none;
+        text-transform: uppercase;
+      }
+
+      .verifyIcon {
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        color: green;
+        font-size: 1.5rem;
+      }
+    }
+
+    h2 {
+      margin: 1rem 0 0 0;
+      color: vars.$text-dark;
+      font-weight: 900;
+    }
+
+    p {
+      margin: 0.5rem;
+      color: vars.$text-dark-70;
+      font-weight: 900;
+    }
+  }
+
+  .details {
+    color: vars.$text-dark-70;
+    max-width: 1200px;
+    margin: 4rem auto;
+    .detail {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+  }
+
+  .employees {
+    color: vars.$text-dark-70;
+    margin: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .heading,
+    .row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 1rem;
+    }
+    
+    .heading {
+      font-weight: 900;
+      margin-bottom: 1.2rem;
+    }
+  }
+}
