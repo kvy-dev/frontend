@@ -7,6 +7,7 @@ import VisitList from "./components/VisitList";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
+import TopBar from "@/components/Topbar";
 
 const BuilderDashboard = () => {
   const user = useSelector((state: any) => state.user);
@@ -42,7 +43,7 @@ const BuilderDashboard = () => {
     <div className={styles.builderDashboard}>
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
-          <BellOutlined />
+          <TopBar isMenu={true} />
         </div>
         <div className={styles.widthContainer}>
           <PersonalisedGreeting name={user?.name || 'User'} visits={upcomingVisit?.length} />

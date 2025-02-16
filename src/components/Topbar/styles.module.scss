@@ -1,0 +1,14 @@
+@use '../../variables.scss' as vars;
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.menuItem {
+  text-decoration: none;
+  color: vars.$primary-color;
+}

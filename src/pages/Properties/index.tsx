@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 import AddEditPropertyModal from './components/AddEditPropertyModal';
+import TopBar from '@/components/Topbar';
 
 const Properties = () => {
   // const [open, setOpen] = useState(false);
@@ -32,10 +33,7 @@ const Properties = () => {
   return (
     <div className={styles.properties}>
       <div className={styles.topContainer}>
-        <div className={styles.notifications}>
-          <Link to="/"><ArrowLeftOutlined /></Link>
-        </div>
-        <BellOutlined />
+        <TopBar isMenu={localStorage.getItem('kvy_user_type') === 'builder'} backLink='/' />
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.toolFilters}>

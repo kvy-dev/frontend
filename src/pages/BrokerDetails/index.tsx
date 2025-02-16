@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 import { Link } from 'react-router-dom';
+import TopBar from '@/components/Topbar';
 
 const BrokerDetails = () => {
   const [profileData, setProfileData] = useState<any>(null);
@@ -32,10 +33,7 @@ const BrokerDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
-        <div className={styles.notifications}>
-          <Link to="/"><ArrowLeftOutlined /></Link>
-        </div>
-        <BellOutlined />
+        <TopBar backLink='/brokers' />
       </div>
       <div className={styles.profile}>
         <div className={styles.profileImage}>

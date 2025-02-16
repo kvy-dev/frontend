@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 import AddBrokerModal from './components/AddBrokerModal';
+import TopBar from '@/components/Topbar';
 
 const BrokerList = () => {
   // const [open, setOpen] = useState(false);
@@ -32,10 +33,7 @@ const BrokerList = () => {
   return (
     <div className={styles.properties}>
       <div className={styles.topContainer}>
-        <div className={styles.notifications}>
-          <Link to="/"><ArrowLeftOutlined /></Link>
-        </div>
-        <BellOutlined />
+        <TopBar isMenu={true} />
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.toolFilters}>
