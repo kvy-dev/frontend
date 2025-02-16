@@ -1,0 +1,180 @@
+@use '../../variables.scss' as vars;
+
+.widthContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.properties {
+  height: 100vh;
+  background-color: vars.$background-color-app;
+
+  .topContainer {
+    height: 10vh;
+    box-sizing: border-box;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bottomContainer {
+    height: 90vh;
+    padding: 1rem;
+
+    .toolFilters {
+      height: 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      color: vars.$text-dark;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+
+      .searchInput {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0;
+        border: none;
+        color: vars.$text-dark-70;
+      }
+
+      .addBrokerCTA {
+        width: 200px;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+
+    .tabContainer {
+      max-width: 1200px;
+      margin: 1rem auto;
+      overflow: hidden;
+      background-color: vars.$grey-background;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+        color: vars.$primary-color;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &[data-selected="active"] {
+          background-color: white;
+          font-weight: 900;
+        }
+      }
+    }
+
+    .brokerListContainer {
+      height: calc(90% - 60px);
+      overflow-y: auto;
+      padding-bottom: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1rem;
+
+      .brokerCard {
+        background-color: #FFFFFF;
+        padding: 1rem;
+        border-radius: vars.$border-radius-base;
+        height: fit-content;
+
+        .brokerDetails {
+          display: flex;
+
+          .image {
+            width: 100px;
+            height: auto;
+            background-color: #F6F2FF;
+            border-radius: vars.$border-radius-base;
+            margin-right: 1rem;
+            object-fit: cover;
+          }
+
+          .details {
+            color: vars.$text-dark-70;
+            font-size: 0.9rem;
+
+            .brokerName {
+              color: vars.$text-dark;
+              font-size: 1.2rem;
+              font-weight: 600;
+            }
+
+            .status {
+              background-color: green;
+              padding: 0.2rem 0.5rem;
+              border-radius: 1rem;
+              color: #FFFFFF;
+              text-transform: uppercase;
+              display: inline-block;
+              margin: 0.2rem 0 1rem 0;
+              font-weight: 600;
+              font-size: 0.6rem;
+
+              &[data-status="RESTRICTED"] {
+                background-color: red;
+              }
+            }
+
+            .detail {
+              margin-top: 0.5rem;
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              gap: 10px;
+            }
+          }
+        }
+
+        .brokerTags {
+          margin: 1rem 0 0 0;
+          z-index: 1 !important;
+        }
+      }
+    }
+  }
+}
+
+.brokerRelationCTA {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 0 0;
+  font-size: 0.9rem;
+  color: vars.$text-dark-70;
+  font-weight: 800;
+
+  .cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .button {
+    width: 100%;
+    background-color: vars.$secondary-color;
+    border-radius: vars.$border-radius-base;
+    color: vars.$text-light;
+    padding: 0.8rem;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+  }
+}
