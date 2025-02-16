@@ -6,6 +6,7 @@ import Brokers from './components/Brokers';
 import { Link } from 'react-router-dom';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
+import AddBrokerModal from './components/AddBrokerModal';
 
 const BrokerList = () => {
   // const [open, setOpen] = useState(false);
@@ -46,19 +47,7 @@ const BrokerList = () => {
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
           />
-          {/* <Popover
-            content={<a onClick={() => setOpen(false)}>Close</a>}
-            title="Title"
-            trigger="click"
-            open={open}
-            placement='bottomLeft'
-            onOpenChange={handleOpenChange}
-          >
-            <div style={{display: 'flex', alignItems: 'center', gap: '5px'}}>
-              <FilterOutlined /> 
-              <span>Filter</span>
-            </div>
-          </Popover> */}
+          <AddBrokerModal />
         </div>
         <div className={styles.tabContainer}>
           <span className={styles.tab} onClick={() => setActiveTab('approved')} data-selected={activeTab === "approved" ? "active" : ""}>Approved</span>
