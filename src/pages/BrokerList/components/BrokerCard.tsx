@@ -1,6 +1,7 @@
 import { InstagramOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import BrokerRelationCTA from './BrokerRelationCTA';
+import { Link } from 'react-router-dom';
 
 interface Props {
   data: any;
@@ -36,20 +37,22 @@ const BrokerCard = ({ data }: Props) => {
 
 
   return (
-    <div className={styles.brokerCard}>
-      <div className={styles.brokerDetails}>
-      <img className={styles.image} src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="Broker" />
-        <div className={styles.details}>
-          <div className={styles.brokerName}>Elan Sal</div>
-          <div className={styles.detail}><MailOutlined /> elan.sal@gmail.com</div>
-          <div className={styles.detail}><PhoneOutlined /> +91 950638289</div>
-          <div className={styles.detail}><InstagramOutlined /> @elansal</div>
+    <Link to={`/brokers/${1}`}>
+      <div className={styles.brokerCard}>
+        <div className={styles.brokerDetails}>
+        <img className={styles.image} src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="Broker" />
+          <div className={styles.details}>
+            <div className={styles.brokerName}>Elan Sal</div>
+            <div className={styles.detail}><MailOutlined /> elan.sal@gmail.com</div>
+            <div className={styles.detail}><PhoneOutlined /> +91 950638289</div>
+            <div className={styles.detail}><InstagramOutlined /> @elansal</div>
+          </div>
+        </div>
+        <div className={styles.cta}>
+          <BrokerRelationCTA brokerId={1} />
         </div>
       </div>
-      <div className={styles.cta}>
-        <BrokerRelationCTA brokerId={1} />
-      </div>
-    </div>
+    </Link>
   )
 }
 

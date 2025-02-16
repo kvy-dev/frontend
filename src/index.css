@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Inactive tab text color */
 .ant-tabs-card .ant-tabs-tab {
   color: #343434 !important; /* Change text color for inactive tabs */
