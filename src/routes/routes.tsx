@@ -1,6 +1,7 @@
 // /* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import PathConstants from "./constants";
+import BrokerDetails from "@/pages/BrokerDetails";
 
 const BrokerDashboard = React.lazy(() => import('@/pages/BrokerDashboard'));
 const Properties = React.lazy(() => import('@/pages/Properties'));
@@ -29,6 +30,10 @@ const routes = localStorage.getItem('kvy_user_type') === 'broker' ? [
   { 
     path: PathConstants.BROKERS,
     element: <BrokerList />
+  },
+  { 
+    path: PathConstants.BROKER_DETAILS,
+    element: <BrokerDetails />
   },
 ];
 
