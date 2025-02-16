@@ -24,6 +24,8 @@
       align-items: center;
       gap: 1rem;
       color: vars.$text-dark;
+      max-width: 1200px;
+      margin: 1rem auto;
 
       .searchInput {
         width: 100%;
@@ -31,19 +33,67 @@
         border-radius: 0;
         border: none;
         color: vars.$text-dark-70;
+        flex: 1;
+      }
+
+      .addPropertyCTA {
+        cursor: pointer;
+      }
+    }
+
+    .tabContainer {
+      max-width: 1200px;
+      margin: 1rem auto;
+      overflow: hidden;
+      background-color: vars.$grey-background;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+        color: vars.$primary-color;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &[data-selected="active"] {
+          background-color: white;
+          font-weight: 900;
+        }
       }
     }
 
     .propertyListContainer {
-      height: 90%;
+      height: calc(90% - 70px);
       overflow-y: auto;
       padding-bottom: 2rem;
+      max-width: 1200px;
+      margin: 1rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1rem;
 
       .propertyCard {
         background-color: #FFFFFF;
         padding: 1rem;
         border-radius: vars.$border-radius-base;
         margin-bottom: 1rem;
+        align-items: start;
+        grid-auto-rows: max-content;
+        position: relative;
+        
+        .edit {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          color: vars.$secondary-color;
+          font-size: 1.4rem;
+          cursor: pointer;
+        }
 
         .propertyDetails {
           display: flex;
@@ -92,6 +142,16 @@
           }
         }
 
+        .description {
+          color: vars.$text-dark-70;
+          font-size: 0.9rem;
+          text-transform: capitalize;
+          margin: 2rem auto;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         .propertyTags {
           margin: 1rem 0 0 0;
           z-index: 1 !important;
@@ -107,6 +167,37 @@
   align-items: center;
   gap: 1rem;
   margin: 1.5rem 0;
+  font-size: 0.9rem;
+  color: vars.$text-dark-70;
+  font-weight: 800;
+
+  .cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .button {
+    width: 100%;
+    background-color: vars.$secondary-color;
+    border-radius: vars.$border-radius-base;
+    color: vars.$text-light;
+    padding: 0.8rem;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+  }
+}
+
+.propertyStatusCTA {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 0 0;
   font-size: 0.9rem;
   color: vars.$text-dark-70;
   font-weight: 800;

@@ -35,6 +35,10 @@ const routes = localStorage.getItem('kvy_user_type') === 'broker' ? [
     path: PathConstants.BROKER_DETAILS,
     element: <BrokerDetails />
   },
+  { 
+    path: PathConstants.PROPERTIES,
+    element: <Properties />
+  },
 ];
 
 export default routes;
