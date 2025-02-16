@@ -28,7 +28,7 @@ const TopBar = ({ backLink, isMenu }: Props) => {
         <Divider />
         <Link className={styles.menuItem} to="/brokers"><ProfileOutlined /> Brokers</Link>
         <Divider />
-        <Link className={styles.menuItem} to="/"><HistoryOutlined /> Visit history</Link>
+        <Link className={styles.menuItem} to="/visitHistory"><HistoryOutlined /> Visit history</Link>
         <Divider />
         <Link className={styles.menuItem} to="/profile"><UserOutlined /> Profile</Link>
         <Divider />
