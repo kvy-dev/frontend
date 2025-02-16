@@ -1,14 +1,18 @@
-import { BuildOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, ClockCircleOutlined, EditFilled, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import QrCodeScanner from '@/components/QRScanner';
 import { Tag } from 'antd';
 import ScheduleVisitCTA from './ScheduleVisitCTA';
+import AddEditPropertyModal from './AddEditPropertyModal';
+import PropertyStatusCTA from './PropertyStatusCTA';
 
 interface Props {
   data: any;
 }
 
 const PropertyCard = ({ data }: Props) => {
+
+  const userType = localStorage.getItem('kvy_user_type');
 
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -39,6 +43,7 @@ const PropertyCard = ({ data }: Props) => {
 
   return (
     <div className={styles.propertyCard}>
+      {userType === 'builder' && <AddEditPropertyModal edit={true} />}
       <div className={styles.propertyDetails}>
         <img className={styles.image} src="https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg" alt="Property" />
         <div className={styles.details}>
@@ -49,14 +54,17 @@ const PropertyCard = ({ data }: Props) => {
           <div className={styles.detail}><BuildOutlined /> builder_arpit</div>
         </div>
       </div>
+      <p className={styles.description}>
+        {data.description}
+      </p>
       <div className={styles.propertyTags}>
         <Tag style={{ margin: '5px' }}>{data.areaSqYards} sqyds</Tag>
-        {data?.description && <Tag style={{ margin: '5px' }}>{data.description}</Tag>}
         <Tag style={{ margin: '5px' }}>{data.facing} facing</Tag>
       </div>
       <div className={styles.cta}>
-        {(data?.status === 'OPEN' || data.preApproved) && <QrCodeScanner disabled={false} />}
-        {data?.status === 'RESTRICTED' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
+        {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}
+        {data?.status === 'RESTRICTED' && userType === 'broker' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
+        {userType === 'builder' && <PropertyStatusCTA propertyId={1} />}
       </div>
     </div>
   )

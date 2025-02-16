@@ -10,7 +10,7 @@ const PropertyList = ({ data, searchString }: Props) => {
   return (
     <div className={styles.propertyListContainer}>
       {
-        data.map((d: any) => {
+        [...data, ...data, ...data].map((d: any) => {
           if (!searchString || d?.name?.includes(searchString))
             return <PropertyCard key={d?.propertyId} data={d} />   
         })
