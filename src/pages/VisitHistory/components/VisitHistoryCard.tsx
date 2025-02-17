@@ -33,7 +33,6 @@ const VisitHistoryCard = ({ data }: Props) => {
     return `${day}${suffix(day)} ${month} ${year}`;
   }
 
-
   return (
     <div className={styles.visitHistoryCard}>
       <div className={styles.visitHistoryDetails}>

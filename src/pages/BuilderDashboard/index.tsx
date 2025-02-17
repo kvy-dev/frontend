@@ -1,4 +1,3 @@
-import { BellOutlined } from "@ant-design/icons";
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
 import { Tabs, TabsProps } from "antd";
@@ -11,7 +10,11 @@ import TopBar from "@/components/Topbar";
 
 const BuilderDashboard = () => {
   const user = useSelector((state: any) => state.user);
-  const [upcomingVisit, setUpcomingVisit] = useState([]);
+  interface Visit {
+    status: string;
+  }
+
+  const [upcomingVisit, setUpcomingVisit] = useState<Visit[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('pending');
   const onChange = (key: string) => {
@@ -20,7 +23,7 @@ const BuilderDashboard = () => {
 
   useEffect(() => {
     axiosInstance.get('/kyv/api/broker/upcomingVisits')
-    .then(res => setUpcomingVisit([...res.data, ...res.data, ...res.data, ...res.data]))
+    .then(res => setUpcomingVisit(res.data))
     .finally(() => setLoading(false));
   }, []);
   
@@ -35,6 +38,9 @@ const BuilderDashboard = () => {
     },
   ];
 
+  const scheduled = upcomingVisit.filter((d) => d.status === 'PENDING').length;
+  const requested = upcomingVisit.length - scheduled;
+
   if (loading) {
     return <Loader />
   }
@@ -46,7 +52,7 @@ const BuilderDashboard = () => {
           <TopBar isMenu={true} />
         </div>
         <div className={styles.widthContainer}>
-          <PersonalisedGreeting name={user?.name || 'User'} visits={upcomingVisit?.length} />
+          <PersonalisedGreeting name={user?.name || 'User'} visits={scheduled} requested={requested} />
         </div>
       </div>
       <div className={styles.bottomContainer}>
@@ -60,9 +66,7 @@ const BuilderDashboard = () => {
             tabBarGutter={2}
           />
         </div>
-        {/* <div className={styles.widthContainer}> */}
-          <VisitList data={upcomingVisit} activeTab={activeTab} />
-        {/* </div> */}
+        <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
     </div>
   )

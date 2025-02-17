@@ -1,6 +1,5 @@
-import { BuildOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
-import QrCodeScanner from '@/components/QRScanner';
 import { Button } from 'antd';
 
 const VisitItem = (props: any) => {
@@ -13,8 +12,33 @@ const VisitItem = (props: any) => {
       hours = hours % 12 || 12; // Convert 0 to 12-hour format
       return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
   };
+    return `${formatTime(startTime)} - ${formatTime(endTime)}`;
+  }
 
-  return `${formatTime(startTime)} - ${formatTime(endTime)}`;
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+  
+    // Get day, month, year
+    const day = date.getDate();
+    const month = date.toLocaleString("en-US", { month: "short" }); // Jan, Feb, etc.
+    const year = date.getFullYear();
+  
+    // Add ordinal suffix to the day
+    const suffix = (d: any) => {
+      if (d > 3 && d < 21) return "th"; // Covers 11th, 12th, 13th
+      switch (d % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+  
+    return `${day}${suffix(day)} ${month} ${year}`;
   }
 
   return (
@@ -24,15 +48,20 @@ const VisitItem = (props: any) => {
         <div className={styles.details}>
           <div className={styles.propertyName}>Elan Jas</div>
           <div className={styles.detail}><ClockCircleOutlined /> {getTime(data.scheduleStartTime, data.scheduleEndTime)}</div>
+          <div className={styles.detail}><CalendarOutlined /> {formatDate(data.scheduleDate)}</div>
           <div className={styles.detail}><EnvironmentOutlined /> {data.propertyResponseDto.address}</div>
-          <div className={styles.detail}><BuildOutlined /> {data.builderName}</div>
+          <div className={styles.detail}><BuildOutlined /> {data.propertyResponseDto.name}</div>
         </div>
       </div>
-      <div className={styles.visitItemAction}>
-        <Button style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}}>Accept</Button>
-        <Button color='danger' variant="outlined">Reject</Button>
-        <Button variant="text">Blacklist</Button>
-      </div>
+      {
+        data.status === 'PENDING' && (
+          <div className={styles.visitItemAction}>
+            <Button style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}}>Accept</Button>
+            <Button color='danger' variant="outlined">Reject</Button>
+            <Button variant="text">Blacklist</Button>
+          </div>
+        )
+      }
     </div>
   )
 }
