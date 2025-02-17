@@ -1,18 +1,21 @@
+import { Empty } from 'antd';
 import styles from '../styles.module.scss';
 import VisitHistoryCard from './VisitHistoryCard';
 
 interface Props {
   data: any;
-  searchString: string;
 }
 
-const VisitList = ({ data, searchString }: Props) => {
+const VisitList = ({ data }: Props) => {
+  if (data.length === 0) {
+    return <Empty description="No visit history" />
+  }
+
   return (
     <div className={styles.visitHistoryListContainer}>
       {
-        [...data, ...data, ...data].map((d: any) => {
-          if (!searchString || d?.name?.includes(searchString))
-            return <VisitHistoryCard key={d?.propertyId} data={d} />   
+        data.map((d: any) => {
+          return <VisitHistoryCard key={d?.id} data={d} />   
         })
       }
     </div>

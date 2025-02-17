@@ -39,10 +39,10 @@ const VisitHistoryCard = ({ data }: Props) => {
       <div className={styles.visitHistoryDetails}>
       <img className={styles.image} src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="visitHistory" />
         <div className={styles.details}>
-          <div className={styles.visitHistoryName}>Elan Sal</div>
-          <div className={styles.detail}><CalendarOutlined /> 24th Jan, 1995</div>
-          <div className={styles.detail}><PhoneOutlined /> +91 950638289</div>
-          <div className={styles.detail}><BuildOutlined /> Mahagony Mansion</div>
+          <div className={styles.visitHistoryName}>{data.brokerName}</div>
+          <div className={styles.detail}><CalendarOutlined /> {formatDate(data.scheduleDate)}</div>
+          <div className={styles.detail}><PhoneOutlined /> +91 {data?.brokerMobileNumber}</div>
+          <div className={styles.detail}><BuildOutlined /> {data?.propertyResponseDto?.name}</div>
         </div>
       </div>
     </div>
