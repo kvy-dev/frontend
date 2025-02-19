@@ -38,7 +38,7 @@ const BuilderDashboard = () => {
     },
   ];
 
-  const scheduled = upcomingVisit.filter((d) => d.status === 'PENDING').length;
+  const scheduled = upcomingVisit.filter((d) => d.status === 'APPROVED').length;
   const requested = upcomingVisit.length - scheduled;
 
   if (loading) {

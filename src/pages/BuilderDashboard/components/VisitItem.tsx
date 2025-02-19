@@ -44,7 +44,7 @@ const VisitItem = (props: any) => {
   return (
     <div className={styles.visitItem}>
       <div className={styles.propertyDetails}>
-        <img className={styles.image} src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="Broker" />
+        <img className={styles.image} src={data.brokerDetails.imageUrl} alt="Broker" />
         <div className={styles.details}>
           <div className={styles.propertyName}>Elan Jas</div>
           <div className={styles.detail}><ClockCircleOutlined /> {getTime(data.scheduleStartTime, data.scheduleEndTime)}</div>
