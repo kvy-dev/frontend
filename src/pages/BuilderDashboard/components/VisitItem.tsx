@@ -23,7 +23,7 @@ const VisitItem = (props: any) => {
           status: 'REJECTED',
         })
       ])
-      .then(res => window.location.reload())
+      .then(() => window.location.reload())
       .catch()
       .finally(() => setCTALoading(false));
     } else {
@@ -32,7 +32,7 @@ const VisitItem = (props: any) => {
         brokerId: data.brokerId,
         status: status,
       })
-      .then(res => window.location.reload())
+      .then(() => window.location.reload())
       .catch()
       .finally(() => setCTALoading(false));
     }
