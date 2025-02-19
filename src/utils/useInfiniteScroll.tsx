@@ -33,10 +33,11 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
   const initialFetch = async () => {
     setLoading(true);
     setHasMoreData(true);
+    setPageNumber(0);
     try {
-      const res = await axiosInstance.get(`${url}pageNumber=${pageNumber}`);
+      const res = await axiosInstance.get(`${url}pageNumber=0`);
       
-      setData((prev) => res.data);
+      setData(res.data);
       
       if (res.data.length === 0) {
         setHasMoreData(false); // Stop fetching when no more data
