@@ -10,14 +10,32 @@ const VisitItem = (props: any) => {
 
   const updateRequestStatus = (status: string) => {
     setCTALoading(true);
-    axiosInstance.post('kyv/api/builder/approveRequest', {
-      propertyId: data.propertyResponseDto.propertyId,
-      brokerId: data.brokerId,
-      status: status,
-    })
-    .then(res => window.location.reload())
-    .catch()
-    .finally(() => setCTALoading(false));
+    if (status === 'blacklisted') {
+      Promise.all([
+        axiosInstance.post('/kyv/api/builder/changeBrokerStatus', {
+          "brokerId": data.brokerId,
+          "preApproved": "NO",
+          "blackListed": "YES"
+        }),
+        axiosInstance.post('kyv/api/builder/approveRequest', {
+          propertyId: data.propertyResponseDto.propertyId,
+          brokerId: data.brokerId,
+          status: 'REJECTED',
+        })
+      ])
+      .then(res => window.location.reload())
+      .catch()
+      .finally(() => setCTALoading(false));
+    } else {
+      axiosInstance.post('kyv/api/builder/approveRequest', {
+        propertyId: data.propertyResponseDto.propertyId,
+        brokerId: data.brokerId,
+        status: status,
+      })
+      .then(res => window.location.reload())
+      .catch()
+      .finally(() => setCTALoading(false));
+    }
   }
 
   const getTime = (startTime: string, endTime: string) => {
@@ -61,7 +79,7 @@ const VisitItem = (props: any) => {
       <div className={styles.propertyDetails}>
         <img className={styles.image} src={data.brokerDetails.imageUrl} alt="Broker" />
         <div className={styles.details}>
-          <div className={styles.propertyName}>Elan Jas</div>
+          <div className={styles.propertyName}>{data.brokerDetails.name}</div>
           <div className={styles.detail}><ClockCircleOutlined /> {getTime(data.scheduleStartTime, data.scheduleEndTime)}</div>
           <div className={styles.detail}><CalendarOutlined /> {formatDate(data.scheduleDate)}</div>
           <div className={styles.detail}><EnvironmentOutlined /> {data.propertyResponseDto.address}</div>
@@ -74,7 +92,7 @@ const VisitItem = (props: any) => {
           <div className={styles.visitItemAction}>
             <Button disabled={ctaLoading} style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}} onClick={() => updateRequestStatus('APPROVED')}>Accept</Button>
             <Button disabled={ctaLoading} color='danger' variant="outlined" onClick={() => updateRequestStatus('REJECTED')}>Reject</Button>
-            <Button disabled={ctaLoading} variant="text">Blacklist</Button>
+            <Button disabled={ctaLoading} onClick={() => updateRequestStatus('blacklisted')} variant="text">Blacklist</Button>
           </div>
         )
       }
