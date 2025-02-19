@@ -1,9 +1,7 @@
 @use "../../variables.scss" as vars;
 
 .container {
-  width: 100vw;
-  height: 100vh;
-  background-color: vars.$background-color-app;
+  background-color: vars.$background-color;
 }
 
 .loader {

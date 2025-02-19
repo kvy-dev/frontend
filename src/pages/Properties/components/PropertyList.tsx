@@ -1,4 +1,3 @@
-import styles from '../styles.module.scss';
 import PropertyCard from './PropertyCard';
 
 interface Props {
@@ -8,14 +7,14 @@ interface Props {
 
 const PropertyList = ({ data, searchString }: Props) => {
   return (
-    <div className={styles.propertyListContainer}>
+    <>
       {
-        [...data, ...data, ...data].map((d: any) => {
-          if (!searchString || d?.name?.includes(searchString))
+        data.map((d: any) => {
+          if (!searchString || d?.name?.toUpperCase()?.includes(searchString.toUpperCase()) || d?.address?.toUpperCase()?.includes(searchString.toUpperCase()))
             return <PropertyCard key={d?.propertyId} data={d} />   
         })
       }
-    </div>
+    </>
   )
 }
 

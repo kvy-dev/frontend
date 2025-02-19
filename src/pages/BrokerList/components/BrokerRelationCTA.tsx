@@ -1,19 +1,36 @@
-import { Button, message, Modal, TimePicker } from "antd";
+import { Button, message } from "antd";
 import styles from '../styles.module.scss';
-import { useState } from "react";
 import { axiosInstance } from "@/services/API";
 
 interface Props {
   brokerId: Number;
+  activeTab: string;
+  refetch: () => void;
 }
 
-const BrokerRelationCTA = ({ brokerId }: Props) => {
+const BrokerRelationCTA = ({ brokerId, activeTab, refetch }: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const handleChangeBrokerRelation = async (relation: string) => {
-    messageApi.open({
-      type: 'success',
-      content: 'Visit scheduled',
+  const handleChangeBrokerRelation = async (e: any, relation: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    axiosInstance.post('/kyv/api/builder/changeBrokerStatus', {
+      "brokerId": brokerId,
+      "preApproved": relation === 'preapproved' ? "YES" : "NO",
+      "blackListed": relation === 'blacklisted' ? "YES" : "NO"
+    })
+    .then(() => {
+      messageApi.open({
+        type: 'success',
+        content: 'Broker relation changed',
+      });
+      refetch();
+    })
+    .catch(() => {
+      messageApi.open({
+        type: 'error',
+        content: 'Error changing broker relation',
+      });
     });
   }
 
@@ -23,10 +40,10 @@ const BrokerRelationCTA = ({ brokerId }: Props) => {
       <div className={styles.brokerRelationCTA}>
         <span>Broker relation</span>
         <div className={styles.cta}>
-          {/* <Button className={styles.button} onClick={() => { handleChangeBrokerRelation('') }}>Pre-Approve</Button> */}
-          <Button className={styles.button} onClick={() => { handleChangeBrokerRelation('') }}>To circle</Button>
-          <Button type="primary" danger onClick={() => { handleChangeBrokerRelation('') }}>Blacklist</Button>
-          {/* <Button type="dashed" onClick={() => { handleChangeBrokerRelation('') }}>Remove from blacklist</Button> */}
+          {activeTab === 'others' && <Button variant="solid" className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, 'preapproved') }}>Pre approve</Button>}
+          {activeTab === 'approved' && <Button className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, 'others') }}>Unapprove</Button>}
+          {activeTab !== 'blacklisted' && <Button type="primary" danger onClick={(e) => { handleChangeBrokerRelation(e, 'blacklisted') }}>Blacklist</Button>}
+          {activeTab === 'blacklisted' && <Button type="dashed" onClick={(e) => { handleChangeBrokerRelation(e, 'others') }}>Remove from blacklist</Button>}
         </div>
       </div>
     </>

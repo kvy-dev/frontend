@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 
-.properties {
+.brokers {
   height: 100vh;
   background-color: vars.$background-color-app;
 
@@ -58,6 +58,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.2rem;
       border-radius: 4px;
 
       .tab {
@@ -72,11 +73,15 @@
           background-color: white;
           font-weight: 900;
         }
+
+        &:hover {
+          background-color: vars.$background-color;
+        }
       }
     }
 
     .brokerListContainer {
-      height: calc(90% - 60px);
+      height: calc(90% - 120px);
       overflow-y: auto;
       padding-bottom: 2rem;
       max-width: 1200px;
@@ -85,11 +90,17 @@
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 1rem;
 
+      gap: 10px; /* Adjust spacing as needed */
+      justify-content: start; /* Align items properly */
+      align-items: start; /* Prevent stretching */
+
       .brokerCard {
         background-color: #FFFFFF;
         padding: 1rem;
         border-radius: vars.$border-radius-base;
         height: fit-content;
+        max-width: 500px;
+        grid-auto-rows: auto;
 
         .brokerDetails {
           display: flex;
@@ -176,5 +187,9 @@
     outline: none;
     border: none;
     font-size: 0.8rem;
+
+    &:hover {
+      background-color: vars.$secondary-color;
+    }
   }
 }

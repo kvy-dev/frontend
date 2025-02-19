@@ -1,4 +1,4 @@
-import { BuildOutlined, ClockCircleOutlined, EditFilled, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import QrCodeScanner from '@/components/QRScanner';
 import { Tag } from 'antd';
@@ -51,15 +51,18 @@ const PropertyCard = ({ data }: Props) => {
           <div className={styles.status} data-status={data.status}>{data?.status}</div>
           <div className={styles.detail}><ClockCircleOutlined /> {formatDate(data.possessionDate)}</div>
           <div className={styles.detail}><EnvironmentOutlined /> {data.address}</div>
-          <div className={styles.detail}><BuildOutlined /> builder_arpit</div>
+          {userType === 'broker' && <div className={styles.detail}><BuildOutlined /> {data.builderName.name}</div>}
         </div>
       </div>
       <p className={styles.description}>
         {data.description}
       </p>
       <div className={styles.propertyTags}>
-        <Tag style={{ margin: '5px' }}>{data.areaSqYards} sqyds</Tag>
-        <Tag style={{ margin: '5px' }}>{data.facing} facing</Tag>
+        {data.areaSqYards && <Tag style={{ margin: '5px' }}>{data.areaSqYards} sqyds</Tag>}
+        {data.facing && <Tag style={{ margin: '5px' }}>{data.facing} facing</Tag>}
+        {
+          data?.units?.map((d: any) => <Tag style={{ margin: '5px' }}>{d.floor} floor</Tag>)
+        }
       </div>
       <div className={styles.cta}>
         {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}

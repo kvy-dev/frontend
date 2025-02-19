@@ -1,21 +1,22 @@
-import styles from '../styles.module.scss';
 import BrokerCard from './BrokerCard';
 
 interface Props {
   data: any;
   searchString: string;
+  activeTab: string;
+  refetch: () => void;
 }
 
-const Brokers = ({ data, searchString }: Props) => {
+const Brokers = ({ data, searchString, activeTab, refetch }: Props) => {
   return (
-    <div className={styles.brokerListContainer}>
+    <>
       {
-        [...data, ...data, ...data].map((d: any) => {
+        data.map((d: any) => {
           if (!searchString || d?.name?.includes(searchString))
-            return <BrokerCard key={d?.propertyId} data={d} />   
+            return <BrokerCard key={d?.propertyId} data={d} activeTab={activeTab} refetch={refetch} />   
         })
       }
-    </div>
+    </>
   )
 }
 

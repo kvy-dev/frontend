@@ -1,34 +1,22 @@
-import { ArrowLeftOutlined, BellOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import { Input } from 'antd';
-import { useEffect, useState } from 'react';
+import { Empty, Input } from 'antd';
+import { useState } from 'react';
 import PropertyList from './components/PropertyList';
-import { Link } from 'react-router-dom';
-import { axiosInstance } from '@/services/API';
-import Loader from '@/components/Loader';
 import AddEditPropertyModal from './components/AddEditPropertyModal';
 import TopBar from '@/components/Topbar';
+import useInfiniteScroll from '@/utils/useInfiniteScroll';
 
 const Properties = () => {
-  // const [open, setOpen] = useState(false);
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchString, setSearchString] = useState('');
-  const [activeTab, setActiveTab] = useState('listed');
+  const [activeTab, setActiveTab] = useState('LISTED');
 
-  useEffect(() => {
-    axiosInstance.get(`/kyv/api/broker/listProperties?pageNumber=0&pageSize=100&builderId=2`)
-    .then(res => setProperties(res.data))
-    .finally(() => setLoading(false));
-  }, []);
-
-  // const handleOpenChange = (open: boolean) => {
-  //   setOpen(open);
-  // }
-
-  if (loading) {
-    return <Loader />
-  }
+  const {
+    data: properties,
+    PageLoader,
+    LoadMore,
+    loading,
+  } = useInfiniteScroll(`/kyv/api/property/listProperties?propertyListedStatus=${activeTab}&`, [activeTab])
 
   return (
     <div className={styles.properties}>
@@ -50,13 +38,24 @@ const Properties = () => {
         {
           localStorage.getItem('kvy_user_type') === 'builder' && (
             <div className={styles.tabContainer}>
-              <span className={styles.tab} onClick={() => setActiveTab('listed')} data-selected={activeTab === "listed" ? "active" : ""}>Listed</span>
-              <span className={styles.tab} onClick={() => setActiveTab('busy')} data-selected={activeTab === "busy" ? "active" : ""}>Busy</span>
-              <span className={styles.tab} onClick={() => setActiveTab('unlisted')} data-selected={activeTab === "unlisted" ? "active" : ""}>Unlisted</span>
+              <span className={styles.tab} onClick={() => setActiveTab('LISTED')} data-selected={activeTab === "LISTED" ? "active" : ""}>Listed</span>
+              <span className={styles.tab} onClick={() => setActiveTab('BUSY')} data-selected={activeTab === "BUSY" ? "active" : ""}>Busy</span>
+              <span className={styles.tab} onClick={() => setActiveTab('UNLISTED')} data-selected={activeTab === "UNLISTED" ? "active" : ""}>Unlisted</span>
             </div>
           )
         }
-        <PropertyList data={properties} searchString={searchString} />
+        <PageLoader />
+        {
+          properties.length === 0 && !loading && <Empty description="No properties present" />
+        }
+        <div className={styles.propertyListContainer}>
+          {
+            !loading && <PropertyList data={properties} searchString={searchString} />
+          }
+          <div className={styles.stretch} style={{ gridColumn: '1 / -1' }}>
+            <LoadMore />
+          </div>
+        </div>
       </div>
     </div>
   );

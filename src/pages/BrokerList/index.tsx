@@ -1,37 +1,26 @@
-import { ArrowLeftOutlined, BellOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import { Input } from 'antd';
-import { useEffect, useState } from 'react';
+import { Empty, Input } from 'antd';
+import { useState } from 'react';
 import Brokers from './components/Brokers';
-import { Link } from 'react-router-dom';
-import { axiosInstance } from '@/services/API';
-import Loader from '@/components/Loader';
 import AddBrokerModal from './components/AddBrokerModal';
 import TopBar from '@/components/Topbar';
+import useInfiniteScroll from '@/utils/useInfiniteScroll';
 
 const BrokerList = () => {
-  // const [open, setOpen] = useState(false);
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchString, setSearchString] = useState('');
   const [activeTab, setActiveTab] = useState('approved');
 
-  useEffect(() => {
-    axiosInstance.get(`/kyv/api/broker/listProperties?pageNumber=0&pageSize=100&builderId=2`)
-    .then(res => setProperties(res.data))
-    .finally(() => setLoading(false));
-  }, []);
-
-  // const handleOpenChange = (open: boolean) => {
-  //   setOpen(open);
-  // }
-
-  if (loading) {
-    return <Loader />
-  }
+  const {
+    data: brokers,
+    PageLoader,
+    LoadMore,
+    loading,
+    initialFetch,
+  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?preApproved=${activeTab === 'approved'}&balcklisted=${activeTab === 'blacklisted'}&`, [activeTab]);
 
   return (
-    <div className={styles.properties}>
+    <div className={styles.brokers}>
       <div className={styles.topContainer}>
         <TopBar isMenu={true} />
       </div>
@@ -49,10 +38,21 @@ const BrokerList = () => {
         </div>
         <div className={styles.tabContainer}>
           <span className={styles.tab} onClick={() => setActiveTab('approved')} data-selected={activeTab === "approved" ? "active" : ""}>Approved</span>
-          <span className={styles.tab} onClick={() => setActiveTab('circle')} data-selected={activeTab === "circle" ? "active" : ""}>In circle</span>
-          <span className={styles.tab} onClick={() => setActiveTab('untagged')} data-selected={activeTab === "untagged" ? "active" : ""}>Untagged</span>
+          <span className={styles.tab} onClick={() => setActiveTab('others')} data-selected={activeTab === "others" ? "active" : ""}>Others</span>
+          <span className={styles.tab} onClick={() => setActiveTab('blacklisted')} data-selected={activeTab === "blacklisted" ? "active" : ""}>Blacklisted</span>
         </div>
-        <Brokers data={properties} searchString={searchString} />
+        <PageLoader />
+        <div className={styles.brokerListContainer}>
+          {
+            brokers.length === 0 && !loading && <Empty description="No brokers present" />
+          }
+          {
+            !loading && <Brokers data={brokers} activeTab={activeTab} searchString={searchString} refetch={initialFetch} />
+          }
+          <div className={styles.stretch} style={{ gridColumn: '1 / -1' }}>
+            <LoadMore />
+          </div>
+        </div>
       </div>
     </div>
   );

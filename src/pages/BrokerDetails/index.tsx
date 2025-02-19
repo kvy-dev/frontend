@@ -1,10 +1,8 @@
-import { ArrowLeftOutlined, BellOutlined, CheckCircleFilled, GlobalOutlined, InstagramOutlined, PhoneOutlined } from '@ant-design/icons';
+import { CheckCircleFilled, GlobalOutlined, InstagramOutlined, PhoneOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
-import { Link } from 'react-router-dom';
 import TopBar from '@/components/Topbar';
 
 const BrokerDetails = () => {
