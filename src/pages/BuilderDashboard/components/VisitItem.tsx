@@ -1,6 +1,6 @@
 import { BuildOutlined, CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { axiosInstance } from '@/services/API';
 import { useState } from 'react';
 
@@ -68,12 +68,13 @@ const VisitItem = (props: any) => {
           <div className={styles.detail}><BuildOutlined /> {data.propertyResponseDto.name}</div>
         </div>
       </div>
+      {ctaLoading && <div style={{ marginTop: '1.2rem' }}><center><Spin /></center></div>}
       {
-        data.status === 'PENDING' && (
+        data.status === 'PENDING' && !ctaLoading && (
           <div className={styles.visitItemAction}>
-            <Button style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}} onClick={() => updateRequestStatus('APPROVED')}>Accept</Button>
-            <Button color='danger' variant="outlined" onClick={() => updateRequestStatus('REJECTED')}>Reject</Button>
-            <Button variant="text">Blacklist</Button>
+            <Button disabled={ctaLoading} style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}} onClick={() => updateRequestStatus('APPROVED')}>Accept</Button>
+            <Button disabled={ctaLoading} color='danger' variant="outlined" onClick={() => updateRequestStatus('REJECTED')}>Reject</Button>
+            <Button disabled={ctaLoading} variant="text">Blacklist</Button>
           </div>
         )
       }

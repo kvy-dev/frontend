@@ -1,20 +1,24 @@
-import { Button, message, Modal, TimePicker } from "antd";
+import { Button, message } from "antd";
 import styles from '../styles.module.scss';
-import { useState } from "react";
 import { axiosInstance } from "@/services/API";
 
 interface Props {
   brokerId: Number;
+  activeTab: string;
+  refetch: () => void;
 }
 
-const BrokerRelationCTA = ({ brokerId }: Props) => {
+const BrokerRelationCTA = ({ brokerId, activeTab, refetch }: Props) => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const handleChangeBrokerRelation = async (relation: string) => {
+  const handleChangeBrokerRelation = async (e: any, relation: string) => {
+    e.stopPropagation();
+    e.preventDefault();
     messageApi.open({
       type: 'success',
       content: 'Visit scheduled',
     });
+    refetch();
   }
 
   return (
@@ -23,10 +27,10 @@ const BrokerRelationCTA = ({ brokerId }: Props) => {
       <div className={styles.brokerRelationCTA}>
         <span>Broker relation</span>
         <div className={styles.cta}>
-          {/* <Button className={styles.button} onClick={() => { handleChangeBrokerRelation('') }}>Pre-Approve</Button> */}
-          <Button className={styles.button} onClick={() => { handleChangeBrokerRelation('') }}>To circle</Button>
-          <Button type="primary" danger onClick={() => { handleChangeBrokerRelation('') }}>Blacklist</Button>
-          {/* <Button type="dashed" onClick={() => { handleChangeBrokerRelation('') }}>Remove from blacklist</Button> */}
+          {activeTab === 'others' && <Button variant="solid" className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Pre approve</Button>}
+          {activeTab === 'approved' && <Button className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Unapprove</Button>}
+          {activeTab !== 'blacklisted' && <Button type="primary" danger onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Blacklist</Button>}
+          {activeTab === 'blacklisted' && <Button type="dashed" onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Remove from blacklist</Button>}
         </div>
       </div>
     </>
