@@ -1,6 +1,6 @@
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
-import { Tabs, TabsProps } from "antd";
+import { Empty, Tabs, TabsProps } from "antd";
 import { useEffect, useState } from "react";
 import VisitList from "./components/VisitList";
 import { useSelector } from "react-redux";
@@ -39,7 +39,7 @@ const BuilderDashboard = () => {
   ];
 
   const scheduled = upcomingVisit.filter((d) => d.status === 'APPROVED').length;
-  const requested = upcomingVisit.length - scheduled;
+  const requested = upcomingVisit.filter((d) => d.status === 'PENDING').length;
 
   if (loading) {
     return <Loader />
@@ -66,6 +66,8 @@ const BuilderDashboard = () => {
             tabBarGutter={2}
           />
         </div>
+        {scheduled === 0 && activeTab === 'schedule' && <Empty description="No scheduledd visit" />}
+        {requested === 0 && activeTab === 'pending' && <Empty description="No pending requests" />}
         <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
     </div>

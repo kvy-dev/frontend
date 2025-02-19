@@ -1,9 +1,24 @@
 import { BuildOutlined, CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import { Button } from 'antd';
+import { axiosInstance } from '@/services/API';
+import { useState } from 'react';
 
 const VisitItem = (props: any) => {
+  const [ctaLoading, setCTALoading] = useState(false); 
   const { data } = props;
+
+  const updateRequestStatus = (status: string) => {
+    setCTALoading(true);
+    axiosInstance.post('kyv/api/builder/approveRequest', {
+      propertyId: data.propertyResponseDto.propertyId,
+      brokerId: data.brokerId,
+      status: status,
+    })
+    .then(res => window.location.reload())
+    .catch()
+    .finally(() => setCTALoading(false));
+  }
 
   const getTime = (startTime: string, endTime: string) => {
     const formatTime = (time: string) => {
@@ -56,8 +71,8 @@ const VisitItem = (props: any) => {
       {
         data.status === 'PENDING' && (
           <div className={styles.visitItemAction}>
-            <Button style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}}>Accept</Button>
-            <Button color='danger' variant="outlined">Reject</Button>
+            <Button style={{ color: "#ECE0FC", backgroundColor: "#8569F8"}} onClick={() => updateRequestStatus('APPROVED')}>Accept</Button>
+            <Button color='danger' variant="outlined" onClick={() => updateRequestStatus('REJECTED')}>Reject</Button>
             <Button variant="text">Blacklist</Button>
           </div>
         )
