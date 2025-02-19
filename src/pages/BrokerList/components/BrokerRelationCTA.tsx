@@ -14,11 +14,24 @@ const BrokerRelationCTA = ({ brokerId, activeTab, refetch }: Props) => {
   const handleChangeBrokerRelation = async (e: any, relation: string) => {
     e.stopPropagation();
     e.preventDefault();
-    messageApi.open({
-      type: 'success',
-      content: 'Visit scheduled',
+    axiosInstance.post('/kyv/api/builder/changeBrokerStatus', {
+      "brokerId": brokerId,
+      "preApproved": relation === 'preapproved' ? "YES" : "NO",
+      "blackListed": relation === 'blacklisted' ? "YES" : "NO"
+    })
+    .then(() => {
+      messageApi.open({
+        type: 'success',
+        content: 'Broker relation changed',
+      });
+      refetch();
+    })
+    .catch(() => {
+      messageApi.open({
+        type: 'error',
+        content: 'Error changing broker relation',
+      });
     });
-    refetch();
   }
 
   return (
@@ -27,10 +40,10 @@ const BrokerRelationCTA = ({ brokerId, activeTab, refetch }: Props) => {
       <div className={styles.brokerRelationCTA}>
         <span>Broker relation</span>
         <div className={styles.cta}>
-          {activeTab === 'others' && <Button variant="solid" className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Pre approve</Button>}
-          {activeTab === 'approved' && <Button className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Unapprove</Button>}
-          {activeTab !== 'blacklisted' && <Button type="primary" danger onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Blacklist</Button>}
-          {activeTab === 'blacklisted' && <Button type="dashed" onClick={(e) => { handleChangeBrokerRelation(e, '') }}>Remove from blacklist</Button>}
+          {activeTab === 'others' && <Button variant="solid" className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, 'preapproved') }}>Pre approve</Button>}
+          {activeTab === 'approved' && <Button className={styles.button} onClick={(e) => { handleChangeBrokerRelation(e, 'others') }}>Unapprove</Button>}
+          {activeTab !== 'blacklisted' && <Button type="primary" danger onClick={(e) => { handleChangeBrokerRelation(e, 'blacklisted') }}>Blacklist</Button>}
+          {activeTab === 'blacklisted' && <Button type="dashed" onClick={(e) => { handleChangeBrokerRelation(e, 'others') }}>Remove from blacklist</Button>}
         </div>
       </div>
     </>

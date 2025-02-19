@@ -23,7 +23,7 @@ const BrokerCard = ({ data, activeTab, refetch }: Props) => {
           </div>
         </div>
         <div className={styles.cta}>
-          <BrokerRelationCTA brokerId={1} activeTab={activeTab} refetch={refetch} />
+          <BrokerRelationCTA brokerId={data.userId} activeTab={activeTab} refetch={refetch} />
         </div>
       </div>
     </Link>
