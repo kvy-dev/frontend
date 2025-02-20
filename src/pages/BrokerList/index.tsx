@@ -17,7 +17,7 @@ const BrokerList = () => {
     LoadMore,
     loading,
     initialFetch,
-  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?preApproved=${activeTab === 'approved'}&balcklisted=${activeTab === 'blacklisted'}&`, [activeTab]);
+  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?preApproved=${activeTab === 'approved'}&balckListed=${activeTab === 'blacklisted'}&`, [activeTab]);
 
   return (
     <div className={styles.brokers}>
