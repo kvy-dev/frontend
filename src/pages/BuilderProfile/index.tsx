@@ -30,7 +30,7 @@ const BuilderProfile = () => {
       </div>
       <div className={styles.profile}>
         <div className={styles.profileImage}>
-          <img className={styles.image} src={profileData.imageUrl ||"https://www.dlf.in/offices/blog/images/future-here.jpg"} />
+          <img className={styles.image} src={profileData?.imageUrl || "https://www.dlf.in/offices/blog/images/future-here.jpg"} />
         </div>
         <h2>{profileData?.name?.toUpperCase()}</h2>
         <p>Builder</p>

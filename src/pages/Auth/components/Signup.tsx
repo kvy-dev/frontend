@@ -13,6 +13,15 @@ const Signup = ({ navigateTo, getOTP, data }: SignupProps) => {
   const [name, setName] = useState(data.name);
   const [phone, setPhone] = useState(data.phone);
   const [userType, setUserType] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleOnClick = () => {
+    if ((!/^[6-9]\d{9}$/.test(phone))) {
+      setError(true);
+      return;
+    }
+    getOTP(phone, userType, name);
+  }
 
   return (
     <div className={styles.container}>
@@ -23,8 +32,10 @@ const Signup = ({ navigateTo, getOTP, data }: SignupProps) => {
           <p>Enter your details to create an account</p>
           <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
           <Input placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          {error && <span style={{ color: 'red' }}>Enter correct mobile number</span>}
+          <br /><br />
           <Checkbox checked={userType} value={userType} onChange={(e) => setUserType(!e.target.value)} /><span>{'     '}I am a builder</span>
-          <Button type="primary" onClick={() => getOTP(phone, name)}>Get OTP</Button>
+          <Button type="primary" onClick={handleOnClick}>Get OTP</Button>
         </div>
       </div>
       <span className={styles.footer}>Already have an account, <span className={styles.CTA} onClick={() => navigateTo('login')}>Login</span> </span>

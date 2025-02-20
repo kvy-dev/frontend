@@ -42,10 +42,10 @@ const BrokerList = () => {
           <span className={styles.tab} onClick={() => setActiveTab('blacklisted')} data-selected={activeTab === "blacklisted" ? "active" : ""}>Blacklisted</span>
         </div>
         <PageLoader />
+        {
+          brokers.length === 0 && !loading && <Empty description="No brokers present" />
+        }
         <div className={styles.brokerListContainer}>
-          {
-            brokers.length === 0 && !loading && <Empty description="No brokers present" />
-          }
           {
             !loading && <Brokers data={brokers} activeTab={activeTab} searchString={searchString} refetch={initialFetch} />
           }
