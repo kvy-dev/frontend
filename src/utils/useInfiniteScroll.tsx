@@ -69,7 +69,7 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
         {!hasMoreData && <span><center></center></span>}
         {loadMore && <span><center>Loading...</center></span>}
         {!loadMore && hasMoreData && data.length > 0 && (
-          <span onClick={fetchMoreData}>
+          <span onClick={fetchMoreData} className="loadMore">
             <center>Load more</center>
           </span>
         )}

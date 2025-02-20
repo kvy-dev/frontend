@@ -1,4 +1,18 @@
+@use './variables.scss' as vars;
+
 html,
 body {
   overflow: hidden;
+}
+
+.loadMore {
+  background-color: vars.$secondary-color;
+  color: vars.$text-light;
+  padding: 1rem;
+  cursor: pointer;
+  display: block;
+
+  &:hover {
+    background-color: vars.$primary-color;
+  }
 }
