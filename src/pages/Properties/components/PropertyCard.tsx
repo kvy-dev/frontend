@@ -45,7 +45,7 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
 
   return (
     <div className={styles.propertyCard}>
-      {userType === 'builder' && <AddEditPropertyModal edit={true} />}
+      {userType === 'builder' && <AddEditPropertyModal edit={true} data={data} />}
       <div className={styles.propertyDetails}>
         <img className={styles.image} src="https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg" alt="Property" />
         <div className={styles.details}>

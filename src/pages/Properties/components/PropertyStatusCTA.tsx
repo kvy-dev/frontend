@@ -13,11 +13,11 @@ const PropertyStatusCTA = ({ propertyId, activeTab, refetch }: Props) => {
 
   const handleChangePropertyStatus = async (status: string) => {
     axiosInstance.patch(`/kyv/api/property/${propertyId}/status?newStatus=${status}`)
-    .then((res: any) => {
+    .then(() => {
       refetch();
       messageApi.open({
         type: 'success',
-        content: `${propertyId} changed to ${status}`,
+        content: `Property status updated to ${status}`,
       });
     })
   }

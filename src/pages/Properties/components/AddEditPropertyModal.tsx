@@ -1,21 +1,25 @@
 import { useState } from "react";
-import { Form, Modal, Input, InputNumber, DatePicker, Select, Button, Divider } from "antd";
+import { Form, Modal, Input, InputNumber, DatePicker, Select, Button, Divider, message } from "antd";
 import { EditFilled } from "@ant-design/icons";
 // import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import { LoadScript } from "@react-google-maps/api";
 
 import styles from "../styles.module.scss";
+import { axiosInstance } from "@/services/API";
 
 const { Option } = Select;
 
 interface Props {
   edit?: boolean;
+  data?: any;
 }
 
 // const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"; // Replace with your actual API key
 
-const AddEditPropertyModal = ({ edit }: Props) => {
+const AddEditPropertyModal = ({ edit, data }: Props) => {
   const [showPropertyModal, setShowPropertyModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   interface Unit {
     floor?: string;
@@ -40,7 +44,7 @@ const AddEditPropertyModal = ({ edit }: Props) => {
     lon?: number;
   }
 
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>(data || {});
 
   const handleFormChange = (changedValues: any) => {
     setFormData((prev: any) => ({ ...prev, ...changedValues }));
@@ -48,7 +52,51 @@ const AddEditPropertyModal = ({ edit }: Props) => {
 
 
   const handleFinish = () => {
-    console.log(formData);
+    setLoading(true);
+    if (edit) {
+      axiosInstance.put(`/kyv/api/property/16`, {
+        status: 'OPEN',
+        ...formData,
+        units: [
+          ...(formData?.units || []),
+        ],
+      })
+      .then(() => {
+        messageApi.open({
+          type: 'success',
+          content: `Property created successfully`,
+        });
+        setShowPropertyModal(false);
+      })
+      .catch(() => {
+        messageApi.open({
+          type: 'error',
+          content: `Error creating property`,
+        });
+      });
+    } else {
+      axiosInstance.post('/kyv/api/property/addProperty', {
+        status: 'OPEN',
+        ...formData,
+        propertyListedStatus: "LISTED",
+        units: [
+          ...(formData?.units || []),
+        ],
+      })
+      .then(() => {
+        messageApi.open({
+          type: 'success',
+          content: `Property created successfully`,
+        });
+        setShowPropertyModal(false);
+      })
+      .catch(() => {
+        messageApi.open({
+          type: 'error',
+          content: `Error creating property`,
+        });
+      });
+    }
   };
 
   // // Handle image upload
@@ -119,7 +167,7 @@ const AddEditPropertyModal = ({ edit }: Props) => {
       <div className={styles.addPropertyCTA} onClick={() => setShowPropertyModal(true)}>
         {edit ? <EditFilled className={styles.edit} /> : "Add Property"}
       </div>
-
+      {contextHolder}
       <Modal
         open={showPropertyModal}
         onCancel={() => setShowPropertyModal(false)}
@@ -135,8 +183,7 @@ const AddEditPropertyModal = ({ edit }: Props) => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{
-          }}
+          initialValues={data || {}}
           onValuesChange={handleFormChange}
           onFinish={handleFinish}
           style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}
@@ -150,7 +197,7 @@ const AddEditPropertyModal = ({ edit }: Props) => {
           </Form.Item>
 
           <Form.Item label="Status" name="status">
-            <Select>
+            <Select defaultValue="OPEN">
               <Option value="OPEN">Open</Option>
               <Option value="RESTRICTED">Restricted</Option>
             </Select>
@@ -216,7 +263,7 @@ const AddEditPropertyModal = ({ edit }: Props) => {
       </Form.Item> */}
 
           <Form.Item style={{ gridColumn: '1 / -1' }}>
-            <Button type="primary" htmlType="submit">Add / Edit property</Button>
+            <Button type="primary" loading={loading} htmlType="submit">Add / Edit property</Button>
           </Form.Item>
         </Form>
       </Modal>
