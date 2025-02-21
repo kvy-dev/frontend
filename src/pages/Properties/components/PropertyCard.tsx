@@ -8,9 +8,11 @@ import PropertyStatusCTA from './PropertyStatusCTA';
 
 interface Props {
   data: any;
+  activeTab: string;
+  refetch: () => void;
 }
 
-const PropertyCard = ({ data }: Props) => {
+const PropertyCard = ({ data, activeTab, refetch }: Props) => {
 
   const userType = localStorage.getItem('kvy_user_type');
 
@@ -67,7 +69,7 @@ const PropertyCard = ({ data }: Props) => {
       <div className={styles.cta}>
         {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}
         {data?.status === 'RESTRICTED' && userType === 'broker' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
-        {userType === 'builder' && <PropertyStatusCTA propertyId={1} />}
+        {userType === 'builder' && <PropertyStatusCTA propertyId={1} activeTab={activeTab} refetch={refetch} />}
       </div>
     </div>
   )

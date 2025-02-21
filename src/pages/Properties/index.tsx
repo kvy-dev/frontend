@@ -16,6 +16,7 @@ const Properties = () => {
     PageLoader,
     LoadMore,
     loading,
+    initialFetch,
   } = useInfiniteScroll(`/kyv/api/property/listProperties?propertyListedStatus=${activeTab}&`, [activeTab])
 
   return (
@@ -50,7 +51,7 @@ const Properties = () => {
         }
         <div className={styles.propertyListContainer}>
           {
-            !loading && <PropertyList data={properties} searchString={searchString} />
+            !loading && <PropertyList data={properties} searchString={searchString} activeTab={activeTab} refetch={initialFetch} />
           }
           <div className={styles.stretch} style={{ gridColumn: '1 / -1' }}>
             <LoadMore />
