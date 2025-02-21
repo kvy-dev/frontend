@@ -26,7 +26,6 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   
 
   const handleSubmit = async () => {
-    console.log(timeRange);
     const requestData = {
       propertyId : propertyId,
       dayIndicator : day,
@@ -42,14 +41,26 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
     });
   }
 
+  const handleOpen = (day: number) => {
+    if (localStorage.getItem('kvy_user_verified') == 'false') {
+      messageApi.open({
+        type: 'error',
+        content: 'Please verify you aadhar'
+      });
+      return;
+    }
+    toggleTimePickerVisible(true);
+    setDay(day);
+  }
+
   return (
     <>
       {contextHolder}
       <div className={styles.scheduleVisitCTA}>
         <span>Schedule visit</span>
         <div className={styles.cta}>
-          <Button className={styles.button} onClick={() => { toggleTimePickerVisible(true); setDay(0); }}>Today</Button>
-          <Button className={styles.button} onClick={() => { toggleTimePickerVisible(true); setDay(1); }}>Tomorrow</Button>
+          <Button className={styles.button} onClick={() => handleOpen(0)}>Today</Button>
+          <Button className={styles.button} onClick={() => handleOpen(1)}>Tomorrow</Button>
         </div>
       </div>
       {

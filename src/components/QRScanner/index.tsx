@@ -3,7 +3,7 @@ import QrScanner from 'qr-scanner';
 import styles from './styles.module.scss';
 import { CloseCircleOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { axiosInstance } from '@/services/API';
-import { Result } from 'antd';
+import { message, Result } from 'antd';
 
 interface Props {
   disabled: boolean;
@@ -13,6 +13,7 @@ interface Props {
 const QrCodeScanner = ({ disabled, iconOnly }: Props) => {
   const [qrData, setQrData] = useState('');
   const [error, setError] = useState('');
+  const [messageApi, contextHolder] = message.useMessage();
   interface Message {
     type: 'success' | 'error';
     text: string;
@@ -74,11 +75,23 @@ const QrCodeScanner = ({ disabled, iconOnly }: Props) => {
     handleStartScan();
   }, [videoRef]);
 
+  const handleOpen = () => {
+    if (localStorage.getItem('kvy_user_verified') == 'false') {
+      messageApi.open({
+        type: 'error',
+        content: 'Please verify you aadhar'
+      });
+      return;
+    }
+    setShowQR(true);
+  }
+
   return (
     <>
+      {contextHolder}
       <div className={styles.CTA}>
-        {!disabled && !iconOnly && <button disabled={disabled} onClick={() => setShowQR(true)}>SCAN TO ACCESS <QrcodeOutlined /> </button>}
-        {iconOnly && <QrcodeOutlined onClick={() => setShowQR(true)} />}
+        {!disabled && !iconOnly && <button disabled={disabled} onClick={handleOpen}>SCAN TO ACCESS <QrcodeOutlined /> </button>}
+        {iconOnly && <QrcodeOutlined onClick={handleOpen} />}
       </div>
       {showQR && (
         <>
