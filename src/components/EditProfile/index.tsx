@@ -7,6 +7,7 @@ const EditPofileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =>
 
   const handleFinish = (values: any) => {
     onSubmit(values); // Call parent submit function
+    localStorage.setItem('kvy_user_name', values.name)
     form.resetFields(undefined);
   };
 
@@ -39,7 +40,7 @@ const EditPofileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =>
             { pattern: /^\d{10}$/, message: "Enter a valid 10-digit number" }
           ]}
         >
-          <Input placeholder="Enter phone number" maxLength={10} />
+          <Input placeholder="Enter phone number" disabled maxLength={10} />
         </Form.Item>
 
         <Form.Item

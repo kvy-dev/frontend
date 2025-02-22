@@ -33,7 +33,7 @@ const Profile = () => {
       </div>
       <div className={styles.profile}>
         <div className={styles.profileImage}>
-          <img className={styles.image} src={profileData?.imageUrl} />
+          <img className={styles.image} src={profileData?.imageUrl || 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'} />
           {profileData?.aadharVerified && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}
           {!profileData?.aadharVerified && <Button className={styles.cta}>Verify Aadhar</Button>}
         </div>
@@ -58,7 +58,7 @@ const Profile = () => {
         </div>
         <div className={styles.detail}>
           <GlobalOutlined />
-          <a href={profileData?.websiteUrl}>{profileData?.websiteUrl}</a>
+          <a href={profileData?.websiteUrl}>{profileData?.websiteUrl || 'NA'}</a>
         </div>
       </div>
       <div className={styles.documents}>

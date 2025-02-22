@@ -59,10 +59,12 @@ const Auth = () => {
       name,
       otp,
       userType: authState?.authData?.userType,
+      formType: authState?.authType?.toUpperCase(),
     } : {
       mobile: Number(phone),
       otp,
       userType: authState?.authData?.userType,
+      formType: authState?.authType?.toUpperCase(),
     };
     const data = await axiosInstance.post('/kyv/api/auth/registerOrLoginWithOtp', requestData);
     if (data.data.verified) {
