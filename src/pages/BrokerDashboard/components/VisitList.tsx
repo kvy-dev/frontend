@@ -1,3 +1,4 @@
+import { Empty } from 'antd';
 import styles from '../styles.module.scss';
 import VisitItem from './VisitItem';
 
@@ -33,6 +34,7 @@ const VisitList = ({ data, activeTab }: Props) => {
 
   return (
     <div className={styles.visitList}>
+      {filterSchedulesByTab(data, activeTab).length === 0 && <Empty description="No visits" />}
       {
         filterSchedulesByTab(data, activeTab).map((d: any) => (
           <VisitItem key={d?.id} data={d} />

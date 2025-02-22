@@ -1,7 +1,7 @@
 import { BellOutlined, BuildOutlined, UserOutlined } from "@ant-design/icons";
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
-import { Empty, Tabs, TabsProps } from "antd";
+import { Tabs, TabsProps } from "antd";
 import { useEffect, useState } from "react";
 import VisitList from "./components/VisitList";
 import { axiosInstance } from "@/services/API";
@@ -55,7 +55,6 @@ const BrokerDashboard = () => {
           type="card"
           tabBarGutter={2}
         />
-        {upcomingVisit.length === 0 && <Empty description="No visits" />}
         <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
       {/* Navigation */}
