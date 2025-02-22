@@ -3,7 +3,7 @@ import QrScanner from 'qr-scanner';
 import styles from './styles.module.scss';
 import { CloseCircleOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { axiosInstance } from '@/services/API';
-import { message, Result } from 'antd';
+import { Result } from 'antd';
 import useAadharNotVerifiedPopup from '@/utils/useAadharNotVerifiedPopup';
 
 interface Props {
