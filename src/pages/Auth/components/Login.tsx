@@ -28,7 +28,7 @@ const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
         <div className={styles.form}>
           <h3>Login</h3>
           <p>Enter your number to continue</p>
-          <Input placeholder="Phone number" value={number} onChange={(e) => setNumber(e.target.value)} maxLength={10} />
+          <Input inputMode="numeric" pattern="[0-9]*" placeholder="Phone number" value={number} onChange={(e) => setNumber(e.target.value)} maxLength={10} />
           {error && <span style={{ color: 'red' }}>Enter correct mobile number</span>}
           <br /><br />
           <Button type="primary" onClick={handleOnClick}>Get OTP</Button>

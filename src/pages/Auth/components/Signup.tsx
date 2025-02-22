@@ -31,7 +31,7 @@ const Signup = ({ navigateTo, getOTP, data }: SignupProps) => {
           <h3>Create account</h3>
           <p>Enter your details to create an account</p>
           <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <Input inputMode="numeric" pattern="[0-9]*" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} />
           {error && <span style={{ color: 'red' }}>Enter correct mobile number</span>}
           <br /><br />
           <Checkbox checked={userType} value={userType} onChange={(e) => setUserType(!e.target.value)} /><span>{'     '}I am a builder</span>
