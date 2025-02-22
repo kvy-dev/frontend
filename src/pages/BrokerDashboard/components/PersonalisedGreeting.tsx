@@ -1,7 +1,7 @@
 import styles from '../styles.module.scss';
 
 interface Props {
-  name: string;
+  name: any;
   visits: number;
 }
 

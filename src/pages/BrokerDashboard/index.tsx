@@ -44,7 +44,7 @@ const BrokerDashboard = () => {
         <div className={styles.notifications}>
           <BellOutlined />
         </div>
-        <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') || 'User'} visits={upcomingVisit?.length} />
+        <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') !== 'null' ? localStorage.getItem('kvy_user_name') : 'User'} visits={upcomingVisit?.length} />
       </div>
       <div className={styles.bottomContainer}>
         <Tabs 
