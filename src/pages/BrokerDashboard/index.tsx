@@ -1,17 +1,15 @@
 import { BellOutlined, BuildOutlined, UserOutlined } from "@ant-design/icons";
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
-import { Tabs, TabsProps } from "antd";
+import { Empty, Tabs, TabsProps } from "antd";
 import { useEffect, useState } from "react";
 import VisitList from "./components/VisitList";
-import { useSelector } from "react-redux";
 import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
 import QrCodeScanner from "@/components/QRScanner";
 import { Link } from "react-router-dom";
 
 const BrokerDashboard = () => {
-  const user = useSelector((state: any) => state.user);
   const [upcomingVisit, setUpcomingVisit] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('today');
@@ -46,7 +44,7 @@ const BrokerDashboard = () => {
         <div className={styles.notifications}>
           <BellOutlined />
         </div>
-        <PersonalisedGreeting name={user?.name || 'User'} visits={upcomingVisit?.length} />
+        <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') || 'User'} visits={upcomingVisit?.length} />
       </div>
       <div className={styles.bottomContainer}>
         <Tabs 
@@ -57,13 +55,24 @@ const BrokerDashboard = () => {
           type="card"
           tabBarGutter={2}
         />
+        {upcomingVisit.length === 0 && <Empty description="No visits" />}
         <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
       {/* Navigation */}
       <div className={styles.navigation}>
-        <Link to="/properties"><BuildOutlined /></Link>
+        <Link to="/properties">
+          <span className={styles.navIcon}>
+            <BuildOutlined />
+            <span className={styles.navIconText}>Properties</span>
+          </span>
+        </Link>
         <QrCodeScanner disabled={false} iconOnly={true} />
-        <Link to="/profile"><UserOutlined /></Link>
+        <Link to="/profile">
+          <span className={styles.navIcon}>
+            <UserOutlined />
+            <span className={styles.navIconText}>Profile</span>
+          </span>
+        </Link>
       </div>
     </div>
   )

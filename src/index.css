@@ -20,7 +20,8 @@ a {
 .ant-tabs-card .ant-tabs-tab-active {
   color: #343434 !important; /* Change text color of the active tab */
   font-weight: bold; /* Optional: Make the active tab text bold */
-  background-color: #F9F7FE !important; /* Change background color of the active tab */
+  background-color: rgb(237 232 255) !important; /* Change background color of the active tab */
+  backdrop-filter: blur(10px); /* Adds a blur effect */
   border: none !important; /* Remove border for active tab */
 }
 

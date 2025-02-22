@@ -32,6 +32,7 @@
       color: vars.$text-light;
       font-size: 0.9rem;
       letter-spacing: 1px;
+      position: relative;
 
       .dayType {
         font-weight: 600;
@@ -133,5 +134,19 @@
     a {
       color: inherit
     }
+  }
+}
+
+.navIcon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  width: 50px;
+  font-size: 1.7rem;
+
+  .navIconText {
+    font-size: 0.9rem;
   }
 }

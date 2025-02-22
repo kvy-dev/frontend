@@ -68,7 +68,8 @@ const Auth = () => {
     if (data.data.verified) {
       localStorage.setItem('kyv_access_token', data.data.accessToken);
       localStorage.setItem('kvy_user_type', data.data.userObjectDto?.userType);
-      localStorage.setItem('kvy_user_verified', data.data.verified);
+      localStorage.setItem('kvy_user_verified', btoa(data.data.verified));
+      localStorage.setItem('kvy_user_name', data.data.userObjectDto.name);
       dispatch({type: 'update_user', payload: data.data.userObjectDto});
       setAuthState({
         authData: {

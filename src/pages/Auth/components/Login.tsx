@@ -1,6 +1,6 @@
 import { LeftOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
-import { Button, Checkbox, Input } from 'antd';
+import { Button, Input } from 'antd';
 import { useState } from 'react';
 
 interface LoginProps {
@@ -11,7 +11,6 @@ interface LoginProps {
 
 const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
   const [number, setNumber] = useState(phone);
-  const [userType, setUserType] = useState(false);
   const [error, setError] = useState(false);
 
   const handleOnClick = () => {
@@ -19,7 +18,7 @@ const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
       setError(true);
       return;
     }
-    getOTP(number, userType);
+    getOTP(number, false);
   }
 
   return (
@@ -32,7 +31,6 @@ const Login = ({ navigateTo, getOTP, phone }: LoginProps) => {
           <Input placeholder="Phone number" value={number} onChange={(e) => setNumber(e.target.value)} />
           {error && <span style={{ color: 'red' }}>Enter correct mobile number</span>}
           <br /><br />
-          <Checkbox checked={userType} value={userType} onChange={(e) => setUserType(!e.target.value)} /><span>{'     '}I am a builder</span>
           <Button type="primary" onClick={handleOnClick}>Get OTP</Button>
         </div>
       </div>

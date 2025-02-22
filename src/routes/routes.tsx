@@ -11,44 +11,44 @@ const BuilderDashboard = React.lazy(() => import('@/pages/BuilderDashboard'));
 const BrokerList = React.lazy(() => import('@/pages/BrokerList'));
 const VisitHistory = React.lazy(() => import('@/pages/VisitHistory'));
 
-const routes = localStorage.getItem('kvy_user_type') === 'broker' ? [
-    { 
-      path: PathConstants.BASE,
-      element: <BrokerDashboard />
-    },
-    { 
-      path: PathConstants.PROPERTIES,
-      element: <Properties />
-    },
-    {
-      path: PathConstants.PROFILE,
-      element: <Profile />
-    }
-] : [
+const routes = (condition: any) => condition ? [
   { 
     path: PathConstants.BASE,
-    element: <BuilderDashboard />
-  },
-  { 
-    path: PathConstants.BROKERS,
-    element: <BrokerList />
-  },
-  { 
-    path: PathConstants.BROKER_DETAILS,
-    element: <BrokerDetails />
+    element: <BrokerDashboard />
   },
   { 
     path: PathConstants.PROPERTIES,
     element: <Properties />
   },
-  { 
-    path: PathConstants.VISIT_HISTORY,
-    element: <VisitHistory />
-  },
-  { 
+  {
     path: PathConstants.PROFILE,
-    element: <BuilderProfile />
-  },
+    element: <Profile />
+  }
+] : [
+{ 
+  path: PathConstants.BASE,
+  element: <BuilderDashboard />
+},
+{ 
+  path: PathConstants.BROKERS,
+  element: <BrokerList />
+},
+{ 
+  path: PathConstants.BROKER_DETAILS,
+  element: <BrokerDetails />
+},
+{ 
+  path: PathConstants.PROPERTIES,
+  element: <Properties />
+},
+{ 
+  path: PathConstants.VISIT_HISTORY,
+  element: <VisitHistory />
+},
+{ 
+  path: PathConstants.PROFILE,
+  element: <BuilderProfile />
+},
 ];
 
 export default routes;

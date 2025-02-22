@@ -72,3 +72,20 @@
     height: 100%;
   }
 }
+
+.scanIcon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 0.2rem;
+  font-size: 2rem;
+  position: relative;
+  
+  p {
+    z-index: 2;
+    font-size: 1rem;
+    margin: 0;
+  }
+}

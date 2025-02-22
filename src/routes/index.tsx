@@ -6,7 +6,7 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     errorElement: <h1>404 Page Not Found</h1>,
-    children: routes,
+    children: routes(localStorage.getItem('kvy_user_type') === 'broker'),
   }
 ]);
 

@@ -2,6 +2,7 @@ import { Button, message, Modal, TimePicker } from "antd";
 import styles from '../styles.module.scss';
 import { useState } from "react";
 import { axiosInstance } from "@/services/API";
+import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
 
 interface Props {
   propertyId: Number;
@@ -11,6 +12,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   const [timePickerVisible, toggleTimePickerVisible] = useState(false);
   const [timeRange, setTimeRange] = useState([new Date(), new Date()]);
   const [messageApi, contextHolder] = message.useMessage();
+  const { showAadharError, AadharPopup } = useAadharNotVerifiedPopup();
   const [day, setDay] = useState(0);
 
   function formatTime(dateString: any) {
@@ -23,6 +25,20 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   
     return `${hours}:${minutes}:${seconds}`;
   }
+
+  const disabledTime = () => {
+    return {
+      disabledHours: () =>
+        [...Array(24).keys()].filter((hour) => hour < 9 || hour >= 18), // Disable before 10 AM & after 5 PM
+      disabledMinutes: (selectedHour: number) => {
+        if (selectedHour === 8 || selectedHour === 18) {
+          return [...Array(60).keys()]; // Disable all minutes for 9 AM & 5 PM
+        }
+        return [];
+      },
+    };
+  };
+
   
 
   const handleSubmit = async () => {
@@ -32,7 +48,6 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
       startTime : formatTime(timeRange[0]),
       endTime : formatTime(timeRange[1])
     }
-    console.log(requestData);
     await axiosInstance.post('/kyv/api/broker/scheduleVisit', requestData);
     toggleTimePickerVisible(false);
     messageApi.open({
@@ -42,11 +57,8 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   }
 
   const handleOpen = (day: number) => {
-    if (localStorage.getItem('kvy_user_verified') == 'false') {
-      messageApi.open({
-        type: 'error',
-        content: 'Please verify you aadhar'
-      });
+    if (localStorage.getItem('kvy_user_verified') !== btoa('true')) {
+      showAadharError();
       return;
     }
     toggleTimePickerVisible(true);
@@ -56,6 +68,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   return (
     <>
       {contextHolder}
+      <AadharPopup />
       <div className={styles.scheduleVisitCTA}>
         <span>Schedule visit</span>
         <div className={styles.cta}>
@@ -65,7 +78,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
       </div>
       {
         <Modal title="Schedule visit" centered open={timePickerVisible} onOk={handleSubmit} onCancel={() => toggleTimePickerVisible(false)} okText="Schedule">
-          <TimePicker.RangePicker onChange={(e) => setTimeRange(e && e[0] && e[1] ? [e[0].toDate(), e[1].toDate()] : [new Date(), new Date()])} />
+          <TimePicker.RangePicker format="HH:mm" disabledTime={disabledTime} onChange={(e) => setTimeRange(e && e[0] && e[1] ? [e[0].toDate(), e[1].toDate()] : [new Date(), new Date()])} />
         </Modal>
       }
     </>
