@@ -116,7 +116,7 @@ const QrCodeScanner = ({ disabled, iconOnly }: Props) => {
                 <div className={styles.videoContainer}>
                   <video
                     ref={(ref) => setVideoRef(ref)}
-                    style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100dvh', objectFit: 'cover' }}
                     autoPlay
                     playsInline
                     muted

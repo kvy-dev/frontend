@@ -175,7 +175,7 @@ const AddEditPropertyModal = ({ edit, data }: Props) => {
         footer={null}
         okText={edit ? "Update Property" : "Add Property"}
         style={{ width: "100vw", top: '50%', left: '50%', transform: 'translate(-50%, -50%)', margin: 0, padding: 0, boxSizing: "border-box" }}
-        bodyStyle={{ height: "calc(100vh - 170px)", overflowY: "auto" }}
+        bodyStyle={{ height: "calc(100dvh - 170px)", overflowY: "auto" }}
         width="100vw"
       >
         <h2>{edit ? "Edit Property" : "Add Property"}</h2>
