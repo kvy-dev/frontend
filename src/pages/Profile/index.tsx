@@ -1,6 +1,6 @@
 import { CheckCircleFilled, GlobalOutlined, InstagramOutlined, PhoneOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import { Button } from 'antd';
+import { Button, Divider } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
@@ -21,6 +21,11 @@ const Profile = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  }
 
   if (loading) {
     return <Loader />
@@ -66,6 +71,8 @@ const Profile = () => {
         <img src="https://www.sarkariyojnaa.info/wp-content/uploads/2021/09/aadhar-card.jpg" />
         {profileData?.businessCard && <img src={profileData?.businessCard} />}
       </div>
+      <Divider />
+      <Button onClick={handleLogout} block>Logout</Button>
     </div>
   )
 }

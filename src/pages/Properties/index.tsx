@@ -47,7 +47,7 @@ const Properties = () => {
         }
         <PageLoader />
         {
-          properties.length === 0 && !loading && <Empty description="No properties present" />
+          ((!properties?.length || properties.length === 0) && !loading) && <Empty description="No properties present" />
         }
         <div className={styles.propertyListContainer}>
           {

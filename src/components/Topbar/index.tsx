@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { Divider, Drawer } from 'antd';
+import { Button, Divider, Drawer } from 'antd';
 
 interface Props {
   backLink?: string;
@@ -11,6 +11,11 @@ interface Props {
 
 const TopBar = ({ backLink, isMenu }: Props) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  }
   
   return (
     <div className={styles.container}>
@@ -32,6 +37,7 @@ const TopBar = ({ backLink, isMenu }: Props) => {
         <Divider />
         <Link className={styles.menuItem} to="/profile"><UserOutlined /> Profile</Link>
         <Divider />
+        <Button onClick={handleLogout}>Logout</Button>
       </Drawer>
       <BellOutlined />
     </div>
