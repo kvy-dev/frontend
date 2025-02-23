@@ -1,4 +1,4 @@
-import { BellOutlined, BuildOutlined, UserOutlined } from "@ant-design/icons";
+import { BuildOutlined, UserOutlined } from "@ant-design/icons";
 import PersonalisedGreeting from "./components/PersonalisedGreeting";
 import styles from './styles.module.scss';
 import { Tabs, TabsProps } from "antd";
@@ -8,6 +8,7 @@ import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
 import QrCodeScanner from "@/components/QRScanner";
 import { Link } from "react-router-dom";
+import TopBar from "@/components/Topbar";
 
 const BrokerDashboard = () => {
   const [upcomingVisit, setUpcomingVisit] = useState([]);
@@ -42,7 +43,7 @@ const BrokerDashboard = () => {
     <div className={styles.brokerDashboard}>
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
-          <BellOutlined />
+          <TopBar inline={true} />
         </div>
         <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') !== 'null' ? localStorage.getItem('kvy_user_name') : 'User'} visits={upcomingVisit?.length} />
       </div>

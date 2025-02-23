@@ -7,10 +7,12 @@ import { Button, Divider, Drawer } from 'antd';
 interface Props {
   backLink?: string;
   isMenu?: boolean;
+  inline?: boolean;
 }
 
-const TopBar = ({ backLink, isMenu }: Props) => {
+const TopBar = ({ backLink, isMenu, inline }: Props) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [active, setActive] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -18,7 +20,7 @@ const TopBar = ({ backLink, isMenu }: Props) => {
   }
   
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-inline={inline}>
       {!isMenu && backLink && <Link to={backLink}><ArrowLeftOutlined /></Link>}
       {isMenu && <MenuOutlined onClick={() => setDrawerVisible(true)} />}
       <Drawer
@@ -39,7 +41,10 @@ const TopBar = ({ backLink, isMenu }: Props) => {
         <Divider />
         <Button onClick={handleLogout}>Logout</Button>
       </Drawer>
-      <BellOutlined />
+      <div className={styles.notification} data-active={active}>
+        <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
+        {active && <div className={styles.notificationContainer}></div>}
+      </div>
     </div>
   )
 }
