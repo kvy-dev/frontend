@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 import TopBar from '@/components/Topbar';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 
 const BrokerDetails = () => {
   const [brokerData, setBrokerData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     const getData = async () => {
@@ -33,28 +34,28 @@ const BrokerDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
-        <TopBar backLink='/brokers' />
+        <TopBar backLink={location.search.includes('dashboard') ? '/' : '/brokers'} />
       </div>
       <div className={styles.profile}>
         <div className={styles.profileImage}>
-          <img className={styles.image} src={brokerData.imageUrl} />
+          <img className={styles.image} src={brokerData.imageUrl || 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'} />
           {brokerData.aadharVerified && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}
         </div>
         <h2>{brokerData?.name?.toUpperCase()}</h2>
         <p>Broker</p>
       </div>
       <div className={styles.details}>
-        <div className={styles.detail}>
+      <div className={styles.detail}>
           <InstagramOutlined />
-          {brokerData.instagramProfile}
+          <a href={brokerData?.instagramProfile} target="_blank">{brokerData?.instagramProfile || 'NA'}</a>
         </div>
         <div className={styles.detail}>
           <PhoneOutlined />
-          +91 {brokerData?.mobile}
+          <a href={`tel:+91${brokerData?.mobile}`}>+91 {brokerData?.mobile}</a>
         </div>
         <div className={styles.detail}>
           <GlobalOutlined />
-          {brokerData?.websiteUrl || 'NA'}
+          <a href={brokerData?.websiteUrl}>{brokerData?.websiteUrl || 'NA'}</a>
         </div>
       </div>
       <div className={styles.documents}>

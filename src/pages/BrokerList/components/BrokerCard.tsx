@@ -14,9 +14,9 @@ const BrokerCard = ({ data, activeTab, refetch }: Props) => {
     <Link to={`/brokers/${1}`}>
       <div className={styles.brokerCard}>
         <div className={styles.brokerDetails}>
-        <img className={styles.image} src={data.imageUrl} alt="Broker" />
+        <img className={styles.image} src={data.imageUrl || 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'} alt="Broker" />
           <div className={styles.details}>
-            <div className={styles.brokerName}>{data.name}</div>
+            <div className={styles.brokerName}>{data.name || `User ${data.userId}`}</div>
             <div className={styles.detail}><GlobalOutlined /> {data.websiteUrl || '--'}</div>
             <div className={styles.detail}><PhoneOutlined /> +91 {data.mobile || '--'}</div>
             <div className={styles.detail}><InstagramOutlined /> {data.instagramProfile || '--'}</div>

@@ -66,7 +66,7 @@ const BuilderDashboard = () => {
             tabBarGutter={2}
           />
         </div>
-        {scheduled === 0 && activeTab === 'schedule' && <Empty description="No scheduledd visit" />}
+        {scheduled === 0 && activeTab === 'schedule' && <Empty description="No scheduled visit" />}
         {requested === 0 && activeTab === 'pending' && <Empty description="No pending requests" />}
         <VisitList data={upcomingVisit} activeTab={activeTab} />
       </div>
