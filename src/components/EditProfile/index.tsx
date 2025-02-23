@@ -55,7 +55,7 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
   };
 
   return (
-    <Modal title="Builder Information" open={visible} onCancel={handleCancel} footer={null}>
+    <Modal title="Profile Information" open={visible} onCancel={handleCancel} footer={null}>
       <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={initialValues}>
         <Form.Item label="Profile Image">
           <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, setSelectedFile)}>
