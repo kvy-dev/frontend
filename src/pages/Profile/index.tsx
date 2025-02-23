@@ -39,8 +39,8 @@ const Profile = () => {
       <div className={styles.profile}>
         <div className={styles.profileImage}>
           <img className={styles.image} src={profileData?.imageUrl || 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'} />
-          {profileData?.aadharVerified && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}
-          {!profileData?.aadharVerified && <Button className={styles.cta}>Verify Aadhar</Button>}
+          {profileData?.aadharVerified === 'YES' && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}
+          {profileData?.aadharVerified === 'NO' && <Button className={styles.cta}>Verify Aadhar</Button>}
         </div>
         <h2>{profileData?.name}</h2>
         <EditProfile initialValues={{
