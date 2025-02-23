@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Button, Divider, Drawer } from 'antd';
+import Notification from './Notification';
 
 interface Props {
   backLink?: string;
@@ -43,7 +44,14 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
       </Drawer>
       <div className={styles.notification} data-active={active}>
         <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
-        {active && <div className={styles.notificationContainer}></div>}
+        {active && (
+          <div className={styles.notificationContainer}>
+            <Notification />
+            <Notification />
+            <Notification />
+            <Notification />
+          </div>
+        )}
       </div>
     </div>
   )

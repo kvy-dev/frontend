@@ -28,13 +28,66 @@
   .notificationContainer {
     width: clamp(85vw, 85vw, 500px);
     height: clamp(85vh, 85vh, 700px);
+    overflow-y: auto;
     max-width: 500px;
     max-height: 700px;
     background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     position: absolute;
     top: 2.2rem;
     right: 0;
     z-index: 100;
     border-radius: vars.$border-radius-base 0 vars.$border-radius-base vars.$border-radius-base;
+  }
+}
+
+.notifContainer {
+  width: 100%;
+  padding: 1rem;
+
+  .body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: vars.$text-dark-70;
+
+    span {
+      &[data-color="green"] {
+        color: green;
+        font-weight: 900;
+      }
+
+      &[data-color="red"] {
+        color: red;
+        font-weight: 900;
+      }
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid vars.$primary-color;
+    }
+  }
+
+  .cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 12px;
+    color: vars.$text-dark-70;
+    margin: 1rem 0;
   }
 }
