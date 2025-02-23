@@ -25,20 +25,36 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   
     return `${hours}:${minutes}:${seconds}`;
   }
-
-  const disabledTime = () => {
+  
+  const disabledTime = (checkCurrentTime = false) => {
+    const now = new Date(); // Get the current time
+  
     return {
-      disabledHours: () =>
-        [...Array(24).keys()].filter((hour) => hour < 9 || hour >= 18), // Disable before 10 AM & after 5 PM
-      disabledMinutes: (selectedHour: number) => {
-        if (selectedHour === 8 || selectedHour === 18) {
-          return [...Array(60).keys()]; // Disable all minutes for 9 AM & 5 PM
+      disabledHours: () => {
+        let disabled = [...Array(24).keys()].filter((hour) => hour < 10 || hour >= 18); // Disable before 10 AM & after 5 PM
+        
+        // If flag is enabled and selecting today, disable past hours
+        if (checkCurrentTime) {
+          disabled = disabled.concat([...Array(now.getHours()).keys()]);
         }
+  
+        return disabled;
+      },
+      disabledMinutes: (selectedHour: number) => {
+        if (selectedHour === 10 || selectedHour === 18) {
+          return [...Array(60).keys()]; // Disable all minutes for 10 AM & 5 PM
+        }
+  
+        // If flag is enabled and selecting the current hour, disable past minutes
+        if (checkCurrentTime && selectedHour === now.getHours()) {
+          return [...Array(now.getMinutes()).keys()];
+        }
+  
         return [];
       },
     };
   };
-
+  
   
 
   const handleSubmit = async () => {
@@ -48,12 +64,19 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
       startTime : formatTime(timeRange[0]),
       endTime : formatTime(timeRange[1])
     }
-    await axiosInstance.post('/kyv/api/broker/scheduleVisit', requestData);
+    const response = await axiosInstance.post('/kyv/api/broker/scheduleVisit', requestData);
     toggleTimePickerVisible(false);
-    messageApi.open({
-      type: 'success',
-      content: 'Visit scheduled',
-    });
+    if (response.data.erroMessage) {
+      messageApi.error({
+        type: 'success',
+        content: 'Visit already scheduled for this time',
+      });
+    } else {
+      messageApi.open({
+        type: 'success',
+        content: 'Visit scheduled',
+      });
+    }
   }
 
   const handleOpen = (day: number) => {
@@ -78,7 +101,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
       </div>
       {
         <Modal title="Schedule visit" centered open={timePickerVisible} onOk={handleSubmit} onCancel={() => toggleTimePickerVisible(false)} okText="Schedule">
-          <TimePicker.RangePicker format="HH:mm" disabledTime={disabledTime} onChange={(e) => setTimeRange(e && e[0] && e[1] ? [e[0].toDate(), e[1].toDate()] : [new Date(), new Date()])} />
+          <TimePicker.RangePicker format="HH:mm" disabledTime={() => disabledTime(day === 0)} onChange={(e) => setTimeRange(e && e[0] && e[1] ? [e[0].toDate(), e[1].toDate()] : [new Date(), new Date()])} />
         </Modal>
       }
     </>
