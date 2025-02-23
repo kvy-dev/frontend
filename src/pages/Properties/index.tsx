@@ -34,7 +34,7 @@ const Properties = () => {
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
           />
-          {localStorage.getItem('kvy_user_type') === 'builder' && <AddEditPropertyModal />}
+          {localStorage.getItem('kvy_user_type') === 'builder' && <AddEditPropertyModal refetch={initialFetch} />}
         </div>
         {
           localStorage.getItem('kvy_user_type') === 'builder' && (

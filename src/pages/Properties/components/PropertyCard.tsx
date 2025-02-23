@@ -14,10 +14,12 @@ interface Props {
 }
 
 const PropertyCard = ({ data, activeTab, refetch }: Props) => {
-
   const userType = localStorage.getItem('kvy_user_type');
 
   function formatDate(dateString: string) {
+    if (!dateString) {
+      return 'NA'
+    }
     const date = new Date(dateString);
   
     // Get day, month, year
@@ -46,9 +48,9 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
 
   return (
     <div className={styles.propertyCard}>
-      {userType === 'builder' && <AddEditPropertyModal edit={true} data={data} />}
+      {userType === 'builder' && <AddEditPropertyModal edit={true} data={data} refetch={refetch} />}
       <div className={styles.propertyDetails}>
-        <img className={styles.image} src="https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg" alt="Property" />
+        <img className={styles.image} src={data.imageUrl || "https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg"} alt="Property" />
         <div className={styles.details}>
           <div className={styles.propertyName}>{data?.name}</div>
           <div className={styles.status} data-status={data.status}>{data?.status}</div>

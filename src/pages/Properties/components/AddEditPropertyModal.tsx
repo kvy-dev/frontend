@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { Form, Modal, Input, InputNumber, DatePicker, Select, Button, Divider, message } from "antd";
-import { EditFilled } from "@ant-design/icons";
-// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-// import { LoadScript } from "@react-google-maps/api";
-
+import { Form, Modal, Input, InputNumber, DatePicker, Select, Button, Divider, message, Upload } from "antd";
+import { EditFilled, UploadOutlined } from "@ant-design/icons";
 import styles from "../styles.module.scss";
 import { axiosInstance } from "@/services/API";
 
@@ -12,171 +9,96 @@ const { Option } = Select;
 interface Props {
   edit?: boolean;
   data?: any;
+  refetch: () => void;
 }
 
-// const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"; // Replace with your actual API key
+const MAX_FILE_SIZE_MB = 10;
+const ALLOWED_FORMATS = ["image/jpeg", "image/jpg", "image/png"];
 
-const AddEditPropertyModal = ({ edit, data }: Props) => {
+const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
-  interface Unit {
-    floor?: string;
-    builtUpAreaSqFeet?: number;
-    bedrooms?: number;
-    parkingSpaces?: number;
-    hasLift?: boolean;
-    unitDescription?: string;
-  }
-
-  interface FormData {
-    name?: string;
-    address?: string;
-    status?: string;
-    areaSqYards?: number;
-    facing?: string;
-    location?: string;
-    possessionDate?: string;
-    description?: string;
-    units?: Unit[];
-    lat?: number;
-    lon?: number;
-  }
-
-  const [formData, setFormData] = useState<FormData>(data || {});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFormChange = (changedValues: any) => {
-    setFormData((prev: any) => ({ ...prev, ...changedValues }));
+    form.setFieldsValue(changedValues);
   };
 
+  const beforeUpload = (file: File) => {
+    const isAllowedFormat = ALLOWED_FORMATS.includes(file.type);
+    const isWithinSizeLimit = file.size / 1024 / 1024 <= MAX_FILE_SIZE_MB;
 
-  const handleFinish = () => {
+    if (!isAllowedFormat) {
+      message.error("Only JPG, JPEG, and PNG files are allowed!");
+      return Upload.LIST_IGNORE;
+    }
+
+    if (!isWithinSizeLimit) {
+      message.error("File must be smaller than 10MB!");
+      return Upload.LIST_IGNORE;
+    }
+
+    setSelectedFile(file);
+    message.success("Image selected successfully!");
+    return false; // Prevent automatic upload
+  };
+
+  const handleFinish = async (values: any) => {
     setLoading(true);
-    if (edit) {
-      axiosInstance.put(`/kyv/api/property/16`, {
-        status: 'OPEN',
-        ...formData,
-        units: [
-          ...(formData?.units || []),
-        ],
-      })
-      .then(() => {
-        messageApi.open({
-          type: 'success',
-          content: `Property created successfully`,
-        });
-        setShowPropertyModal(false);
-      })
-      .catch(() => {
-        messageApi.open({
-          type: 'error',
-          content: `Error creating property`,
-        });
+    
+    try {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("address", values.address);
+      formData.append("status", values.status || "OPEN");
+      formData.append("areaSqYards", values.areaSqYards);
+      formData.append("facing", values.facing || "");
+      formData.append("location", values.location || "");
+      formData.append("possessionDate", values.possessionDate || "");
+      formData.append("description", values.description || "");
+  
+      // Convert units array to a JSON string and append it
+      formData.append("units", JSON.stringify(values.units || []));
+  
+      if (selectedFile) {
+        formData.append("propertyImage", selectedFile);
+      }
+  
+      const endpoint = edit ? `/kyv/api/property/${data.propertyId}` : `/kyv/api/property/addProperty`;
+      const method = edit ? "put" : "post";
+  
+      await axiosInstance[method](endpoint, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-    } else {
-      axiosInstance.post('/kyv/api/property/addProperty', {
-        status: 'OPEN',
-        ...formData,
-        propertyListedStatus: "LISTED",
-        units: [
-          ...(formData?.units || []),
-        ],
-      })
-      .then(() => {
-        messageApi.open({
-          type: 'success',
-          content: `Property created successfully`,
-        });
-        setShowPropertyModal(false);
-      })
-      .catch(() => {
-        messageApi.open({
-          type: 'error',
-          content: `Error creating property`,
-        });
-      });
+
+      refetch();
+  
+      message.success(`Property ${edit ? "updated" : "created"} successfully!`);
+      setShowPropertyModal(false);
+    } catch (error) {
+      message.error(`Error ${edit ? "updating" : "creating"} property`);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // // Handle image upload
-  // const handleImageUpload = (info: any) => {
-  //   if (info.file.status === "done") {
-  //     setPropertyImage(info.file.originFileObj);
-  //   }
-  // };
-
-  // // Handle tag addition
-  // const handleAddTag = () => {
-  //   if (newTag.trim() && !tags.includes(newTag)) {
-  //     setTags([...tags, newTag]);
-  //   }
-  //   setNewTag("");
-  // };
-
-  // // Handle tag removal
-  // const handleRemoveTag = (removedTag: string) => {
-  //   setTags(tags.filter(tag => tag !== removedTag));
-  // };
-
-  // const handleAddFloorUnit = () => {
-  //   if (newFloorUnit.trim() && !floorUnits.includes(newFloorUnit)) {
-  //     setFloorUnits([...floorUnits, newFloorUnit]);
-  //   }
-  //   setNewFloorUnit("");
-  // };
-
-  // const handleRemoveFloorUnit = (removedUnit: string) => {
-  //   setFloorUnits(floorUnits.filter(unit => unit !== removedUnit));
-  // };
-
-  // // Fetch lat/lng from place details
-  // const handlePlaceSelect = async (place: any) => {
-  //   setSelectedLocation(place.label);
-
-  //   // Fetch place details using Google Places API
-  //   const response = await fetch(
-  //     `https://maps.googleapis.com/maps/api/geocode/json?place_id=${place.value.place_id}&key=${GOOGLE_API_KEY}`
-  //   );
-  //   const data = await response.json();
-  //   if (data.results.length > 0) {
-  //     const location = data.results[0].geometry.location;
-  //     setLatLng({ lat: location.lat, lng: location.lng });
-  //   }
-  // };
-
-  // Handle form submission
-  // const handleSubmit = () => {
-  //   const formData = {
-  //     propertyImage,
-  //     propertyName,
-  //     address,
-  //     googleLocation: selectedLocation,
-  //     latLng,
-  //     possessionDate,
-  //     status,
-  //     description,
-  //     tags,
-  //   };
-  //   console.log("Form Data Submitted:", formData);
-  //   setShowPropertyModal(false); // Close modal on submit
-  // };
+  const handleClose = () => {
+    form.resetFields(undefined);
+    setShowPropertyModal(false);
+  }
 
   return (
     <>
       <div className={styles.addPropertyCTA} onClick={() => setShowPropertyModal(true)}>
         {edit ? <EditFilled className={styles.edit} /> : "Add Property"}
       </div>
-      {contextHolder}
       <Modal
         open={showPropertyModal}
-        onCancel={() => setShowPropertyModal(false)}
-        onOk={() => null} // Save button triggers form submission
+        onCancel={handleClose}
         footer={null}
-        okText={edit ? "Update Property" : "Add Property"}
-        style={{ width: "100vw", top: '50%', left: '50%', transform: 'translate(-50%, -50%)', margin: 0, padding: 0, boxSizing: "border-box" }}
-        bodyStyle={{ height: "calc(100dvh - 170px)", overflowY: "auto" }}
         width="100vw"
+        bodyStyle={{ height: "calc(100dvh - 170px)", overflowY: "auto" }}
       >
         <h2>{edit ? "Edit Property" : "Add Property"}</h2>
         <Divider />
@@ -186,8 +108,14 @@ const AddEditPropertyModal = ({ edit, data }: Props) => {
           initialValues={data || {}}
           onValuesChange={handleFormChange}
           onFinish={handleFinish}
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}
         >
+          <Form.Item label="Property Image">
+            <Upload showUploadList={true} beforeUpload={beforeUpload}>
+              <Button icon={<UploadOutlined />}>Select Image</Button>
+            </Upload>
+          </Form.Item>
+
           <Form.Item label="Property Name" name="name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
@@ -231,21 +159,6 @@ const AddEditPropertyModal = ({ edit, data }: Props) => {
                     <Form.Item {...restField} label="Floor" name={[name, "floor"]}>
                       <Input />
                     </Form.Item>
-                    {/* <Form.Item {...restField} label="Built-Up Area (Sq. Ft)" name={[name, "builtUpAreaSqFeet"]}>
-                      <InputNumber min={1} />
-                    </Form.Item>
-                    <Form.Item {...restField} label="Bedrooms" name={[name, "bedrooms"]}>
-                      <InputNumber min={1} />
-                    </Form.Item>
-                    <Form.Item {...restField} label="Parking Spaces" name={[name, "parkingSpaces"]}>
-                      <InputNumber min={0} />
-                    </Form.Item>
-                    <Form.Item {...restField} label="Has Lift" name={[name, "hasLift"]}>
-                      <Switch defaultChecked={formData?.units?.[name]?.hasLift} />
-                    </Form.Item>
-                    <Form.Item {...restField} label="Unit Description" name={[name, "unitDescription"]}>
-                      <Input.TextArea rows={2} />
-                    </Form.Item> */}
                     <Button type="dashed" onClick={() => remove(name)} style={{ gridColumn: '1 / -1' }}>Remove Unit</Button>
                   </div>
                 ))}
@@ -253,17 +166,11 @@ const AddEditPropertyModal = ({ edit, data }: Props) => {
               </>
             )}
           </Form.List>
-
-          {/* <Form.Item label="Latitude" name="lat"> 
-        <InputNumber />
-      </Form.Item>
-
-      <Form.Item label="Longitude" name="lon"> 
-        <InputNumber />
-      </Form.Item> */}
-
+          
           <Form.Item style={{ gridColumn: '1 / -1' }}>
-            <Button type="primary" loading={loading} htmlType="submit">Add / Edit property</Button>
+            <Button type="primary" loading={loading} htmlType="submit">
+              {edit ? "Update Property" : "Add Property"}
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
