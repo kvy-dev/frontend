@@ -3,13 +3,11 @@ import styles from './styles.module.scss';
 import { Empty, Tabs, TabsProps } from "antd";
 import { useEffect, useState } from "react";
 import VisitList from "./components/VisitList";
-import { useSelector } from "react-redux";
 import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
 import TopBar from "@/components/Topbar";
 
 const BuilderDashboard = () => {
-  const user = useSelector((state: any) => state.user);
   interface Visit {
     status: string;
   }
