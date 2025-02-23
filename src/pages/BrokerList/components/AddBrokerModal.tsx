@@ -53,7 +53,7 @@ const AddBrokerModal = () => {
       >
         <p>Enter broker mobile number</p>
         <Form.Item>
-          <Input prefix={<PhoneOutlined />} value={mobile} onChange={(e) => setMobile(e.target.value)} />
+          <Input prefix={<PhoneOutlined />} maxLength={10} value={mobile} onChange={(e) => setMobile(e.target.value)} />
           {error && <span style={{ color: 'red' }}>Enter correct mobile number</span>}
         </Form.Item>
       </Modal>

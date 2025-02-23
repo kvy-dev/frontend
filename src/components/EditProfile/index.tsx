@@ -111,8 +111,11 @@ const EditProfile = ({ initialValues, onSuccess }: any) => {
   const handleSubmit = async (formData: FormData) => {
     try {
       await axiosInstance.put("/kyv/api/user/profile/edit", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { 
+          "Content-Type": "multipart/form-data",
+        },
       });
+      localStorage.setItem('kvy_user_name', (formData.get('name') || '')?.toString());
 
       message.success("Profile updated successfully!");
       onSuccess();

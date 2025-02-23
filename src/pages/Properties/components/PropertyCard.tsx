@@ -69,7 +69,7 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
       <div className={styles.cta}>
         {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}
         {data?.status === 'RESTRICTED' && userType === 'broker' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
-        {userType === 'builder' && <PropertyStatusCTA propertyId={1} activeTab={activeTab} refetch={refetch} />}
+        {userType === 'builder' && <PropertyStatusCTA propertyId={data.propertyId} activeTab={activeTab} refetch={refetch} />}
       </div>
     </div>
   )

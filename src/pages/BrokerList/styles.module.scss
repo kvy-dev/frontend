@@ -108,6 +108,7 @@
           .image {
             width: 100px;
             height: auto;
+            aspect-ratio: 1;
             background-color: #F6F2FF;
             border-radius: vars.$border-radius-base;
             margin-right: 1rem;

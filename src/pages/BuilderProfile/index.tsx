@@ -11,6 +11,7 @@ const BuilderProfile = () => {
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
+    setLoading(true);
     const data = await axiosInstance.get('/kyv/api/user/me');
     setProfileData(data.data);
     setLoading(false);

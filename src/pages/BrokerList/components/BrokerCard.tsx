@@ -11,7 +11,7 @@ interface Props {
 
 const BrokerCard = ({ data, activeTab, refetch }: Props) => {
   return (
-    <Link to={`/brokers/${1}`}>
+    <Link to={`/brokers/${data.userId}`}>
       <div className={styles.brokerCard}>
         <div className={styles.brokerDetails}>
         <img className={styles.image} src={data.imageUrl || 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'} alt="Broker" />
