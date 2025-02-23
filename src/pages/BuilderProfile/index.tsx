@@ -4,18 +4,19 @@ import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 import TopBar from '@/components/Topbar';
+import EditProfile from '@/components/EditProfile';
 
 const BuilderProfile = () => {
   const [profileData, setProfileData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await axiosInstance.get('/kyv/api/user/me');
-      setProfileData(data.data);
-      setLoading(false);
-    }
+  const getData = async () => {
+    const data = await axiosInstance.get('/kyv/api/user/me');
+    setProfileData(data.data);
+    setLoading(false);
+  }
 
+  useEffect(() => {
     getData();
   }, []);
 
@@ -33,7 +34,14 @@ const BuilderProfile = () => {
           <img className={styles.image} src={profileData?.imageUrl || "https://www.dlf.in/offices/blog/images/future-here.jpg"} />
         </div>
         <h2>{profileData?.name?.toUpperCase()}</h2>
-        <p>Builder</p>
+        <EditProfile initialValues={{
+            name: profileData?.name,
+            phone: profileData?.mobile,
+            instagramProfile: profileData?.instagramProfile,
+            websiteUrl: profileData?.websiteUrl,
+          }}
+          onSuccess={getData}
+        />
       </div>
       <div className={styles.details}>
         <div className={styles.detail}>

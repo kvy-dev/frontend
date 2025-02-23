@@ -8,7 +8,8 @@ const ALLOWED_FORMATS = ["image/jpeg", "image/jpg", "image/png"]; // Allowed ima
 
 const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) => {
   const [form] = Form.useForm();
-  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Store selected file
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Store selected profile image
+  const [selectedVisitingCard, setSelectedVisitingCard] = useState<File | null>(null); // Store visiting card image
 
   const handleFinish = (values: any) => {
     const formData = new FormData();
@@ -19,7 +20,11 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
     formData.append("websiteUrl", values.websiteUrl || "");
 
     if (selectedFile) {
-      formData.append("profileImage", selectedFile); // Append image if selected
+      formData.append("profileImage", selectedFile); // Append profile image if selected
+    }
+    
+    if (selectedVisitingCard) {
+      formData.append("visitingCard", selectedVisitingCard); // Append visiting card image if selected
     }
 
     onSubmit(formData); // Submit formData
@@ -30,7 +35,7 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
     onCancel();
   };
 
-  const beforeUpload = (file: File) => {
+  const beforeUpload = (file: File, setFile: Function) => {
     const isAllowedFormat = ALLOWED_FORMATS.includes(file.type);
     const isWithinSizeLimit = file.size / 1024 / 1024 <= MAX_FILE_SIZE_MB;
 
@@ -44,7 +49,7 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
       return Upload.LIST_IGNORE; // Prevent upload
     }
 
-    setSelectedFile(file); // Store file for later submission
+    setFile(file); // Store file for later submission
     message.success("Image selected successfully!");
     return false; // Prevent automatic upload
   };
@@ -53,13 +58,12 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
     <Modal title="Builder Information" open={visible} onCancel={handleCancel} footer={null}>
       <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={initialValues}>
         <Form.Item label="Profile Image">
-          <Upload showUploadList={true} beforeUpload={beforeUpload}>
-            <Button icon={<UploadOutlined />}>Select Image</Button>
+          <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, setSelectedFile)}>
+            <Button icon={<UploadOutlined />}>Select Profile Image</Button>
           </Upload>
-          {selectedFile && <p>Selected: {selectedFile.name}</p>}
         </Form.Item>
 
-        <Form.Item label="Name" name="name" rules={[{ required: true, message: "Please enter a name" }]}>
+        <Form.Item label="Name" name="name" rules={[{ required: true, message: "Please enter a name" }]}> 
           <Input placeholder="Enter name" />
         </Form.Item>
 
@@ -68,18 +72,24 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
           name="phone"
           rules={[
             { required: true, message: "Please enter a phone number" },
-            { pattern: /^\d{10}$/, message: "Enter a valid 10-digit number" },
+            { pattern: /^\d{10}$/, message: "Enter a valid 10-digit number" }
           ]}
         >
           <Input placeholder="Enter phone number" disabled maxLength={10} />
         </Form.Item>
 
-        <Form.Item label="Instagram Profile" name="instagramProfile" rules={[{ type: "url", message: "Enter a valid URL" }]}>
+        <Form.Item label="Instagram Profile" name="instagramProfile" rules={[{ type: "url", message: "Enter a valid URL" }]}> 
           <Input placeholder="Enter Instagram URL" />
         </Form.Item>
 
-        <Form.Item label="Website URL" name="websiteUrl" rules={[{ type: "url", message: "Enter a valid URL" }]}>
+        <Form.Item label="Website URL" name="websiteUrl" rules={[{ type: "url", message: "Enter a valid URL" }]}> 
           <Input placeholder="Enter Website URL" />
+        </Form.Item>
+
+        <Form.Item label="Visiting Card Image">
+          <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, setSelectedVisitingCard)}>
+            <Button icon={<UploadOutlined />}>Select Visiting Card</Button>
+          </Upload>
         </Form.Item>
 
         <Form.Item>

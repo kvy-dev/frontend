@@ -52,7 +52,7 @@ const BuilderDashboard = () => {
           <TopBar isMenu={true} />
         </div>
         <div className={styles.widthContainer}>
-          <PersonalisedGreeting name={user?.name || 'User'} visits={scheduled} requested={requested} />
+          <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') !== 'null' ? localStorage.getItem('kvy_user_name') : 'User'} visits={scheduled} requested={requested} />
         </div>
       </div>
       <div className={styles.bottomContainer}>

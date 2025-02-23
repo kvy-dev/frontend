@@ -2,7 +2,7 @@ import styles from '../styles.module.scss';
 import clock from "../../../assets/clock.png";
 
 interface Props {
-  name: string;
+  name: any;
   visits: number;
   requested: number;
 }
