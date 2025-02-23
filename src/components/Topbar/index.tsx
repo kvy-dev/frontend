@@ -14,7 +14,7 @@ const TopBar = ({ backLink, isMenu }: Props) => {
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.reload();
+    window.location.replace('/');
   }
   
   return (

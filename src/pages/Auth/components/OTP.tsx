@@ -24,7 +24,7 @@ const OTP = ({ navigateTo, authType, data, verifyOTP }: OTPProps) => {
         <div className={styles.form}>
           <h3>Enter OTP</h3>
           <p>OTP sent to {maskPhoneNumber(data.phone)}</p>
-          <Input.OTP inputMode="numeric" length={4} value={otp} onChange={(e) => setOtp(e)} />
+          <Input.OTP inputMode="numeric" autoFocus length={4} value={otp} onChange={(e) => setOtp(e)} />
           <Button type="primary" onClick={() => verifyOTP(data.phone, otp, data.name)}>Verify</Button>
         </div>
       </div>

@@ -30,7 +30,7 @@ const Signup = ({ navigateTo, getOTP, data }: SignupProps) => {
         <div className={styles.form}>
           <h3>Create account</h3>
           <p>Enter your details to create an account</p>
-          <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input placeholder="Name" autoFocus value={name} onChange={(e) => setName(e.target.value)} />
           <Input inputMode="numeric" pattern="[0-9]*" maxLength={10} placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} />
           {error && <span style={{ color: 'red' }}>Enter correct details</span>}
           <br /><br />

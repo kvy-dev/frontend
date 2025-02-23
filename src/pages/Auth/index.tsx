@@ -38,57 +38,77 @@ const Auth = () => {
   }
 
   const getOTP = async (phone: string, isBuilder: boolean, name?: string) => {
-    setAuthState(prev => ({
-      ...prev,
-      authStep: 'otp',
-      authData: {
-        name: name ? name : '',
-        phone: phone,
-        userType: isBuilder ? 'builder' : 'broker'
+    try {
+      if (name)
+        await axiosInstance.get(`/kyv/api/user/checkUsernameAvailability?mobile=${phone}`);
+
+      const requestData = {
+        mobile: Number(phone)
       }
-    }));
-    const requestData = {
-      mobile: Number(phone)
+      await axiosInstance.post('/kyv/api/auth/requestOtp', requestData);
+
+      setAuthState(prev => ({
+        ...prev,
+        authStep: 'otp',
+        authData: {
+          name: name ? name : '',
+          phone: phone,
+          userType: isBuilder ? 'builder' : 'broker'
+        }
+      }));
+
+    } catch (err) {
+      messageApi.open({
+        type: 'error',
+        content: `User already exists. Please login`
+      })
     }
-    await axiosInstance.post('/kyv/api/auth/requestOtp', requestData);
   }
 
   const verifyOTP = async (phone: string, otp: string, name?: string) => {
-    const requestData = name ? {
-      mobile: Number(phone),
-      name,
-      otp,
-      userType: authState?.authData?.userType,
-      formType: authState?.authType?.toUpperCase(),
-    } : {
-      mobile: Number(phone),
-      otp,
-      userType: authState?.authData?.userType,
-      formType: authState?.authType?.toUpperCase(),
-    };
-    const data = await axiosInstance.post('/kyv/api/auth/registerOrLoginWithOtp', requestData);
-    if (data.data.verified) {
-      localStorage.setItem('kyv_access_token', data.data.accessToken);
-      localStorage.setItem('kvy_user_type', data.data.userObjectDto?.userType);
-      localStorage.setItem('kvy_user_verified', btoa(data.data.userObjectDto.aadharVerified ? 'true' : 'false'));
-      localStorage.setItem('kvy_user_name', data.data.userObjectDto.name);
-      dispatch({type: 'update_user', payload: data.data.userObjectDto});
-      setAuthState({
-        authData: {
-          phone: '',
-          name: '',
-          userType: 'broker'
-        },
-        otp: '',
-        authStep: 'start',
-        userData: '',
-        error: '',
-        authType: '',
-      });
-    } else {
+    try {
+      const requestData = name ? {
+        mobile: Number(phone),
+        name,
+        otp,
+        userType: authState?.authData?.userType,
+        formtype: 'SIGNUP'
+      } : {
+        mobile: Number(phone),
+        otp,
+        userType: authState?.authData?.userType,
+        formtype: 'LOGIN'
+      };
+      const data = await axiosInstance.post('/kyv/api/auth/registerOrLoginWithOtp', requestData);
+      if (data.data.verified) {
+        localStorage.setItem('kyv_access_token', data.data.accessToken);
+        localStorage.setItem('kvy_user_type', data.data.userObjectDto?.userType);
+        localStorage.setItem('kvy_user_verified', btoa(data.data.userObjectDto.aadharVerified ? 'true' : 'false'));
+        localStorage.setItem('kvy_user_name', data.data.userObjectDto.name);
+        dispatch({type: 'update_user', payload: data.data.userObjectDto});
+        window.location.reload();
+        setAuthState({
+          authData: {
+            phone: '',
+            name: '',
+            userType: 'broker'
+          },
+          otp: '',
+          authStep: 'start',
+          userData: '',
+          error: '',
+          authType: '',
+        });
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: 'Enter correct credentials',
+        });
+      }
+    } catch (err) {
       messageApi.open({
         type: 'error',
-        content: 'Enter correct credentials',
+        content: 'User does not exist with the number',
       });
     }
   }
