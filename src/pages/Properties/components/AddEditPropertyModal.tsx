@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Form, Modal, Input, InputNumber, DatePicker, Select, Button, Divider, message, Upload } from "antd";
+import { Form, Modal, Input, InputNumber, Select, Button, Divider, message, Upload } from "antd";
 import { EditFilled, UploadOutlined } from "@ant-design/icons";
 import styles from "../styles.module.scss";
 import { axiosInstance } from "@/services/API";
+import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -16,6 +17,7 @@ const MAX_FILE_SIZE_MB = 10;
 const ALLOWED_FORMATS = ["image/jpeg", "image/jpg", "image/png"];
 
 const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
+  console.log(data);
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -52,10 +54,10 @@ const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
       formData.append("name", values.name);
       formData.append("address", values.address);
       formData.append("status", values.status || "OPEN");
-      formData.append("areaSqYards", values.areaSqYards);
+      formData.append("areaSqYards", values.areaSqYards || "");
       formData.append("facing", values.facing || "");
       formData.append("location", values.location || "");
-      formData.append("possessionDate", values.possessionDate || "");
+      // formData.append("possessionDate", values.possessionDate ? values.possessionDate.toISOString() : "");
       formData.append("description", values.description || "");
   
       // Convert units array to a JSON string and append it
@@ -105,7 +107,10 @@ const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={data || {}}
+          initialValues={{
+            ...data,
+            possessionDate: data?.possessionDate ? dayjs(data.possessionDate) : null, 
+          }}
           onValuesChange={handleFormChange}
           onFinish={handleFinish}
           style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}
@@ -143,9 +148,9 @@ const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
             <Input />
           </Form.Item>
 
-          <Form.Item label="Possession Date" name="possessionDate">
-            <DatePicker format="YYYY-MM-DD" />
-          </Form.Item>
+          {/* <Form.Item label="Possession Date" name="possessionDate">
+            <DatePicker format="DD-MM-YYYY" />
+          </Form.Item> */}
 
           <Form.Item label="Description" name="description">
             <Input.TextArea rows={3} />

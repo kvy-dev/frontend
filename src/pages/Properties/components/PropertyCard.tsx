@@ -1,4 +1,4 @@
-import { BuildOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import QrCodeScanner from '@/components/QRScanner';
 import { Tag } from 'antd';
@@ -16,35 +16,34 @@ interface Props {
 const PropertyCard = ({ data, activeTab, refetch }: Props) => {
   const userType = localStorage.getItem('kvy_user_type');
 
-  function formatDate(dateString: string) {
-    if (!dateString) {
-      return 'NA'
-    }
-    const date = new Date(dateString);
+  // function formatDate(dateString: string) {
+  //   if (!dateString) {
+  //     return 'NA'
+  //   }
+  //   const date = new Date(dateString);
   
-    // Get day, month, year
-    const day = date.getDate();
-    const month = date.toLocaleString("en-US", { month: "short" }); // Jan, Feb, etc.
-    const year = date.getFullYear();
+  //   // Get day, month, year
+  //   const day = date.getDate();
+  //   const month = date.toLocaleString("en-US", { month: "short" }); // Jan, Feb, etc.
+  //   const year = date.getFullYear();
   
-    // Add ordinal suffix to the day
-    const suffix = (d: any) => {
-      if (d > 3 && d < 21) return "th"; // Covers 11th, 12th, 13th
-      switch (d % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
+  //   // Add ordinal suffix to the day
+  //   const suffix = (d: any) => {
+  //     if (d > 3 && d < 21) return "th"; // Covers 11th, 12th, 13th
+  //     switch (d % 10) {
+  //       case 1:
+  //         return "st";
+  //       case 2:
+  //         return "nd";
+  //       case 3:
+  //         return "rd";
+  //       default:
+  //         return "th";
+  //     }
+  //   };
   
-    return `${day}${suffix(day)} ${month} ${year}`;
-  }
-
+  //   return `${day}${suffix(day)} ${month} ${year}`;
+  // }
 
   return (
     <div className={styles.propertyCard}>
@@ -54,7 +53,7 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
         <div className={styles.details}>
           <div className={styles.propertyName}>{data?.name}</div>
           <div className={styles.status} data-status={data.status}>{data?.status}</div>
-          <div className={styles.detail}><ClockCircleOutlined /> {formatDate(data.possessionDate)}</div>
+          {/* <div className={styles.detail}><ClockCircleOutlined /> {formatDate(data.possessionDate)}</div> */}
           <div className={styles.detail}><EnvironmentOutlined /> {data.address}</div>
           {userType === 'broker' && <div className={styles.detail}><BuildOutlined /> {data.builderName.name}</div>}
         </div>
