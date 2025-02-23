@@ -5,6 +5,7 @@ import { Tag } from 'antd';
 import ScheduleVisitCTA from './ScheduleVisitCTA';
 import AddEditPropertyModal from './AddEditPropertyModal';
 import PropertyStatusCTA from './PropertyStatusCTA';
+import GeneratedQR from '@/components/GeneratedQR';
 
 interface Props {
   data: any;
@@ -70,6 +71,9 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
         {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}
         {data?.status === 'RESTRICTED' && userType === 'broker' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
         {userType === 'builder' && <PropertyStatusCTA propertyId={data.propertyId} activeTab={activeTab} refetch={refetch} />}
+      </div>
+      <div>
+        {userType === 'builder' && <GeneratedQR qrValue={String(data.propertyId)} />}
       </div>
     </div>
   )
