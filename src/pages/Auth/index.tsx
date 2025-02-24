@@ -57,10 +57,10 @@ const Auth = () => {
         }
       }));
 
-    } catch (err) {
+    } catch (err: any) {
       messageApi.open({
         type: 'error',
-        content: `User already exists. Please login`
+        content: (err as any)?.response?.data?.message || 'User already exists. Please login'
       })
     }
   }
