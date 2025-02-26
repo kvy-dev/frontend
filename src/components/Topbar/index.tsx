@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
-import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, BellOutlined, BuildOutlined, CopyOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Button, Divider, Drawer } from 'antd';
 import Notification from './Notification';
@@ -37,6 +37,8 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
         <Link className={styles.menuItem} to="/properties"><BuildOutlined /> Properties</Link>
         <Divider />
         <Link className={styles.menuItem} to="/brokers"><ProfileOutlined /> Brokers</Link>
+        <Divider />
+        <Link className={styles.menuItem} to="/reports"><CopyOutlined /> Reports</Link>
         <Divider />
         <Link className={styles.menuItem} to="/visitHistory"><HistoryOutlined /> Visit history</Link>
         <Divider />

@@ -5,6 +5,7 @@ const PathConstants = {
   BROKERS: "/brokers",
   BROKER_DETAILS: "/brokers/:id",
   VISIT_HISTORY: "/visitHistory",
+  REPORTS: "/reports",
 }
 
 export default PathConstants;
