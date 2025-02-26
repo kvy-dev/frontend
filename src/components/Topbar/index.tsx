@@ -4,6 +4,7 @@ import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOu
 import { useState } from 'react';
 import { Button, Divider, Drawer } from 'antd';
 import Notification from './Notification';
+import { axiosInstance } from '@/services/API';
 
 interface Props {
   backLink?: string;
@@ -15,7 +16,8 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [active, setActive] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await axiosInstance.post('/kyv/api/logout');
     localStorage.clear();
     window.location.replace('/');
   }

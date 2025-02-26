@@ -1,6 +1,8 @@
-import { BuildOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, ClockCircleOutlined, CloseCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import QrCodeScanner from '@/components/QRScanner';
+import { Button } from 'antd';
+import { axiosInstance } from '@/services/API';
 
 const VisitItem = (props: any) => {
   const { data } = props;
@@ -16,6 +18,14 @@ const VisitItem = (props: any) => {
   return `${formatTime(startTime)} - ${formatTime(endTime)}`;
   }
 
+  const revokeRequest = () => {
+    axiosInstance.post(`/kyv/api/revoke/${data.visitRequestId}`)
+      .then(() => {
+        window.location.reload();
+      }
+    );
+  }
+
   return (
     <div className={styles.visitItem}>
       <div className={styles.propertyDetails}>
@@ -29,6 +39,7 @@ const VisitItem = (props: any) => {
         </div>
       </div>
       <div className={styles.visitItemAction}>
+        <Button block danger onClick={revokeRequest} style={{ marginTop: '1rem' }}><CloseCircleOutlined /> Revoke access request</Button>
         <QrCodeScanner disabled={data.status === 'PENDING'} />
       </div>
     </div>
