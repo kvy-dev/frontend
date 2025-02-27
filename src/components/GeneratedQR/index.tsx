@@ -49,10 +49,10 @@ const GeneratedQR = ({ qrValue, propertyTitle, propertyLocation }: { qrValue: st
       </div>
       <br />
       <Button block onClick={downloadJPEG} icon={<FileImageOutlined />}>
-        Download JPEG
+        Download Raw QR
       </Button>
       <Button block onClick={downloadPDF} icon={<FilePdfOutlined />} style={{ marginTop: 10 }}>
-        Download PDF
+        Download Branded QR
       </Button>
     </div>
   );

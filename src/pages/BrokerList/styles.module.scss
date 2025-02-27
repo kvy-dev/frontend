@@ -101,6 +101,11 @@
         height: fit-content;
         max-width: 500px;
         grid-auto-rows: auto;
+        cursor: pointer;
+
+        &:hover {
+          border: 1px solid vars.$text-light;
+        }
 
         .brokerDetails {
           display: flex;
