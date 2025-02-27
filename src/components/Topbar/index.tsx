@@ -17,7 +17,7 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
   const [active, setActive] = useState(false);
 
   const handleLogout = async () => {
-    await axiosInstance.post('/kyv/api/logout');
+    await axiosInstance.get('/kyv/api/user/logout');
     localStorage.clear();
     window.location.replace('/');
   }

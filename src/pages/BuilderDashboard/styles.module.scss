@@ -78,7 +78,7 @@
         padding: 1rem;
         border-radius: vars.$border-radius-base;
         height: fit-content;
-        max-width: 500px;
+        max-width: 600px;
 
         .propertyDetails {
           display: flex;
@@ -86,6 +86,7 @@
           .image {
             width: 100px;
             height: auto;
+            aspect-ratio: 1;
             background-color: #F6F2FF;
             border-radius: vars.$border-radius-base;
             margin-right: 1rem;

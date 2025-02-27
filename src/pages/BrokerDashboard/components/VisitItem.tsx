@@ -19,7 +19,7 @@ const VisitItem = (props: any) => {
   }
 
   const revokeRequest = () => {
-    axiosInstance.post(`/kyv/api/revoke/${data.visitRequestId}`)
+    axiosInstance.post(`/kyv/api/broker/revoke/${data.id}`)
       .then(() => {
         window.location.reload();
       }
@@ -29,7 +29,7 @@ const VisitItem = (props: any) => {
   return (
     <div className={styles.visitItem}>
       <div className={styles.propertyDetails}>
-        <img className={styles.image} src="https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg" alt="Property" />
+        <img className={styles.image} src={data.propertyResponseDto.imageUrl || "https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg"} alt="Property" />
         <div className={styles.details}>
           <div className={styles.propertyName}>{data.propertyResponseDto.name}</div>
           <div className={styles.status} data-status={data.status}>{data.status}</div>

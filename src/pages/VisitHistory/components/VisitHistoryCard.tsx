@@ -33,14 +33,14 @@ const VisitHistoryCard = ({ data }: Props) => {
     return `${day}${suffix(day)} ${month} ${year}`;
   }
 
-  const getTime = (startTime: string, endTime: string) => {
+  const getTime = (startTime: string) => {
     const formatTime = (time: string) => {
       let [hours, minutes] = time.split(":").map(Number);
       let period = hours >= 12 ? "PM" : "AM";
       hours = hours % 12 || 12; // Convert 0 to 12-hour format
       return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
   };
-    return `${formatTime(startTime)} - ${formatTime(endTime)}`;
+    return `${formatTime(startTime)}`;
   }
 
   return (
@@ -50,7 +50,7 @@ const VisitHistoryCard = ({ data }: Props) => {
         <div className={styles.details}>
           <div className={styles.visitHistoryName}>{data.brokerDetails.name}</div>
           <div className={styles.detail}><CalendarOutlined /> {formatDate(data.scheduleDate)}</div>
-          <div className={styles.detail}><ClockCircleOutlined /> {getTime(data.scheduleStartTime, data.scheduleEndTime)}</div>
+          <div className={styles.detail}><ClockCircleOutlined /> {getTime(data.scheduleStartTime)}</div>
           <div className={styles.detail}><PhoneOutlined /> +91 {data?.brokerDetails.mobile}</div>
           <div className={styles.detail}><BuildOutlined /> {data?.propertyResponseDto?.name}</div>
         </div>

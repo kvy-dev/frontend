@@ -35,7 +35,9 @@ const VisitHistory = () => {
         </div>
         {visitHistory.length === 0 && !loading && <Empty description="No visits present" />}
         {!loading && <VisitList data={visitHistory} searchString={searchString} />}
-        <LoadMore />
+        <div className={styles.widthContainer}>
+          <LoadMore />
+        </div>
       </div>
     </div>
   );

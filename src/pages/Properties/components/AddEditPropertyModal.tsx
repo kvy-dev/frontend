@@ -18,12 +18,21 @@ const ALLOWED_IMAGE_FORMATS = ["image/jpeg", "image/jpg", "image/png"];
 const ALLOWED_PDF_FORMATS = ["application/pdf"];
 
 const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
-  console.log(data);
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [brochureFile, setBrochureFile] = useState<File | null>(null);
+
+  const updateData = () => {
+    if (data === undefined) {
+      return {};
+    }
+    console.log(data);
+    const units = (data?.units || [])?.map((unit: any) => unit?.floor);
+    data.units = units;
+    return data;
+  }
 
   const handleFormChange = (changedValues: any) => {
     form.setFieldsValue(changedValues);
@@ -106,90 +115,94 @@ const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
       <div className={styles.addPropertyCTA} onClick={() => setShowPropertyModal(true)}>
         {edit ? <EditFilled className={styles.edit} /> : "Add Property"}
       </div>
-      <Modal
-        open={showPropertyModal}
-        onCancel={handleClose}
-        footer={null}
-        width="100vw"
-        bodyStyle={{ height: "calc(100dvh - 170px)", overflowY: "auto" }}
-      >
-        <h2>{edit ? "Edit Property" : "Add Property"}</h2>
-        <Divider />
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={{
-            ...data,
-            possessionDate: data?.possessionDate ? dayjs(data.possessionDate) : null,
-          }}
-          onValuesChange={handleFormChange}
-          onFinish={handleFinish}
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}
-        >
-          <Form.Item label="Property Image">
-            <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, "image")}>
-              <Button icon={<UploadOutlined />}>Select Image</Button>
-            </Upload>
-          </Form.Item>
+      {
+        showPropertyModal && (
+          <Modal
+            open={showPropertyModal}
+            onCancel={handleClose}
+            footer={null}
+            width="100vw"
+            bodyStyle={{ height: "calc(100dvh - 170px)", overflowY: "auto" }}
+          >
+            <h2>{edit ? "Edit Property" : "Add Property"}</h2>
+            <Divider />
+            <Form
+              form={form}
+              layout="vertical"
+              initialValues={{
+                ...updateData(),
+                possessionDate: data?.possessionDate ? dayjs(data.possessionDate) : null,
+              }}
+              onValuesChange={handleFormChange}
+              onFinish={handleFinish}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}
+            >
+              <Form.Item label="Property Image">
+                <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, "image")}>
+                  <Button icon={<UploadOutlined />}>Select Image</Button>
+                </Upload>
+              </Form.Item>
 
-          <Form.Item label="Brochure PDF">
-            <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, "pdf")}>
-              <Button icon={<UploadOutlined />}>Select Brochure</Button>
-            </Upload>
-          </Form.Item>
+              <Form.Item label="Brochure PDF">
+                <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, "pdf")}>
+                  <Button icon={<UploadOutlined />}>Select Brochure</Button>
+                </Upload>
+              </Form.Item>
 
-          <Form.Item label="Property Name" name="name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
+              <Form.Item label="Property Name" name="name" rules={[{ required: true }]}>
+                <Input />
+              </Form.Item>
 
-          <Form.Item label="Address (For eg. 2-266 Panscheel Enclave)" name="address" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
+              <Form.Item label="Address (For eg. 2-266 Panscheel Enclave)" name="address" rules={[{ required: true }]}>
+                <Input />
+              </Form.Item>
 
-          <Form.Item label="Status" name="status">
-            <Select defaultValue="OPEN">
-              <Option value="OPEN">Open</Option>
-              <Option value="RESTRICTED">Restricted</Option>
-            </Select>
-          </Form.Item>
+              <Form.Item label="Status" name="status">
+                <Select defaultValue="OPEN">
+                  <Option value="OPEN">Open</Option>
+                  <Option value="RESTRICTED">Restricted</Option>
+                </Select>
+              </Form.Item>
 
-          <Form.Item label="Area (Sq. Yards)" name="areaSqYards">
-            <InputNumber min={1} />
-          </Form.Item>
+              <Form.Item label="Area (Sq. Yards)" name="areaSqYards">
+                <InputNumber min={1} />
+              </Form.Item>
 
-          <Form.Item label="Facing" name="facing">
-            <Input />
-          </Form.Item>
+              <Form.Item label="Facing" name="facing">
+                <Input />
+              </Form.Item>
 
-          <Form.Item label="Google Location (url)" name="location">
-            <Input />
-          </Form.Item>
+              <Form.Item label="Google Location (url)" name="location">
+                <Input />
+              </Form.Item>
 
-          <Form.Item label="Possession Date" name="possessionDate">
+              {/* <Form.Item label="Possession Date" name="possessionDate">
             <Input placeholder="YYYY-MM-DD" />
-          </Form.Item>
+          </Form.Item> */}
 
-          <Form.Item label="Description" name="description">
-            <Input.TextArea rows={3} />
-          </Form.Item>
+              <Form.Item label="Description" name="description">
+                <Input.TextArea rows={3} />
+              </Form.Item>
 
-          <Form.Item label="Select Floors" name="units">
-            <Select mode="multiple" placeholder="Select floors">
-              {[...Array(10).keys()].map((i) => (
-                <Option key={i + 1} value={i + 1}>
-                  Floor {i + 1}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+              <Form.Item label="Select Floors" name="units">
+                <Select mode="multiple" placeholder="Select floors">
+                  {[...Array(10).keys()].map((i) => (
+                    <Option key={i + 1} value={`Floor${i + 1}`}>
+                      Floor {i + 1}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
 
-          <Form.Item style={{ gridColumn: '1 / -1' }}>
-            <Button type="primary" loading={loading} htmlType="submit">
-              {edit ? "Update Property" : "Add Property"}
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+              <Form.Item style={{ gridColumn: '1 / -1' }}>
+                <Button type="primary" loading={loading} htmlType="submit">
+                  {edit ? "Update Property" : "Add Property"}
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
+        )
+      }
     </>
   );
 };

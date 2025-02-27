@@ -40,7 +40,7 @@ const Auth = () => {
   const getOTP = async (phone: string, isBuilder: boolean, name?: string) => {
     try {
       const res = await axiosInstance.get(`/kyv/api/user/checkUsernameAvailability?mobile=${phone}`);
-      const condition = res.data && !name || !res.data && name || true;
+      const condition = res.data && !name || !res.data && name;
 
       if (condition) {
         const requestData = {
