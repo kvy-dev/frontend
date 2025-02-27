@@ -6,6 +6,7 @@ import Brokers from './components/Brokers';
 import AddBrokerModal from './components/AddBrokerModal';
 import TopBar from '@/components/Topbar';
 import useInfiniteScroll from '@/utils/useInfiniteScroll';
+import _ from 'lodash';
 
 const BrokerList = () => {
   const [searchString, setSearchString] = useState('');
@@ -17,7 +18,7 @@ const BrokerList = () => {
     LoadMore,
     loading,
     initialFetch,
-  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?preApproved=${activeTab === 'approved'}&blackListed=${activeTab === 'blacklisted'}&`, [activeTab]);
+  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?searchTerm=${searchString || ''}&preApproved=${activeTab === 'approved'}&blackListed=${activeTab === 'blacklisted'}&`, [activeTab, searchString]);
 
   return (
     <div className={styles.brokers}>
@@ -47,7 +48,7 @@ const BrokerList = () => {
         }
         <div className={styles.brokerListContainer}>
           {
-            !loading && <Brokers data={brokers} activeTab={activeTab} searchString={searchString} refetch={initialFetch} />
+            !loading && <Brokers data={brokers} activeTab={activeTab} refetch={initialFetch} />
           }
           <div className={styles.stretch} style={{ gridColumn: '1 / -1' }}>
             <LoadMore />

@@ -2,7 +2,6 @@
 import React from "react";
 import PathConstants from "./constants";
 import BrokerDetails from "@/pages/BrokerDetails";
-import BuilderProfile from "@/pages/BuilderProfile";
 
 const BrokerDashboard = React.lazy(() => import('@/pages/BrokerDashboard'));
 const Properties = React.lazy(() => import('@/pages/Properties'));
@@ -10,6 +9,8 @@ const Profile = React.lazy(() => import('@/pages/Profile'));
 const BuilderDashboard = React.lazy(() => import('@/pages/BuilderDashboard'));
 const BrokerList = React.lazy(() => import('@/pages/BrokerList'));
 const VisitHistory = React.lazy(() => import('@/pages/VisitHistory'));
+const BuilderProfile = React.lazy(() => import('@/pages/BuilderProfile'));
+const Reports = React.lazy(() => import('@/pages/Reports'));
 
 const routes = (condition: any) => condition ? [
   { 
@@ -48,6 +49,10 @@ const routes = (condition: any) => condition ? [
 { 
   path: PathConstants.PROFILE,
   element: <BuilderProfile />
+},
+{ 
+  path: PathConstants.REPORTS,
+  element: <Reports />
 },
 ];
 

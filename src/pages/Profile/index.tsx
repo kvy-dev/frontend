@@ -22,7 +22,8 @@ const Profile = () => {
     getData();
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await axiosInstance.get('/kyv/api/user/logout');
     localStorage.clear();
     window.location.replace('/');
   }

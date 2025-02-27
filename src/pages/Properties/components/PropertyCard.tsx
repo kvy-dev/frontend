@@ -1,7 +1,7 @@
-import { BuildOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, EnvironmentOutlined, FilePdfOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import QrCodeScanner from '@/components/QRScanner';
-import { Tag } from 'antd';
+import { Button, Tag } from 'antd';
 import ScheduleVisitCTA from './ScheduleVisitCTA';
 import AddEditPropertyModal from './AddEditPropertyModal';
 import PropertyStatusCTA from './PropertyStatusCTA';
@@ -49,12 +49,13 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
     <div className={styles.propertyCard}>
       {userType === 'builder' && <AddEditPropertyModal edit={true} data={data} refetch={refetch} />}
       <div className={styles.propertyDetails}>
-        <img className={styles.image} src={data.imageUrl || "https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg"} alt="Property" />
+        <img className={styles.image} src={data.imageUrl || data?.builderName?.imageUrl || "https://propagerealty.com/uploads/real-estate/property/property-images/no-property-image.jpg"} alt="Property" />
         <div className={styles.details}>
           <div className={styles.propertyName}>{data?.name}</div>
           <div className={styles.status} data-status={data.status}>{data?.status}</div>
           {/* <div className={styles.detail}><ClockCircleOutlined /> {formatDate(data.possessionDate)}</div> */}
-          <div className={styles.detail}><EnvironmentOutlined /> {data.address}</div>
+          <div className={styles.detail}><EnvironmentOutlined /> <a href={data?.location} target='__blank'>{data.address}</a></div>
+          <div className={styles.detail}><a href={data?.brochurePdf} target='__blank' download><Button disabled={!data.brochurePdf} icon={<FilePdfOutlined />}>{data.brochurePdf ? 'Download brochure' : 'No brochure'}</Button></a></div>
           {userType === 'broker' && <div className={styles.detail}><BuildOutlined /> {data.builderName.name}</div>}
         </div>
       </div>
@@ -65,16 +66,18 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
         {data.areaSqYards && <Tag style={{ margin: '5px' }}>{data.areaSqYards} sqyds</Tag>}
         {data.facing && <Tag style={{ margin: '5px' }}>{data.facing} facing</Tag>}
         {
-          data?.units?.map((d: any) => <Tag style={{ margin: '5px' }}>{d.floor} floor</Tag>)
+          data?.units?.map((d: any) => <Tag style={{ margin: '5px' }}>{d?.floor}</Tag>)
         }
       </div>
-      <div className={styles.cta}>
-        {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}
-        {data?.status === 'RESTRICTED' && userType === 'broker' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
-        {userType === 'builder' && <PropertyStatusCTA propertyId={data.propertyId} activeTab={activeTab} refetch={refetch} />}
-      </div>
-      <div>
-        {userType === 'builder' && <GeneratedQR qrValue={String(data.propertyId)} />}
+      <div className={styles.footer}>
+        <div className={styles.cta}>
+          {(data?.status === 'OPEN' || data.preApproved) && userType === 'broker' && <QrCodeScanner disabled={false} />}
+          {data?.status === 'RESTRICTED' && userType === 'broker' && !data.preApproved && <ScheduleVisitCTA propertyId={data.propertyId} />}
+          {userType === 'builder' && <PropertyStatusCTA propertyId={data.propertyId} activeTab={activeTab} refetch={refetch} />}
+        </div>
+        <div>
+          {userType === 'builder' && <GeneratedQR qrValue={String(data.propertyId)} propertyTitle={data.name} propertyLocation={data.address} />}
+        </div>
       </div>
     </div>
   )

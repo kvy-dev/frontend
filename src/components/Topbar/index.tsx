@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
-import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, RadarChartOutlined, UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Button, Divider, Drawer } from 'antd';
 import Notification from './Notification';
+import { axiosInstance } from '@/services/API';
 
 interface Props {
   backLink?: string;
@@ -15,7 +16,8 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [active, setActive] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await axiosInstance.get('/kyv/api/user/logout');
     localStorage.clear();
     window.location.replace('/');
   }
@@ -35,6 +37,8 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
         <Link className={styles.menuItem} to="/properties"><BuildOutlined /> Properties</Link>
         <Divider />
         <Link className={styles.menuItem} to="/brokers"><ProfileOutlined /> Brokers</Link>
+        <Divider />
+        <Link className={styles.menuItem} to="/reports"><RadarChartOutlined /> Reports</Link>
         <Divider />
         <Link className={styles.menuItem} to="/visitHistory"><HistoryOutlined /> Visit history</Link>
         <Divider />

@@ -1,6 +1,8 @@
-import { BuildOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { BuildOutlined, ClockCircleOutlined, CloseCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import styles from '../styles.module.scss';
 import QrCodeScanner from '@/components/QRScanner';
+import { Button } from 'antd';
+import { axiosInstance } from '@/services/API';
 
 const VisitItem = (props: any) => {
   const { data } = props;
@@ -16,10 +18,18 @@ const VisitItem = (props: any) => {
   return `${formatTime(startTime)} - ${formatTime(endTime)}`;
   }
 
+  const revokeRequest = () => {
+    axiosInstance.post(`/kyv/api/broker/revoke/${data.id}`)
+      .then(() => {
+        window.location.reload();
+      }
+    );
+  }
+
   return (
     <div className={styles.visitItem}>
       <div className={styles.propertyDetails}>
-        <img className={styles.image} src="https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg" alt="Property" />
+        <img className={styles.image} src={data.propertyResponseDto.imageUrl || "https://www.reiasindia.com/uploads/blog/what-makes-buying-property-in-delhi-different-or-special.jpg"} alt="Property" />
         <div className={styles.details}>
           <div className={styles.propertyName}>{data.propertyResponseDto.name}</div>
           <div className={styles.status} data-status={data.status}>{data.status}</div>
@@ -29,6 +39,7 @@ const VisitItem = (props: any) => {
         </div>
       </div>
       <div className={styles.visitItemAction}>
+        <Button block danger onClick={revokeRequest} style={{ marginTop: '1rem' }}><CloseCircleOutlined /> Revoke access request</Button>
         <QrCodeScanner disabled={data.status === 'PENDING'} />
       </div>
     </div>

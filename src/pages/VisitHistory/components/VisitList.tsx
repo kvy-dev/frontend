@@ -4,9 +4,10 @@ import VisitHistoryCard from './VisitHistoryCard';
 
 interface Props {
   data: any;
+  searchString: string;
 }
 
-const VisitList = ({ data }: Props) => {
+const VisitList = ({ data, searchString }: Props) => {
   if (data.length === 0) {
     return <Empty description="No visit history" />
   }
@@ -15,7 +16,9 @@ const VisitList = ({ data }: Props) => {
     <div className={styles.visitHistoryListContainer}>
       {
         data.map((d: any) => {
-          return <VisitHistoryCard key={d?.id} data={d} />   
+          if (!searchString || searchString && d?.propertyResponseDto?.name.toLowerCase().includes(searchString.toLowerCase())) {
+            return <VisitHistoryCard key={d?.id} data={d} />   
+          }
         })
       }
     </div>

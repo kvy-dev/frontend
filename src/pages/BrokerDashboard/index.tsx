@@ -9,19 +9,29 @@ import Loader from "@/components/Loader";
 import QrCodeScanner from "@/components/QRScanner";
 import { Link } from "react-router-dom";
 import TopBar from "@/components/Topbar";
+import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
 
 const BrokerDashboard = () => {
   const [upcomingVisit, setUpcomingVisit] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('today');
   const onChange = (key: string) => {
     setActiveTab(key);
   };
 
+  const { showAadharError, AadharPopup } = useAadharNotVerifiedPopup();
+
   useEffect(() => {
+    setLoading(true);
     axiosInstance.get('/kyv/api/broker/upcomingVisits')
     .then(res => setUpcomingVisit(res.data))
     .finally(() => setLoading(false));
+
+    console.log(localStorage.getItem('kvy_user_verified'), btoa('false'), localStorage.getItem('aadharShown'));
+    if (localStorage.getItem('kvy_user_verified') === btoa('false') && localStorage.getItem('aadharShown') !== 'true') {
+      showAadharError();
+      localStorage.setItem('aadharShown', 'true');
+    }
   }, []);
   
   const tabItems: TabsProps['items'] = [
@@ -41,6 +51,7 @@ const BrokerDashboard = () => {
 
   return (
     <div className={styles.brokerDashboard}>
+      <AadharPopup />
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
           <TopBar inline={true} />

@@ -39,28 +39,34 @@ const Auth = () => {
 
   const getOTP = async (phone: string, isBuilder: boolean, name?: string) => {
     try {
-      if (name)
-        await axiosInstance.get(`/kyv/api/user/checkUsernameAvailability?mobile=${phone}`);
+      const res = await axiosInstance.get(`/kyv/api/user/checkUsernameAvailability?mobile=${phone}`);
+      const condition = res.data && !name || !res.data && name;
 
-      const requestData = {
-        mobile: Number(phone)
-      }
-      await axiosInstance.post('/kyv/api/auth/requestOtp', requestData);
-
-      setAuthState(prev => ({
-        ...prev,
-        authStep: 'otp',
-        authData: {
-          name: name ? name : '',
-          phone: phone,
-          userType: isBuilder ? 'builder' : 'broker'
+      if (condition) {
+        const requestData = {
+          mobile: Number(phone)
         }
-      }));
-
+        await axiosInstance.post('/kyv/api/auth/requestOtp', requestData);
+  
+        setAuthState(prev => ({
+          ...prev,
+          authStep: 'otp',
+          authData: {
+            name: name ? name : '',
+            phone: phone,
+            userType: isBuilder ? 'builder' : 'broker'
+          }
+        }));
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: (name || '').length === 0 ? 'User does not exist. Please signup' : 'User already exists. Please login'
+        });
+      }
     } catch (err: any) {
       messageApi.open({
         type: 'error',
-        content: (err as any)?.response?.data?.message || 'User already exists. Please login'
+        content: (err as any)?.response?.data?.message
       })
     }
   }

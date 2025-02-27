@@ -31,7 +31,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
   
     return {
       disabledHours: () => {
-        let disabled = [...Array(24).keys()].filter((hour) => hour < 10 || hour >= 18); // Disable before 10 AM & after 5 PM
+        let disabled = [...Array(24).keys()].filter((hour) => hour < 6 || hour >= 23); // Disable before 10 AM & after 5 PM
         
         // If flag is enabled and selecting today, disable past hours
         if (checkCurrentTime) {
@@ -41,7 +41,7 @@ const ScheduleVisitCTA = ({ propertyId }: Props) => {
         return disabled;
       },
       disabledMinutes: (selectedHour: number) => {
-        if (selectedHour === 10 || selectedHour === 18) {
+        if (selectedHour === 6 || selectedHour === 23) {
           return [...Array(60).keys()]; // Disable all minutes for 10 AM & 5 PM
         }
   

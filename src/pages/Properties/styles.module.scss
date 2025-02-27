@@ -74,17 +74,17 @@
       max-width: 1200px;
       margin: 1rem auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
 
       .propertyCard {
         background-color: #FFFFFF;
         padding: 1rem;
         border-radius: vars.$border-radius-base;
-        margin-bottom: 1rem;
         align-items: start;
         grid-auto-rows: max-content;
         position: relative;
+        min-height: 400px;
         
         .edit {
           position: absolute;
@@ -154,6 +154,13 @@
           margin: 1rem 0 0 0;
           z-index: 1 !important;
         }
+
+        .footer {
+          position: absolute;
+          bottom: 1rem;
+          left: 1rem;
+          right: 1rem;
+        }
       }
     }
   }
@@ -218,5 +225,15 @@
     outline: none;
     border: none;
     font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .properties {
+    .bottomContainer {
+      .propertyListContainer {
+        grid-template-columns: 1fr;
+      }
+    }
   }
 }
