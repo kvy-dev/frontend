@@ -79,6 +79,11 @@
         border-radius: vars.$border-radius-base;
         height: fit-content;
         max-width: 600px;
+        cursor: pointer;
+
+        &:hover {
+          border: 1px solid vars.$text-light;
+        }
 
         .propertyDetails {
           display: flex;
