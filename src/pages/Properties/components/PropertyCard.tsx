@@ -55,8 +55,8 @@ const PropertyCard = ({ data, activeTab, refetch }: Props) => {
           <div className={styles.status} data-status={data.status}>{data?.status}</div>
           {/* <div className={styles.detail}><ClockCircleOutlined /> {formatDate(data.possessionDate)}</div> */}
           <div className={styles.detail}><EnvironmentOutlined /> <a href={data?.location} target='__blank'>{data.address}</a></div>
-          <div className={styles.detail}><a href={data?.brochurePdf} target='__blank' download><Button disabled={!data.brochurePdf} icon={<FilePdfOutlined />}>{data.brochurePdf ? 'Download brochure' : 'No brochure'}</Button></a></div>
           {userType === 'broker' && <div className={styles.detail}><BuildOutlined /> {data.builderName.name}</div>}
+          <div className={styles.detail}><a href={data?.brochurePdf} target='__blank' download><Button disabled={!data.brochurePdf} icon={<FilePdfOutlined />}>{data.brochurePdf ? 'Download brochure' : 'No brochure'}</Button></a></div>
         </div>
       </div>
       <p className={styles.description}>
