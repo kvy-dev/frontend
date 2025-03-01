@@ -17,7 +17,7 @@ const Properties = () => {
     LoadMore,
     loading,
     initialFetch,
-  } = useInfiniteScroll(`/kyv/api/property/listProperties?propertyListedStatus=${activeTab}&`, [activeTab, searchString])
+  } = useInfiniteScroll(`/kyv/api/property/listProperties?searchTerm=${searchString}&propertyListedStatus=${activeTab}&`, [activeTab, searchString])
 
   return (
     <div className={styles.properties}>
