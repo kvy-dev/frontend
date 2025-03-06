@@ -34,5 +34,5 @@
       "routes/*": ["./src/routes/*"],
     }
   },
-  "include": ["src"]
+  "include": ["src", "public/sw.js"]
 }

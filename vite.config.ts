@@ -8,6 +8,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // strategies: "injectManifest", // Disable Workbox caching
+      // injectManifest: {
+      //   swSrc: "sw.js", // Use custom service worker
+      // },
       manifest: {
         name: 'Vite PWA App',
         short_name: 'VitePWA',
@@ -22,6 +26,15 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
+      },
+      devOptions: {
+        enabled: false, // Keep true for dev mode
+        type: "module",
+        navigateFallback: undefined, // Prevents dev-sw.js from being used
+      },
+      workbox: {
+        // Disable caching to avoid overwriting issues
+        runtimeCaching: [],
       },
     }),
   ],
