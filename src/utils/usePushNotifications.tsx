@@ -26,9 +26,9 @@ const usePushNotifications = () => {
     try {
       const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
       if (currentToken) {
-        await fetch("/api/subscribe", {
+        await fetch("api/user/savePushServerToken", {
           method: "POST",
-          body: JSON.stringify({ token: currentToken }),
+          body: JSON.stringify({ pushServerToken: currentToken }),
           headers: { "Content-Type": "application/json" },
         });
         console.log("User subscribed:", currentToken);
