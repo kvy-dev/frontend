@@ -13,17 +13,17 @@ export default defineConfig({
       //   swSrc: "sw.js", // Use custom service worker
       // },
       manifest: {
-        name: 'Vite PWA App',
-        short_name: 'VitePWA',
-        description: 'A Vite + React + PWA app',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        name: 'VISITLY',
+        short_name: 'Visitly',
+        description: 'Scan property visits',
+        theme_color: '#2a115b',
+        background_color: '#2a115b',
         display: 'standalone',
         icons: [
           {
-            src: '/icon.png',
+            src: '/icon.jpeg',
             sizes: '256x256',
-            type: 'image/png',
+            type: 'image/jpg',
           },
         ],
       },

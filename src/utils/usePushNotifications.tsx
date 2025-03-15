@@ -29,6 +29,7 @@ const usePushNotifications = () => {
 
     const userPermission = await Notification.requestPermission();
     setPermission(userPermission);
+    subscribeUser();
   };
 
   // Subscribe to push notifications
