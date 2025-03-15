@@ -5,19 +5,28 @@ import { axiosInstance } from "@/services/API";
 const VAPID_KEY = "BBJEM_GpNNGjzhyZ8wQ1-1xvf6j-BVZkcxtzsWjjbPtX4G0cI9pjN8gepuASvjnp1VXXGzyhuK5xk3jKoAPcTnY"; // Replace with your actual VAPID key
 
 const usePushNotifications = () => {
-  const [permission, setPermission] = useState(Notification.permission);
+  const [permission, setPermission] = useState<string | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
-    if (permission === "default") {
+    if (typeof window === "undefined" || !("Notification" in window)) {
+      alert("Notifications API not available.");
+      return;
+    }
+
+    setPermission(Notification.permission);
+
+    if (Notification.permission === "default") {
       requestNotificationPermission();
-    } else if (permission === "granted" && !isSubscribed) {
+    } else if (Notification.permission === "granted" && !isSubscribed) {
       subscribeUser();
     }
-  }, [permission, isSubscribed]); // Runs only when permission or isSubscribed changes
+  }, [isSubscribed]);
 
   // Request notification permission
   const requestNotificationPermission = async () => {
+    if (typeof window === "undefined" || !("Notification" in window)) return;
+
     const userPermission = await Notification.requestPermission();
     setPermission(userPermission);
   };
