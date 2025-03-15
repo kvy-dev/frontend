@@ -27,7 +27,7 @@ const usePushNotifications = () => {
     try {
       const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
       if (currentToken) {
-        await axiosInstance.post("api/user/savePushServerToken", { pushServerToken: currentToken });
+        await axiosInstance.post("kvy/api/user/savePushServerToken", { pushServerToken: currentToken });
         console.log("User subscribed:", currentToken);
         setIsSubscribed(true);
       } else {
