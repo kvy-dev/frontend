@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { messaging, getToken } from "../firebase";
+import { axiosInstance } from "@/services/API";
 
 const VAPID_KEY = "BBJEM_GpNNGjzhyZ8wQ1-1xvf6j-BVZkcxtzsWjjbPtX4G0cI9pjN8gepuASvjnp1VXXGzyhuK5xk3jKoAPcTnY"; // Replace with your actual VAPID key
 
@@ -26,11 +27,7 @@ const usePushNotifications = () => {
     try {
       const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
       if (currentToken) {
-        await fetch("api/user/savePushServerToken", {
-          method: "POST",
-          body: JSON.stringify({ pushServerToken: currentToken }),
-          headers: { "Content-Type": "application/json" },
-        });
+        await axiosInstance.post("api/user/savePushServerToken", { pushServerToken: currentToken });
         console.log("User subscribed:", currentToken);
         setIsSubscribed(true);
       } else {
