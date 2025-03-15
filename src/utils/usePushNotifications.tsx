@@ -28,8 +28,9 @@ const usePushNotifications = () => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
 
     const userPermission = await Notification.requestPermission();
-    setPermission(userPermission);
+    alert("Notification Permission: " + userPermission);
     subscribeUser();
+    setPermission(userPermission);
   };
 
   // Subscribe to push notifications
