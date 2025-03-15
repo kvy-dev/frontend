@@ -10,7 +10,7 @@ const usePushNotifications = () => {
 
   useEffect(() => {
     if (typeof window === "undefined" || !("Notification" in window)) {
-      alert("Notifications API not available.");
+      alert("Notifications are not available on mobile web version.");
       return;
     }
 
