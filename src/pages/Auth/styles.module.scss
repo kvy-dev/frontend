@@ -1,6 +1,7 @@
 @use '../../variables.scss' as vars;
 
-.container {
+.container,
+.splashScreenContainer {
   position: relative;
   overflow: hidden;
   background-color: vars.$background-color-app;
@@ -125,9 +126,19 @@
   }
 }
 
+.splashScreenContainer {
+  background-color: vars.$primary-color;
+}
+
 .back {
   color: vars.$secondary-color;
   font-size: 2rem;
   cursor: pointer;
   margin: 2rem 1rem;
+}
+
+.logo {
+  width: clamp(400px, 90%, 500px);
+  transform: translateY(-10%);
+  margin: 2rem 0;
 }
