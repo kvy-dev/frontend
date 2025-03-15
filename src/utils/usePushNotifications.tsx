@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { messaging, getToken } from "../firebase";
 
-const VAPID_KEY = "BDwYWDy825edY0SLNlsGv4fkG5H5i6rqXitTTYi7uTAboQkfJvUcvDt1T599GjBhk_Z8OxRgQMM7PSI-1Qhzkpg"; // Replace with your actual VAPID key
+const VAPID_KEY = "BBJEM_GpNNGjzhyZ8wQ1-1xvf6j-BVZkcxtzsWjjbPtX4G0cI9pjN8gepuASvjnp1VXXGzyhuK5xk3jKoAPcTnY"; // Replace with your actual VAPID key
 
 const usePushNotifications = () => {
   const [permission, setPermission] = useState(Notification.permission);
