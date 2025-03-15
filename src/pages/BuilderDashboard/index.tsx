@@ -9,6 +9,7 @@ import TopBar from "@/components/Topbar";
 import usePushNotifications from "@/utils/usePushNotifications";
 
 const BuilderDashboard = () => {
+  usePushNotifications();
   interface Visit {
     status: string;
   }
@@ -19,7 +20,6 @@ const BuilderDashboard = () => {
   const onChange = (key: string) => {
     setActiveTab(key);
   };
-  usePushNotifications();
 
   useEffect(() => {
     axiosInstance.get('/kyv/api/broker/upcomingVisits')
