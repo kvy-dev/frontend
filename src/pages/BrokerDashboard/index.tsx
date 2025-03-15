@@ -10,8 +10,10 @@ import QrCodeScanner from "@/components/QRScanner";
 import { Link } from "react-router-dom";
 import TopBar from "@/components/Topbar";
 import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
+import usePushNotifications from "@/utils/usePushNotifications";
 
 const BrokerDashboard = () => {
+  usePushNotifications();
   const [upcomingVisit, setUpcomingVisit] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('today');
