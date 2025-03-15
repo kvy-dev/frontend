@@ -1,4 +1,3 @@
-import { Empty } from 'antd';
 import styles from '../styles.module.scss';
 import VisitHistoryCard from './VisitHistoryCard';
 
@@ -8,10 +7,6 @@ interface Props {
 }
 
 const VisitList = ({ data, searchString }: Props) => {
-  if (data.length === 0) {
-    return <Empty description="No visit history" />
-  }
-
   return (
     <div className={styles.visitHistoryListContainer}>
       {

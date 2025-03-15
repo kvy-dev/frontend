@@ -93,7 +93,7 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block style={{ background: "#2a115b" }}>
             Update Profile
           </Button>
         </Form.Item>
@@ -128,7 +128,7 @@ const EditProfile = ({ initialValues, onSuccess }: any) => {
 
   return (
     <>
-      <Button type="primary" onClick={handleOpen}>
+      <Button type="primary" onClick={handleOpen} style={{ background: "#2a115b" }}>
         Edit Profile
       </Button>
       <EditProfileModal visible={isModalVisible} onCancel={handleClose} onSubmit={handleSubmit} initialValues={initialValues} />

@@ -6,11 +6,13 @@ body {
 }
 
 .loadMore {
-  background-color: vars.$secondary-color;
-  color: vars.$text-light;
+  border: 1px dotted vars.$secondary-color;
+  color: vars.$secondary-color;
   padding: 1rem;
   cursor: pointer;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 
   &:hover {
     background-color: vars.$primary-color;

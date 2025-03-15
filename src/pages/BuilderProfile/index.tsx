@@ -47,7 +47,7 @@ const BuilderProfile = () => {
       <div className={styles.details}>
         <div className={styles.detail}>
           <InstagramOutlined />
-          @{profileData?.instagramProfile}
+          {profileData?.instagramProfile ? `@${profileData?.instagramProfile}` : `NA`}
         </div>
         <div className={styles.detail}>
           <PhoneOutlined />
@@ -55,7 +55,7 @@ const BuilderProfile = () => {
         </div>
         <div className={styles.detail}>
           <GlobalOutlined />
-          {profileData?.websiteUrl}
+          {profileData?.websiteUrl || 'NA'}
         </div>
       </div>
       {/* <div className={styles.employees}>

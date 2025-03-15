@@ -47,20 +47,16 @@
         outline: none;
         text-transform: uppercase;
       }
-
-      .verifyIcon {
-        position: absolute;
-        top: 10%;
-        right: 10%;
-        color: green;
-        font-size: 1.5rem;
-      }
     }
 
     h2 {
       margin: 1rem 0 0 0;
       color: vars.$text-dark;
       font-weight: 900;
+
+      .verifyIcon {
+        color: green;
+      }
     }
 
     p {

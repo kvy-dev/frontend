@@ -39,9 +39,8 @@ const BrokerDetails = () => {
       <div className={styles.profile}>
         <div className={styles.profileImage}>
           <img className={styles.image} src={brokerData.imageUrl || 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'} />
-          {brokerData.aadharVerified && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}
         </div>
-        <h2>{brokerData?.name?.toUpperCase()}</h2>
+        <h2>{brokerData?.name?.toUpperCase()} {brokerData.aadharVerified && <span className={styles.verifyIcon}><CheckCircleFilled /></span>}</h2>
         <p>Broker</p>
       </div>
       <div className={styles.details}>
