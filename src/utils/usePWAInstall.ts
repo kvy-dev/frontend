@@ -6,6 +6,7 @@ const usePWAInstall = () => {
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: Event) => {
+      alert("PWA is installable");
       event.preventDefault();
       setDeferredPrompt(event);
       setIsInstallable(true);

@@ -8,16 +8,13 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      // strategies: "injectManifest", // Disable Workbox caching
-      // injectManifest: {
-      //   swSrc: "sw.js", // Use custom service worker
-      // },
       manifest: {
         name: 'VISITLY',
         short_name: 'Visitly',
         description: 'Scan property visits',
         theme_color: '#2a115b',
         background_color: '#2a115b',
+        orientation: 'portrait',
         display: 'standalone',
         icons: [
           {
