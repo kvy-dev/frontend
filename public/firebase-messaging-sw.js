@@ -28,21 +28,21 @@ messaging.onBackgroundMessage((payload) => {
 });
 
 // ✅ Handle Notification Clicks
-// self.addEventListener("notificationclick", (event) => {
-//   event.notification.close();
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
   
-//   const clickAction = event.notification.data?.click_action || "/"; // Default to home
+  const clickAction = event.notification.data?.click_action || "/"; // Default to home
 
-//   event.waitUntil(
-//     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-//       for (const client of clientList) {
-//         if (client.url === clickAction && "focus" in client) {
-//           return client.focus();
-//         }
-//       }
-//       if (clients.openWindow) {
-//         return clients.openWindow(clickAction);
-//       }
-//     })
-//   );
-// });
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url === clickAction && "focus" in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(clickAction);
+      }
+    })
+  );
+});
