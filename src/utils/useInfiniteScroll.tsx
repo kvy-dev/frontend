@@ -1,6 +1,7 @@
 import Loader from "@/components/Loader";
 import { axiosInstance } from "@/services/API";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import debounce from "lodash/debounce";
 
 const useInfiniteScroll = (url: string, dependencies: any) => {
   const [data, setData] = useState<any[]>([]);
@@ -17,7 +18,7 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
       const res = await axiosInstance.get(`${url}pageNumber=${pageNumber + 1}`);
       
       setData((prev) => [...prev, ...res.data]);
-      setPageNumber((p) => p+1);
+      setPageNumber((p) => p + 1);
       
       if (res.data.length === 0) {
         setHasMoreData(false); // Stop fetching when no more data
@@ -47,26 +48,26 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const debouncedInitialFetch = useCallback(debounce(initialFetch, 300), [url]);
 
   useEffect(() => {
-    initialFetch();
-  }, dependencies || [])
+    debouncedInitialFetch();
+  }, dependencies || []);
 
   const PageLoader = () => {
     if (loading && pageNumber === 0) {
       return <Loader />;
     }
     return null;
-  }
+  };
 
   const LoadMore = () => {
-    if (loading)
-      return null;
+    if (loading) return null;
 
     return (
       <>
-        {!hasMoreData && <span><center></center></span>}
         {loadMore && <span><center>Loading...</center></span>}
         {!loadMore && hasMoreData && data.length > 0 && (
           <span onClick={fetchMoreData} className="loadMore">
@@ -74,8 +75,8 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
           </span>
         )}
       </>
-    )
-  }
+    );
+  };
 
   return {
     data,
@@ -83,7 +84,7 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
     LoadMore,
     loading,
     initialFetch,
-  }
-}
+  };
+};
 
 export default useInfiniteScroll;

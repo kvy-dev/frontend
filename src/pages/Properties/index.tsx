@@ -1,14 +1,16 @@
 import { SearchOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 import { Empty, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropertyList from './components/PropertyList';
 import AddEditPropertyModal from './components/AddEditPropertyModal';
 import TopBar from '@/components/Topbar';
 import useInfiniteScroll from '@/utils/useInfiniteScroll';
+import _ from 'lodash';
 
 const Properties = () => {
   const [searchString, setSearchString] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('LISTED');
 
   const {
@@ -17,7 +19,13 @@ const Properties = () => {
     LoadMore,
     loading,
     initialFetch,
-  } = useInfiniteScroll(`/kyv/api/property/listProperties?searchTerm=${searchString}&propertyListedStatus=${activeTab}&`, [activeTab, searchString])
+  } = useInfiniteScroll(`/kyv/api/property/listProperties?searchTerm=${searchString}&propertyListedStatus=${activeTab}&`, [activeTab, searchTerm]);
+
+  useEffect(() => {
+    _.debounce(() => {
+      setSearchTerm(searchString);
+    }, 900)();
+  }, [searchString]);
 
   return (
     <div className={styles.properties}>

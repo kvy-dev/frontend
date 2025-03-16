@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 import { Empty, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Brokers from './components/Brokers';
 import AddBrokerModal from './components/AddBrokerModal';
 import TopBar from '@/components/Topbar';
@@ -11,6 +11,7 @@ import _ from 'lodash';
 const BrokerList = () => {
   const [searchString, setSearchString] = useState('');
   const [activeTab, setActiveTab] = useState('approved');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const {
     data: brokers,
@@ -18,7 +19,13 @@ const BrokerList = () => {
     LoadMore,
     loading,
     initialFetch,
-  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?searchTerm=${searchString || ''}&preApproved=${activeTab === 'approved'}&blackListed=${activeTab === 'blacklisted'}&`, [activeTab, searchString]);
+  } = useInfiniteScroll(`kyv/api/builder/getAllBrokers?searchTerm=${searchString || ''}&preApproved=${activeTab === 'approved'}&blackListed=${activeTab === 'blacklisted'}&`, [activeTab, searchTerm]);
+
+  useEffect(() => {
+    _.debounce(() => {
+      setSearchTerm(searchString);
+    }, 900)();
+  }, [searchString]);
 
   return (
     <div className={styles.brokers}>
