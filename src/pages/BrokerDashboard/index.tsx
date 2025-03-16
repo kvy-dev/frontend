@@ -10,11 +10,16 @@ import QrCodeScanner from "@/components/QRScanner";
 import { Link } from "react-router-dom";
 import TopBar from "@/components/Topbar";
 import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
-import usePushNotifications from "@/utils/usePushNotifications";
-import InstallBanner from "@/components/InstallBanner";
+import { onMessageListener, requestForToken } from "@/firebase";
 
 const BrokerDashboard = () => {
-  usePushNotifications();
+  useEffect(() => {
+    requestForToken();
+    onMessageListener().then((payload: any) => {
+      console.log("New Notification:", payload);
+      alert("New Notification");
+    });
+  }, []);
   const [upcomingVisit, setUpcomingVisit] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('today');
@@ -54,7 +59,6 @@ const BrokerDashboard = () => {
 
   return (
     <div className={styles.brokerDashboard}>
-      <InstallBanner />
       <AadharPopup />
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
