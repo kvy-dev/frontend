@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.1.3/firebase-messaging-compat.js');
+importScripts("https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/10.0.0/firebase-messaging-compat.js");
 
 const firebaseConfig = {
   apiKey: "AIzaSyAaE8ssCLvypoGq6a1a830exY4IQ1Ci_EI",
@@ -11,30 +11,13 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/logo.jpeg'
-  };
-
-  self.registration.showNotification(notificationTitle, notificationOptions);
-
-  self.addEventListener("notificationclick", (event) => {
-    event.notification.close(); // Close the notification
-  
-    event.waitUntil(
-      self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-        if (clientList.length > 0) {
-          clientList[0].focus(); // Focus the first available window
-        } else {
-          self.clients.openWindow(event.notification.data.url || "/"); // Open new window if none are focused
-        }
-      })
-    );
+  console.log("Received background message:", payload);
+  const { title, body } = payload.notification;
+  self.registration.showNotification(title, {
+    body,
+    icon: "/pwa-192x192.png",
   });
 });

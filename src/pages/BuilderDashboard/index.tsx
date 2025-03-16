@@ -6,11 +6,17 @@ import VisitList from "./components/VisitList";
 import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
 import TopBar from "@/components/Topbar";
-import usePushNotifications from "@/utils/usePushNotifications";
-import InstallBanner from "@/components/InstallBanner";
+import { onMessageListener, requestForToken } from "@/firebase";
 
 const BuilderDashboard = () => {
-  usePushNotifications();
+  useEffect(() => {
+    requestForToken();
+    onMessageListener().then((payload: any) => {
+      console.log("New Notification:", payload);
+      alert("New Notification");
+    });
+  }, []);
+
   interface Visit {
     status: string;
   }
@@ -48,7 +54,6 @@ const BuilderDashboard = () => {
 
   return (
     <div className={styles.builderDashboard}>
-      <InstallBanner />
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
           <TopBar isMenu={true} />
