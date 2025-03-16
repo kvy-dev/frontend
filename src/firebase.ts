@@ -13,37 +13,30 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-const TOKEN_STORAGE_KEY = 'fcm_token';
+const TOKEN_STORAGE_KEY = "fcm_token";
 
-// Request Notification Permission
+// ✅ Request Notification Permission & Get FCM Token
 export const requestForToken = async (): Promise<string | null> => {
   try {
-    // Check if a token is already stored
     const existingToken = localStorage.getItem(TOKEN_STORAGE_KEY);
     if (existingToken) {
       console.log("FCM Token already exists:", existingToken);
       return existingToken;
     }
 
-    // Request notification permission
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
       console.error("Notification permission denied.");
       return null;
     }
 
-    // Get a new token from Firebase
     const token = await getToken(messaging, {
       vapidKey: "BBJEM_GpNNGjzhyZ8wQ1-1xvf6j-BVZkcxtzsWjjbPtX4G0cI9pjN8gepuASvjnp1VXXGzyhuK5xk3jKoAPcTnY",
     });
 
     if (token) {
       console.log("FCM Token:", token);
-
-      // Store token locally to avoid redundant requests
       localStorage.setItem(TOKEN_STORAGE_KEY, token);
-
-      // Send token to the backend
       await axiosInstance.post("/kyv/api/user/savePushServerToken", { pushServerToken: token });
     }
 
@@ -54,25 +47,64 @@ export const requestForToken = async (): Promise<string | null> => {
   }
 };
 
-// Listen for foreground messages
+// ✅ Listen for Foreground Notifications
 export const onMessageListener = () =>
   new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
+    onMessage(messaging, (payload: any) => {
       console.log("Foreground Message received:", payload);
+
+      if (payload.notification) {
+        const { title, body, click_action } = payload.notification;
+        const notification = new Notification(title, {
+          body,
+          icon: "/pwa-192x192.png",
+        });
+
+        // Open app on click
+        notification.onclick = () => {
+          window.open(click_action || "/", "_blank");
+        };
+      }
+
       resolve(payload);
     });
   });
 
-// Register Firebase service worker manually
-export const registerFirebaseSW = () => {
+// ✅ Register & Auto-Update Firebase Service Worker
+export const registerFirebaseSW = async () => {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("/firebase-messaging-sw.js")
-      .then((registration) => {
-        console.log("Firebase SW Registered:", registration);
-      })
-      .catch((error) => {
-        console.error("Firebase SW Registration Failed:", error);
+    try {
+      const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js", {
+        scope: "/",
       });
+
+      console.log("Firebase SW Registered:", registration);
+
+      // Detect if a new SW is available
+      registration.addEventListener("updatefound", () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener("statechange", () => {
+            if (newWorker.state === "installed") {
+              if (navigator.serviceWorker.controller) {
+                console.log("New SW available! Refreshing...");
+                window.location.reload();
+              }
+            }
+          });
+        }
+      });
+
+      // Remove old service workers
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const reg of registrations) {
+        if (reg !== registration) {
+          console.log("Removing old service worker:", reg);
+          await reg.unregister();
+        }
+      }
+    } catch (error) {
+      console.error("Firebase SW Registration Failed:", error);
+    }
   }
 };
