@@ -7,6 +7,7 @@ import { axiosInstance } from "@/services/API";
 import Loader from "@/components/Loader";
 import TopBar from "@/components/Topbar";
 import usePushNotifications from "@/utils/usePushNotifications";
+import InstallBanner from "@/components/InstallBanner";
 
 const BuilderDashboard = () => {
   usePushNotifications();
@@ -47,6 +48,7 @@ const BuilderDashboard = () => {
 
   return (
     <div className={styles.builderDashboard}>
+      <InstallBanner />
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
           <TopBar isMenu={true} />

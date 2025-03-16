@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import TopBar from "@/components/Topbar";
 import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
 import usePushNotifications from "@/utils/usePushNotifications";
+import InstallBanner from "@/components/InstallBanner";
 
 const BrokerDashboard = () => {
   usePushNotifications();
@@ -53,6 +54,7 @@ const BrokerDashboard = () => {
 
   return (
     <div className={styles.brokerDashboard}>
+      <InstallBanner />
       <AadharPopup />
       <div className={styles.topContainer}>
         <div className={styles.notifications}>
