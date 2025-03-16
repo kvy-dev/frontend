@@ -34,7 +34,7 @@ self.addEventListener("notificationclick", (event) => {
   const clickAction = event.notification.data?.click_action || "/"; // Default to home
 
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+    clients.matchAll({ type: "all", includeUncontrolled: true }).then((clientList) => {
       // Check if a matching tab is already open
       const matchingClient = clientList.find((client) => client.url.includes(clickAction));
 
