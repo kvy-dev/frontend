@@ -30,19 +30,20 @@ messaging.onBackgroundMessage((payload) => {
 // ✅ Handle Notification Clicks
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  
+
   const clickAction = event.notification.data?.click_action || "/"; // Default to home
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url === clickAction && "focus" in client) {
-          return client.focus();
-        }
+      // Check if a matching tab is already open
+      const matchingClient = clientList.find((client) => client.url.includes(clickAction));
+
+      if (matchingClient) {
+        return matchingClient.focus();
       }
-      if (clients.openWindow) {
-        return clients.openWindow(clickAction);
-      }
+
+      // If no existing tab is found, open a new one
+      return clients.openWindow(clickAction);
     })
   );
 });

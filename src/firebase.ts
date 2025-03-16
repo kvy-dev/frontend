@@ -19,12 +19,13 @@ const TOKEN_STORAGE_KEY = "fcm_token";
 export const requestForToken = async (): Promise<string | null> => {
   try {
     const existingToken = localStorage.getItem(TOKEN_STORAGE_KEY);
-    if (existingToken) {
+    const permission = await Notification.requestPermission();
+
+    if (existingToken && permission === "granted") {
       console.log("FCM Token already exists:", existingToken);
       return existingToken;
     }
 
-    const permission = await Notification.requestPermission();
     if (permission !== "granted") {
       console.error("Notification permission denied.");
       return null;
@@ -79,30 +80,6 @@ export const registerFirebaseSW = async () => {
       });
 
       console.log("Firebase SW Registered:", registration);
-
-      // Detect if a new SW is available
-      registration.addEventListener("updatefound", () => {
-        const newWorker = registration.installing;
-        if (newWorker) {
-          newWorker.addEventListener("statechange", () => {
-            if (newWorker.state === "installed") {
-              if (navigator.serviceWorker.controller) {
-                console.log("New SW available! Refreshing...");
-                window.location.reload();
-              }
-            }
-          });
-        }
-      });
-
-      // Remove old service workers
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      for (const reg of registrations) {
-        if (reg !== registration) {
-          console.log("Removing old service worker:", reg);
-          await reg.unregister();
-        }
-      }
     } catch (error) {
       console.error("Firebase SW Registration Failed:", error);
     }
