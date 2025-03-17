@@ -50,7 +50,7 @@ const useInfiniteScroll = (url: string, dependencies: any) => {
     }
   };
 
-  const debouncedInitialFetch = useCallback(debounce(initialFetch, 300), [url]);
+  const debouncedInitialFetch = useCallback(debounce(initialFetch, 900), [url]);
 
   useEffect(() => {
     debouncedInitialFetch();

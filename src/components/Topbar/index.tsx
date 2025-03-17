@@ -46,7 +46,9 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
         <Divider />
         <Button onClick={handleLogout}>Logout</Button>
       </Drawer>
-      <div className={styles.notification} data-active={active}>
+      {
+        false && (
+          <div className={styles.notification} data-active={active}>
         <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
         {active && (
           <div className={styles.notificationContainer}>
@@ -57,6 +59,8 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
           </div>
         )}
       </div>
+        )
+      }
     </div>
   )
 }
