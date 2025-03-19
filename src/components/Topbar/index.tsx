@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { ArrowLeftOutlined, BellOutlined, BuildOutlined, HistoryOutlined, HomeOutlined, MenuOutlined, ProfileOutlined, RadarChartOutlined, UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { Button, Divider, Drawer } from 'antd';
+import { Button, Divider, Drawer, Empty } from 'antd';
 import Notification from './Notification';
 import { axiosInstance } from '@/services/API';
 import { useSelector } from "react-redux";
@@ -53,17 +53,20 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
       {
         true && (
           <div className={styles.notification} data-active={active}>
-        <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
-        {active && (
-          <div className={styles.notificationContainer}>
-            {
-              notifications?.map((notification: any, index: number) => (
-                <Notification key={index} data={notification} />
-              ))
-            }
+            <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
+            {active && (
+              <div className={styles.notificationContainer}>
+                {
+                  notifications.length === 0 && (<Empty description="No notifications" />)
+                }
+                {
+                  notifications?.map((notification: any, index: number) => (
+                    <Notification key={index} data={notification} />
+                  ))
+                }
+              </div>
+            )}
           </div>
-        )}
-      </div>
         )
       }
     </div>
