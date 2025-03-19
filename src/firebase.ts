@@ -58,7 +58,7 @@ export const onMessageListener = () =>
         const { title, body, click_action } = payload.notification;
         const notification = new Notification(title, {
           body,
-          icon: "/pwa-192x192.png",
+          icon: "/manifest-icon-192.maskable.png",
         });
 
         // Open app on click

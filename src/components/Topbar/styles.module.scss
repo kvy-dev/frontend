@@ -27,7 +27,7 @@
 
   .notificationContainer {
     width: clamp(85vw, 85vw, 500px);
-    height: clamp(85vh, 85vh, 700px);
+    height: clamp(85vh, 68vh, 700px);
     overflow-y: auto;
     max-width: 500px;
     max-height: 700px;
@@ -52,6 +52,11 @@
     gap: 1rem;
     font-size: 0.9rem;
     color: vars.$text-dark-70;
+
+    h4 {
+      font-weight: 900;
+      font-size: 1rem;
+    }
 
     span {
       &[data-color="green"] {

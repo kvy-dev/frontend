@@ -11,12 +11,16 @@ import { Link } from "react-router-dom";
 import TopBar from "@/components/Topbar";
 import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
 import { onMessageListener, requestForToken } from "@/firebase";
+import useNotifications from "../../utils/useNotificationStore";
 
 const BrokerDashboard = () => {
+  const { handleNotification } = useNotifications();
+
   useEffect(() => {
     requestForToken();
     onMessageListener().then((payload: any) => {
-      console.log("New Notification:", payload);
+      const { title, body, click_action } = payload.notification;
+      handleNotification({ title, body, click_action });
       alert("New Notification");
     });
   }, []);

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button, Divider, Drawer } from 'antd';
 import Notification from './Notification';
 import { axiosInstance } from '@/services/API';
+import { useSelector } from "react-redux";
 
 interface Props {
   backLink?: string;
@@ -15,6 +16,9 @@ interface Props {
 const TopBar = ({ backLink, isMenu, inline }: Props) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [active, setActive] = useState(false);
+  let notifications = useSelector((state: any) => state.notifications)
+  if (notifications.length === 0)
+    notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
 
   const handleLogout = async () => {
     await axiosInstance.get('/kyv/api/user/logout');
@@ -47,15 +51,16 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
         <Button onClick={handleLogout}>Logout</Button>
       </Drawer>
       {
-        false && (
+        true && (
           <div className={styles.notification} data-active={active}>
         <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
         {active && (
           <div className={styles.notificationContainer}>
-            <Notification />
-            <Notification />
-            <Notification />
-            <Notification />
+            {
+              notifications?.map((notification: any, index: number) => (
+                <Notification key={index} data={notification} />
+              ))
+            }
           </div>
         )}
       </div>

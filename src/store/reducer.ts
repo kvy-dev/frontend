@@ -1,4 +1,5 @@
 const initialState = {
+  notifications: []
 };
 
 export const reducer = (
@@ -12,6 +13,16 @@ export const reducer = (
       return {
         ...state,
         user: action.payload,
+      };
+    case "add_notification":
+      const updatedNotifications = [action.payload, ...state.notifications];
+      if (updatedNotifications.length > 10) {
+        updatedNotifications.pop();
+      }
+      localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+      return {
+        ...state,
+        notifications: updatedNotifications,
       };
     default:
       return state;
