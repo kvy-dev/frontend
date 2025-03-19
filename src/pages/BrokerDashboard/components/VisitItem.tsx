@@ -26,6 +26,10 @@ const VisitItem = (props: any) => {
     );
   }
 
+  if (data?.status === 'REJECTED') {
+    return null;
+  }
+
   return (
     <div className={styles.visitItem}>
       <div className={styles.propertyDetails}>

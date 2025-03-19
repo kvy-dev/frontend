@@ -84,7 +84,9 @@
         align-items: start;
         grid-auto-rows: max-content;
         position: relative;
-        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         
         .edit {
           position: absolute;
@@ -105,6 +107,7 @@
             background-color: #F6F2FF;
             border-radius: vars.$border-radius-base;
             margin-right: 1rem;
+            border: 0.2px solid #E0E0E0;
           }
 
           .details {
@@ -156,10 +159,7 @@
         }
 
         .footer {
-          position: absolute;
-          bottom: 1rem;
-          left: 1rem;
-          right: 1rem;
+          width: 100%;
         }
       }
     }

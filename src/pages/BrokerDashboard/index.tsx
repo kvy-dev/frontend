@@ -64,7 +64,7 @@ const BrokerDashboard = () => {
         <div className={styles.notifications}>
           <TopBar inline={true} />
         </div>
-        <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') !== 'null' ? localStorage.getItem('kvy_user_name') : 'User'} visits={upcomingVisit?.length} />
+        <PersonalisedGreeting name={localStorage.getItem('kvy_user_name') !== 'null' ? localStorage.getItem('kvy_user_name') : 'User'} visits={upcomingVisit?.filter((d: any) => d.status !== 'REJECTED')?.length} />
       </div>
       <div className={styles.bottomContainer}>
         <Tabs 
