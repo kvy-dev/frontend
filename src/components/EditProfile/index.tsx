@@ -10,6 +10,7 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
   const [form] = Form.useForm();
   const [selectedFile, setSelectedFile] = useState<File | null>(null); // Store selected profile image
   const [selectedVisitingCard, setSelectedVisitingCard] = useState<File | null>(null); // Store visiting card image
+  const [selectedAadharCard, setSelectedAadharCard] = useState<File | null>(null); // Store Aadhaar card image
 
   const handleFinish = (values: any) => {
     const formData = new FormData();
@@ -25,6 +26,10 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
     
     if (selectedVisitingCard) {
       formData.append("visitingCard", selectedVisitingCard); // Append visiting card image if selected
+    }
+
+    if (selectedAadharCard) {
+      formData.append("aadharImage", selectedAadharCard); // Append Aadhaar card image if selected
     }
 
     onSubmit(formData); // Submit formData
@@ -89,6 +94,12 @@ const EditProfileModal = ({ visible, onCancel, onSubmit, initialValues }: any) =
         <Form.Item label="Visiting Card Image">
           <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, setSelectedVisitingCard)}>
             <Button icon={<UploadOutlined />}>Select Visiting Card</Button>
+          </Upload>
+        </Form.Item>
+
+        <Form.Item label="Aadhaar Card Image">
+          <Upload showUploadList={true} beforeUpload={(file) => beforeUpload(file, setSelectedAadharCard)}>
+            <Button icon={<UploadOutlined />}>Select Aadhaar Card</Button>
           </Upload>
         </Form.Item>
 

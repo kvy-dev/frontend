@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Modal } from 'antd';
+import { Link } from "react-router-dom";
 
 const useAadharNotVerifiedPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -16,9 +17,9 @@ const useAadharNotVerifiedPopup = () => {
        footer={null}
        onCancel={() => setShowPopup(false)}
       >
-        <p>Please verify your aadhar to access all the properties</p>
+        <p>Please upload your aadhar in profile to get verified.</p>
         <br />
-        <Button style={{ background: 'green', color: 'white' }}>Verify now</Button>
+        <Link to="/profile"><Button style={{ background: 'green', color: 'white' }}>Verify now</Button></Link>
       </Modal>
     )
   };
