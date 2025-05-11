@@ -51,7 +51,7 @@ const TopBar = ({ backLink, isMenu, inline }: Props) => {
         <Button onClick={handleLogout}>Logout</Button>
       </Drawer>
       {
-        true && (
+        false && (
           <div className={styles.notification} data-active={active}>
             <BellOutlined onClick={() => setActive(!active)} style={{ padding: '1rem 1rem 0.2rem 1rem' }} />
             {active && (

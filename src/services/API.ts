@@ -11,11 +11,17 @@ export const axiosInstance = axios.create({
   }
 });
 
+export const handleLogout = async () => {
+  await axiosInstance.get('/kyv/api/user/logout');
+  localStorage.clear();
+  window.location.replace('/');
+}
+
 axiosInstance.interceptors.response.use(
   (config) => config,
   (error) => {
     if (error?.response?.status === 403 || error?.response?.status === 401) {
-      // checkErrorRedirectToLogin(error.response.status);
+      handleLogout();
     }
     return Promise.reject(error);
   }

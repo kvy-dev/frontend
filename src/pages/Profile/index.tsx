@@ -6,10 +6,12 @@ import { axiosInstance } from '@/services/API';
 import Loader from '@/components/Loader';
 import TopBar from '@/components/Topbar';
 import EditProfile from '@/components/EditProfile';
+import useCheckAadharVerified from '@/utils/useCheckAadharVerified';
 
 const Profile = () => {
   const [profileData, setProfileData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  useCheckAadharVerified();
 
   const getData = async () => {
     setLoading(true);
@@ -46,9 +48,6 @@ const Profile = () => {
               'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'
             }
           />
-          {(!profileData?.aadharVerified || profileData?.aadharVerified === 'NO') && (
-            <Button className={styles.cta}>Verify Aadhar</Button>
-          )}
         </div>
         <h2>
           {profileData?.name}{' '}

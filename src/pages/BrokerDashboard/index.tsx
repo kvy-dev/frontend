@@ -12,9 +12,11 @@ import TopBar from "@/components/Topbar";
 import useAadharNotVerifiedPopup from "@/utils/useAadharNotVerifiedPopup";
 import { onMessageListener, requestForToken } from "@/firebase";
 import useNotifications from "../../utils/useNotificationStore";
+import useCheckAadharVerified from "@/utils/useCheckAadharVerified";
 
 const BrokerDashboard = () => {
   const { handleNotification } = useNotifications();
+  useCheckAadharVerified();
 
   useEffect(() => {
     requestForToken();

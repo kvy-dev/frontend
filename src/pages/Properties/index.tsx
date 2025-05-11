@@ -7,11 +7,13 @@ import AddEditPropertyModal from './components/AddEditPropertyModal';
 import TopBar from '@/components/Topbar';
 import useInfiniteScroll from '@/utils/useInfiniteScroll';
 import _ from 'lodash';
+import useCheckAadharVerified from '@/utils/useCheckAadharVerified';
 
 const Properties = () => {
   const [searchString, setSearchString] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('LISTED');
+  useCheckAadharVerified(localStorage.getItem('kvy_user_type') === 'builder');
 
   const {
     data: properties,
