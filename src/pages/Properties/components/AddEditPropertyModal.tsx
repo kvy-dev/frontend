@@ -5,6 +5,8 @@ import styles from "../styles.module.scss";
 import { axiosInstance } from "@/services/API";
 import dayjs from "dayjs";
 
+const floors = ['Basement', 'Basement+Ground', 'First Floor', 'Second Floor', 'Third Floor'];;
+
 const { Option } = Select;
 
 interface Props {
@@ -186,9 +188,9 @@ const AddEditPropertyModal = ({ edit, data, refetch }: Props) => {
 
               <Form.Item label="Select Floors" name="units">
                 <Select mode="multiple" placeholder="Select floors">
-                  {[...Array(10).keys()].map((i) => (
-                    <Option key={i + 1} value={`Floor${i + 1}`}>
-                      Floor {i + 1}
+                  {floors?.map((i) => (
+                    <Option key={i} value={i}>
+                      {i}
                     </Option>
                   ))}
                 </Select>
