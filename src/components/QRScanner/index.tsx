@@ -82,6 +82,17 @@ const QrCodeScanner = ({ disabled, iconOnly }: Props) => {
       showAadharError();
       return;
     }
+    if (typeof window.navigator !== 'undefined') {
+      navigator.permissions.query({ name: 'camera' })
+      .then(permissionStatus => {
+        if (permissionStatus.state === 'denied') {
+          alert('Enable camera permissions');
+        }
+      })
+      .catch(() => {
+        alert('Error checking camera permissions');
+      }); 
+    }
     setShowQR(true);
   }
 
